@@ -26,7 +26,7 @@ import 'package:video_thumbnail/video_thumbnail.dart';
 import 'show_toast_dialog.dart';
 
 class Constant {
-  static String? kGoogleApiKey = "Replace your map key";
+  static const String kGoogleApiKey = "AIzaSyDR2F7eZUkyouuoMde79PYtf8KodduvwTk";
   static String? rideOtp = "yes";
   static String? appVersion = "0.0";
   static String? minimumWalletBalance = "0";
@@ -42,12 +42,12 @@ class Constant {
   static String? contactUsEmail = "";
   static String? minimumWithdrawalAmount = "0";
   static String? contactUsAddress = "";
-   static String? contactUsPhone = "";
-   static CollectionReference conversation = FirebaseFirestore.instance.collection('conversation');
+  static String? contactUsPhone = "";
+  static CollectionReference conversation = FirebaseFirestore.instance.collection('conversation');
   // static CollectionReference locationUpdate = FirebaseFirestore.instance.collection('ride_location_update');
   static CollectionReference driverLocationUpdate = FirebaseFirestore.instance.collection('driver_location_update');
   static LocationData? currentLocation;
-  static String mapType = "google";
+  static String mapType = "inappmap";
   static String driverLocationUpdateUnit = "10";
   static PaymentSettingModel getPaymentSetting() {
     final String user = Preferences.getString(Preferences.paymentSetting);
@@ -68,7 +68,6 @@ class Constant {
     Map<String, dynamic> userMap = json.decode(user);
     return UserModel.fromJson(userMap);
   }
-
 
   static Widget emptyView(String msg) {
     return Column(
@@ -183,15 +182,18 @@ class Constant {
     var storageRef = (await uploadTask.whenComplete(() {})).ref;
     var downloadUrl = await storageRef.getDownloadURL();
     var metaData = await storageRef.getMetadata();
-    final uint8list = await VideoThumbnail.thumbnailFile(video: downloadUrl, thumbnailPath: (await getTemporaryDirectory()).path, imageFormat: ImageFormat.PNG);
+    final uint8list = await VideoThumbnail.thumbnailFile(
+        video: downloadUrl, thumbnailPath: (await getTemporaryDirectory()).path, imageFormat: ImageFormat.PNG);
     final file = File(uint8list ?? '');
     String thumbnailDownloadUrl = await uploadVideoThumbnailToFireStorage(file);
     ShowToastDialog.closeLoader();
-    return ChatVideoContainer(videoUrl: Url(url: downloadUrl.toString(), mime: metaData.contentType ?? 'video'), thumbnailUrl: thumbnailDownloadUrl);
+    return ChatVideoContainer(
+        videoUrl: Url(url: downloadUrl.toString(), mime: metaData.contentType ?? 'video'), thumbnailUrl: thumbnailDownloadUrl);
   }
 
   static Future<File> _compressVideo(File file) async {
-    MediaInfo? info = await VideoCompress.compressVideo(file.path, quality: VideoQuality.DefaultQuality, deleteOrigin: false, includeAudio: true, frameRate: 24);
+    MediaInfo? info = await VideoCompress.compressVideo(file.path,
+        quality: VideoQuality.DefaultQuality, deleteOrigin: false, includeAudio: true, frameRate: 24);
     if (info != null) {
       File compressedVideo = File(info.path!);
       return compressedVideo;
@@ -209,10 +211,7 @@ class Constant {
     return downloadUrl.toString();
   }
 
-  static redirectMap(
-      {required String name,
-      required double latitude,
-      required double longLatitude}) async {
+  static redirectMap({required String name, required double latitude, required double longLatitude}) async {
     if (Constant.mapType == "google") {
       bool? isAvailable = await MapLauncher.isMapAvailable(MapType.google);
       if (isAvailable == true) {
@@ -287,8 +286,6 @@ class Constant {
       }
     }
   }
-
-
 }
 
 class Url {
