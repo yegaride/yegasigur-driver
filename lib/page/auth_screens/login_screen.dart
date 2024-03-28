@@ -45,11 +45,7 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   Text(
                     "Login with Email".tr,
-                    style: const TextStyle(
-                        letterSpacing: 0.60,
-                        fontSize: 22,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600),
+                    style: const TextStyle(letterSpacing: 0.60, fontSize: 22, color: Colors.black, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
                       width: 80,
@@ -83,7 +79,7 @@ class LoginScreen extends StatelessWidget {
                               hintText: 'password'.tr,
                               controller: _passwordController,
                               textInputType: TextInputType.text,
-                              obscureText: false,
+                              obscureText: true,
                               contentPadding: EdgeInsets.zero,
                               validators: (String? value) {
                                 if (value!.isNotEmpty) {
@@ -109,29 +105,16 @@ class LoginScreen extends StatelessWidget {
                                       'mdp': _passwordController.text,
                                       'user_cat': 'driver',
                                     };
-                                    await controller
-                                        .loginAPI(bodyParams)
-                                        .then((value) {
+                                    await controller.loginAPI(bodyParams).then((value) {
                                       if (value != null) {
                                         if (value.success == "success") {
-                                          Preferences.setString(
-                                              Preferences.user,
-                                              jsonEncode(value));
+                                          Preferences.setString(Preferences.user, jsonEncode(value));
 
                                           UserData? userData = value.userData;
-                                          Preferences.setInt(
-                                              Preferences.userId,
-                                              int.parse(
-                                                  userData!.id.toString()));
-                                          if (userData.statutVehicule !=
-                                                  "yes" ||
-                                              userData
-                                                  .statutVehicule!.isEmpty) {
+                                          Preferences.setInt(Preferences.userId, int.parse(userData!.id.toString()));
+                                          if (userData.statutVehicule != "yes" || userData.statutVehicule!.isEmpty) {
                                             Get.to(() => VehicleInfoScreen(),
-                                                duration: const Duration(
-                                                    milliseconds: 400),
-                                                transition:
-                                                    Transition.rightToLeft);
+                                                duration: const Duration(milliseconds: 400), transition: Transition.rightToLeft);
                                           }
                                           // else if (userData.photoPath == null) {
                                           //   Get.to(AddProfilePhotoScreen(fromOtp: false));
@@ -160,17 +143,12 @@ class LoginScreen extends StatelessWidget {
                                           //       transition: Transition.rightToLeft);
                                           // }
                                           else {
-                                            Preferences.setBoolean(
-                                                Preferences.isLogin, true);
+                                            Preferences.setBoolean(Preferences.isLogin, true);
                                             Get.offAll(DashBoard(),
-                                                duration: const Duration(
-                                                    milliseconds: 400),
-                                                transition:
-                                                    Transition.rightToLeft);
+                                                duration: const Duration(milliseconds: 400), transition: Transition.rightToLeft);
                                           }
                                         } else {
-                                          ShowToastDialog.showToast(
-                                              value.error);
+                                          ShowToastDialog.showToast(value.error);
                                         }
                                       }
                                     });
@@ -180,9 +158,7 @@ class LoginScreen extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               Get.to(ForgotPasswordScreen(),
-                                  duration: const Duration(
-                                      milliseconds:
-                                          400), //duration of transitions, default 1 sec
+                                  duration: const Duration(milliseconds: 400), //duration of transitions, default 1 sec
                                   transition: Transition.rightToLeft);
                             },
                             child: Padding(
@@ -190,9 +166,7 @@ class LoginScreen extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   'forgot'.tr,
-                                  style: TextStyle(
-                                      color: ConstantColors.primary,
-                                      fontWeight: FontWeight.w600),
+                                  style: TextStyle(color: ConstantColors.primary, fontWeight: FontWeight.w600),
                                 ),
                               ),
                             ),
@@ -208,9 +182,7 @@ class LoginScreen extends StatelessWidget {
                                 onPress: () {
                                   FocusScope.of(context).unfocus();
                                   Get.to(MobileNumberScreen(isLogin: true),
-                                      duration: const Duration(
-                                          milliseconds:
-                                              400), //duration of transitions, default 1 sec
+                                      duration: const Duration(milliseconds: 400), //duration of transitions, default 1 sec
                                       transition: Transition.rightToLeft);
                                 },
                                 btnBorderColor: ConstantColors.primary,
@@ -240,34 +212,25 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: 'You don’t have an account yet? '.tr,
-                    style: const TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.w500),
+                    style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         Get.to(MobileNumberScreen(isLogin: false),
-                            duration: const Duration(
-                                milliseconds:
-                                    400), //duration of transitions, default 1 sec
-                            transition:
-                                Transition.rightToLeft); //transition effect);
+                            duration: const Duration(milliseconds: 400), //duration of transitions, default 1 sec
+                            transition: Transition.rightToLeft); //transition effect);
                       },
                   ),
                   TextSpan(
                     text: 'SIGNUP'.tr,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: ConstantColors.primary),
+                    style: TextStyle(fontWeight: FontWeight.bold, color: ConstantColors.primary),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         Get.to(
                             MobileNumberScreen(
                               isLogin: false,
                             ),
-                            duration: const Duration(
-                                milliseconds:
-                                    400), //duration of transitions, default 1 sec
-                            transition:
-                                Transition.rightToLeft); //transition effect);
+                            duration: const Duration(milliseconds: 400), //duration of transitions, default 1 sec
+                            transition: Transition.rightToLeft); //transition effect);
                       },
                   ),
                 ],
