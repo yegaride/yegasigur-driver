@@ -21,7 +21,10 @@ class BankDetailsController extends GetxController {
 
   Future<dynamic> getBankDetails() async {
     try {
-      final response = await http.get(Uri.parse("${API.bankDetails}?driver_id=${Preferences.getInt(Preferences.userId)}"), headers: API.header);
+      final response = await http.get(
+        Uri.parse("${API.bankDetails}?driver_id=${Preferences.getInt(Preferences.userId)}"),
+        headers: API.header,
+      );
 
       Map<String, dynamic> responseBody = json.decode(response.body);
 

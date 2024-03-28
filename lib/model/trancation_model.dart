@@ -164,7 +164,7 @@ class TansactionData {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['montant'] = montant;
-    data['tax'] = taxModel != null ? taxModel!.map((v) => v.toJson()).toList() : null;
+    data['tax'] = taxModel?.map((v) => v.toJson()).toList();
     data['tip_amount'] = tipAmount;
     data['discount'] = discount;
     data['admin_commission'] = adminCommission;

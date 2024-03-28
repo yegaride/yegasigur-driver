@@ -41,7 +41,17 @@ class LanguageData {
   String? modifier;
   String? updatedAt;
 
-  LanguageData({this.id, this.language, this.code, this.flag, this.status, this.isRtl, this.creer, this.modifier, this.updatedAt});
+  LanguageData({
+    this.id,
+    this.language,
+    this.code,
+    this.flag,
+    this.status,
+    this.isRtl,
+    this.creer,
+    this.modifier,
+    this.updatedAt,
+  });
 
   LanguageData.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();

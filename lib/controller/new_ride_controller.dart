@@ -10,7 +10,6 @@ import 'package:cabme_driver/model/trancation_model.dart';
 import 'package:cabme_driver/model/user_model.dart';
 import 'package:cabme_driver/service/api.dart';
 import 'package:cabme_driver/utils/Preferences.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -46,7 +45,8 @@ class NewRideController extends GetxController {
   getUsrData() async {
     userModel = Constant.getUserData();
 
-    final response = await http.get(Uri.parse("${API.walletHistory}?id_diver=${Preferences.getInt(Preferences.userId)}"), headers: API.header);
+    final response =
+        await http.get(Uri.parse("${API.walletHistory}?id_diver=${Preferences.getInt(Preferences.userId)}"), headers: API.header);
 
     Map<String, dynamic> responseBody = json.decode(response.body);
 
@@ -60,7 +60,10 @@ class NewRideController extends GetxController {
 
   Future<dynamic> getNewRide() async {
     try {
-      final response = await http.get(Uri.parse("${API.driverAllRides}?id_driver=${Preferences.getInt(Preferences.userId)}"), headers: API.header);
+      final response = await http.get(
+        Uri.parse("${API.driverAllRides}?id_driver=${Preferences.getInt(Preferences.userId)}"),
+        headers: API.header,
+      );
 
       Map<String, dynamic> responseBody = json.decode(response.body);
 
@@ -349,7 +352,10 @@ class NewRideController extends GetxController {
   Future<dynamic> verifyOTP({required String userId, required String rideId}) async {
     try {
       ShowToastDialog.showLoader("Please wait");
-      final response = await http.get(Uri.parse("${API.rideOtpVerify}?id_user_app=$userId&otp=${otpController.text.toString()}&ride_id=$rideId"), headers: API.header);
+      final response = await http.get(
+        Uri.parse("${API.rideOtpVerify}?id_user_app=$userId&otp=${otpController.text.toString()}&ride_id=$rideId"),
+        headers: API.header,
+      );
 
       Map<String, dynamic> responseBody = json.decode(response.body);
 
@@ -385,9 +391,9 @@ class NewRideController extends GetxController {
   Future<dynamic> cashPaymentRequest(RideData data) async {
     List taxList = [];
 
-    Constant.taxList.forEach((v) {
+    for (var v in Constant.taxList) {
       taxList.add(v.toJson());
-    });
+    }
     Map<String, dynamic> bodyParams = {
       'id_ride': data.id.toString(),
       'id_driver': data.idConducteur.toString(),

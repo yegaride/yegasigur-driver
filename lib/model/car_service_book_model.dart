@@ -40,7 +40,16 @@ class ServiceData {
   String? creer;
   String? modifier;
 
-  ServiceData({this.id, this.idConducteur, this.km, this.photoCarServiceBook, this.photoCarServiceBookPath, this.fileName, this.creer, this.modifier});
+  ServiceData({
+    this.id,
+    this.idConducteur,
+    this.km,
+    this.photoCarServiceBook,
+    this.photoCarServiceBookPath,
+    this.fileName,
+    this.creer,
+    this.modifier,
+  });
 
   ServiceData.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();

@@ -62,46 +62,45 @@ class Data {
   String? minimumDepositAmount;
   String? symbolAtRight;
   List<TaxModel>? taxModel;
-    String? mapType;
+  String? mapType;
   String? driverLocationUpdate;
 
-  Data(
-      {this.id,
-      this.title,
-      this.footer,
-      this.email,
-      this.websiteColor,
-      this.driverappColor,
-      this.adminpanelColor,
-      this.appLogo,
-      this.appLogoSmall,
-      this.googleMapApiKey,
-      this.isSocialMedia,
-      this.driverRadios,
-      this.userRideScheduleTimeMinute,
-      this.tripAcceptRejectDriverTimeSec,
-      this.showRideWithoutDestination,
-      this.showRideOtp,
-      this.showRideLater,
-      this.deliveryDistance,
-      this.appVersion,
-      this.webVersion,
-      this.contactUsAddress,
-      this.contactUsPhone,
-      this.contactUsEmail,
-      this.creer,
-      this.modifier,
-      this.currency,
-      this.decimalDigit,
-      this.taxName,
-      this.taxType,
-      this.minimumWithdrawalAmount,
-      this.minimumDepositAmount,
-      this.symbolAtRight,
-      this.taxValue,
-      this.taxModel,
+  Data({
+    this.id,
+    this.title,
+    this.footer,
+    this.email,
+    this.websiteColor,
+    this.driverappColor,
+    this.adminpanelColor,
+    this.appLogo,
+    this.appLogoSmall,
+    this.googleMapApiKey,
+    this.isSocialMedia,
+    this.driverRadios,
+    this.userRideScheduleTimeMinute,
+    this.tripAcceptRejectDriverTimeSec,
+    this.showRideWithoutDestination,
+    this.showRideOtp,
+    this.showRideLater,
+    this.deliveryDistance,
+    this.appVersion,
+    this.webVersion,
+    this.contactUsAddress,
+    this.contactUsPhone,
+    this.contactUsEmail,
+    this.creer,
+    this.modifier,
+    this.currency,
+    this.decimalDigit,
+    this.taxName,
+    this.taxType,
+    this.minimumWithdrawalAmount,
+    this.minimumDepositAmount,
+    this.symbolAtRight,
+    this.taxValue,
+    this.taxModel,
     this.mapType,
-
     this.driverLocationUpdate,
   });
 
@@ -146,7 +145,7 @@ class Data {
     minimumWithdrawalAmount = json['minimum_withdrawal_amount'] ?? '0';
     minimumDepositAmount = json['minimum_deposit_amount'] ?? '0';
     symbolAtRight = json['symbol_at_right'].toString() ?? 'false';
-        driverLocationUpdate = json['driverLocationUpdate'].toString();
+    driverLocationUpdate = json['driverLocationUpdate'].toString();
     mapType = json['mapType'].toString();
     taxModel = taxList;
   }
@@ -186,10 +185,10 @@ class Data {
     data['minimum_withdrawal_amount'] = minimumWithdrawalAmount;
     data['minimum_deposit_amount'] = minimumDepositAmount;
     data['symbol_at_right'] = symbolAtRight;
-     data['mapType'] = mapType;
+    data['mapType'] = mapType;
     data['driverLocationUpdate'] = driverLocationUpdate;
-   
-    data['tax'] = taxModel != null ? taxModel!.map((v) => v.toJson()).toList() : null;
+
+    data['tax'] = taxModel?.map((v) => v.toJson()).toList();
     return data;
   }
 }

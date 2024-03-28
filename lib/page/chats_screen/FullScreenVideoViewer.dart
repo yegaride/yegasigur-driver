@@ -12,7 +12,7 @@ class FullScreenVideoViewer extends StatefulWidget {
   final String heroTag;
   final File? videoFile;
 
-  const FullScreenVideoViewer({Key? key, required this.videoUrl, required this.heroTag, this.videoFile}) : super(key: key);
+  const FullScreenVideoViewer({super.key, required this.videoUrl, required this.heroTag, this.videoFile});
 
   @override
   _FullScreenVideoViewerState createState() => _FullScreenVideoViewerState();
@@ -24,11 +24,12 @@ class _FullScreenVideoViewerState extends State<FullScreenVideoViewer> {
   @override
   void initState() {
     super.initState();
-    _controller = widget.videoFile == null ? VideoPlayerController.network(widget.videoUrl) : VideoPlayerController.file(widget.videoFile!)
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
-      });
+    _controller =
+        widget.videoFile == null ? VideoPlayerController.network(widget.videoUrl) : VideoPlayerController.file(widget.videoFile!)
+          ..initialize().then((_) {
+            // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+            setState(() {});
+          });
     _controller.setLooping(true);
   }
 
@@ -42,18 +43,19 @@ class _FullScreenVideoViewerState extends State<FullScreenVideoViewer> {
         systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: Container(
-          color: Colors.black,
-          child: Hero(
-            tag: widget.videoUrl,
-            child: Center(
-              child: _controller.value.isInitialized
-                  ? AspectRatio(
-                      aspectRatio: _controller.value.aspectRatio,
-                      child: VideoPlayer(_controller),
-                    )
-                  : Container(),
-            ),
-          )),
+        color: Colors.black,
+        child: Hero(
+          tag: widget.videoUrl,
+          child: Center(
+            child: _controller.value.isInitialized
+                ? AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: VideoPlayer(_controller),
+                  )
+                : Container(),
+          ),
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         heroTag: widget.heroTag,
         onPressed: () {

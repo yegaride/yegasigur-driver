@@ -41,7 +41,7 @@ class OnBoardingScreen extends StatelessWidget {
                 Expanded(
                   child: PageView.builder(
                     controller: controller.pageController,
-                    onPageChanged: controller.selectedPageIndex,
+                    onPageChanged: controller.selectedPageIndex.call,
                     itemCount: controller.onBoardingList.length,
                     itemBuilder: (context, index) {
                       return Column(
@@ -58,26 +58,31 @@ class OnBoardingScreen extends StatelessWidget {
                             ),
                           ),
                           Expanded(
-                              child: Padding(
-                            padding: const EdgeInsets.only(top: 50),
-                            child: Column(
-                              children: [
-                                Text(
-                                  controller.onBoardingList[index].title.toString(),
-                                  style: const TextStyle(
-                                      fontSize: 20, color: Colors.black, fontWeight: FontWeight.w900, letterSpacing: 1.5),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20),
-                                  child: Text(
-                                    controller.onBoardingList[index].description.toString(),
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(fontSize: 16, color: Colors.black45, letterSpacing: 1.5),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 50),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    controller.onBoardingList[index].title.toString(),
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w900,
+                                      letterSpacing: 1.5,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20),
+                                    child: Text(
+                                      controller.onBoardingList[index].description.toString(),
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(fontSize: 16, color: Colors.black45, letterSpacing: 1.5),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ))
+                          ),
                         ],
                       );
                     },
@@ -109,8 +114,13 @@ class OnBoardingScreen extends StatelessWidget {
                         child: Text(
                           'skip'.tr,
                           style: const TextStyle(
-                              fontSize: 16, letterSpacing: 1.5, color: Color(0xff6F6F6F), fontWeight: FontWeight.w500),
-                        )),
+                            fontSize: 16,
+                            letterSpacing: 1.5,
+                            color: Color(0xff6F6F6F),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
 
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 50),
@@ -119,15 +129,16 @@ class OnBoardingScreen extends StatelessWidget {
                     children: List.generate(
                       controller.onBoardingList.length,
                       (index) => Container(
-                          margin: controller.selectedPageIndex.value == index
-                              ? const EdgeInsets.symmetric(horizontal: 10)
-                              : EdgeInsets.zero,
-                          width: controller.selectedPageIndex.value == index ? 50 : 66,
-                          height: 10,
-                          decoration: BoxDecoration(
-                            color: controller.selectedPageIndex.value == index ? ConstantColors.primary : const Color(0xffD4D5E0),
-                            borderRadius: borderRadius(controller.selectedPageIndex.value, index),
-                          )),
+                        margin: controller.selectedPageIndex.value == index
+                            ? const EdgeInsets.symmetric(horizontal: 10)
+                            : EdgeInsets.zero,
+                        width: controller.selectedPageIndex.value == index ? 50 : 66,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          color: controller.selectedPageIndex.value == index ? ConstantColors.primary : const Color(0xffD4D5E0),
+                          borderRadius: borderRadius(controller.selectedPageIndex.value, index),
+                        ),
+                      ),
                     ),
                   ),
                 ),

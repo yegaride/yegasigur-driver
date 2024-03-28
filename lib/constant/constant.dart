@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cabme_driver/model/payment_setting_model.dart';
-import 'package:cabme_driver/model/ride_model.dart';
 import 'package:cabme_driver/model/tax_model.dart';
 import 'package:cabme_driver/model/user_model.dart';
 import 'package:cabme_driver/page/chats_screen/conversation_screen.dart';
@@ -183,17 +182,27 @@ class Constant {
     var downloadUrl = await storageRef.getDownloadURL();
     var metaData = await storageRef.getMetadata();
     final uint8list = await VideoThumbnail.thumbnailFile(
-        video: downloadUrl, thumbnailPath: (await getTemporaryDirectory()).path, imageFormat: ImageFormat.PNG);
+      video: downloadUrl,
+      thumbnailPath: (await getTemporaryDirectory()).path,
+      imageFormat: ImageFormat.PNG,
+    );
     final file = File(uint8list ?? '');
     String thumbnailDownloadUrl = await uploadVideoThumbnailToFireStorage(file);
     ShowToastDialog.closeLoader();
     return ChatVideoContainer(
-        videoUrl: Url(url: downloadUrl.toString(), mime: metaData.contentType ?? 'video'), thumbnailUrl: thumbnailDownloadUrl);
+      videoUrl: Url(url: downloadUrl.toString(), mime: metaData.contentType ?? 'video'),
+      thumbnailUrl: thumbnailDownloadUrl,
+    );
   }
 
   static Future<File> _compressVideo(File file) async {
-    MediaInfo? info = await VideoCompress.compressVideo(file.path,
-        quality: VideoQuality.DefaultQuality, deleteOrigin: false, includeAudio: true, frameRate: 24);
+    MediaInfo? info = await VideoCompress.compressVideo(
+      file.path,
+      quality: VideoQuality.DefaultQuality,
+      deleteOrigin: false,
+      includeAudio: true,
+      frameRate: 24,
+    );
     if (info != null) {
       File compressedVideo = File(info.path!);
       return compressedVideo;

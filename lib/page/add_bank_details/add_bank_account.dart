@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 class AddBankAccount extends StatelessWidget {
   final bool isEdit;
 
-  AddBankAccount({Key? key, required this.isEdit}) : super(key: key);
+  AddBankAccount({super.key, required this.isEdit});
 
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -29,38 +29,45 @@ class AddBankAccount extends StatelessWidget {
       init: BankDetailsController(),
       initState: (state) {
         bankNameController = TextEditingController(
-            text: state.controller!.bankDetails.value.bankName);
+          text: state.controller!.bankDetails.value.bankName,
+        );
         branchNameController = TextEditingController(
-            text: state.controller!.bankDetails.value.branchName);
+          text: state.controller!.bankDetails.value.branchName,
+        );
         holderNameController = TextEditingController(
-            text: state.controller!.bankDetails.value.holderName);
+          text: state.controller!.bankDetails.value.holderName,
+        );
         accountNumberController = TextEditingController(
-            text: state.controller!.bankDetails.value.accountNo);
+          text: state.controller!.bankDetails.value.accountNo,
+        );
         otherInformationController = TextEditingController(
-            text: state.controller!.bankDetails.value.otherInfo);
+          text: state.controller!.bankDetails.value.otherInfo,
+        );
         ifscCodeController = TextEditingController(
-            text: state.controller!.bankDetails.value.ifscCode);
+          text: state.controller!.bankDetails.value.ifscCode,
+        );
       },
       builder: (controller) {
         return Scaffold(
           backgroundColor: ConstantColors.background,
           appBar: AppBar(
-              centerTitle: true,
-              elevation: 0,
-              leading: InkWell(
-                onTap: () {
-                  Get.back();
-                },
-                child: const Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.black,
-                ),
+            centerTitle: true,
+            elevation: 0,
+            leading: InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
               ),
-              title: Text(
-                isEdit ? 'Edit bank'.tr : 'Add Bank'.tr,
-                style: const TextStyle(color: Colors.black),
-              ),
-              backgroundColor: ConstantColors.background),
+            ),
+            title: Text(
+              isEdit ? 'Edit bank'.tr : 'Add Bank'.tr,
+              style: const TextStyle(color: Colors.black),
+            ),
+            backgroundColor: ConstantColors.background,
+          ),
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             child: controller.isLoading.value
@@ -74,8 +81,9 @@ class AddBankAccount extends StatelessWidget {
                           Text(
                             'Bank Name'.tr,
                             style: TextStyle(
-                                color: Colors.black.withOpacity(0.50),
-                                fontWeight: FontWeight.w500),
+                              color: Colors.black.withOpacity(0.50),
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 8),
@@ -90,23 +98,32 @@ class AddBankAccount extends StatelessWidget {
                                 }
                               },
                               decoration: const InputDecoration(
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  contentPadding: EdgeInsets.all(8)),
+                                ),
+                                contentPadding: EdgeInsets.all(8),
+                              ),
                             ),
                           ),
                           Padding(
@@ -114,8 +131,9 @@ class AddBankAccount extends StatelessWidget {
                             child: Text(
                               'Branch Name'.tr,
                               style: TextStyle(
-                                  color: Colors.black.withOpacity(0.50),
-                                  fontWeight: FontWeight.w500),
+                                color: Colors.black.withOpacity(0.50),
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                           Padding(
@@ -131,23 +149,32 @@ class AddBankAccount extends StatelessWidget {
                                 }
                               },
                               decoration: const InputDecoration(
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  contentPadding: EdgeInsets.all(8)),
+                                ),
+                                contentPadding: EdgeInsets.all(8),
+                              ),
                             ),
                           ),
                           Padding(
@@ -155,8 +182,9 @@ class AddBankAccount extends StatelessWidget {
                             child: Text(
                               'Holder Name'.tr,
                               style: TextStyle(
-                                  color: Colors.black.withOpacity(0.50),
-                                  fontWeight: FontWeight.w500),
+                                color: Colors.black.withOpacity(0.50),
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                           Padding(
@@ -172,23 +200,32 @@ class AddBankAccount extends StatelessWidget {
                                 }
                               },
                               decoration: const InputDecoration(
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  contentPadding: EdgeInsets.all(8)),
+                                ),
+                                contentPadding: EdgeInsets.all(8),
+                              ),
                             ),
                           ),
                           Padding(
@@ -196,8 +233,9 @@ class AddBankAccount extends StatelessWidget {
                             child: Text(
                               'Account Number'.tr,
                               style: TextStyle(
-                                  color: Colors.black.withOpacity(0.50),
-                                  fontWeight: FontWeight.w500),
+                                color: Colors.black.withOpacity(0.50),
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                           Padding(
@@ -213,23 +251,32 @@ class AddBankAccount extends StatelessWidget {
                                 }
                               },
                               decoration: const InputDecoration(
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  contentPadding: EdgeInsets.all(8)),
+                                ),
+                                contentPadding: EdgeInsets.all(8),
+                              ),
                             ),
                           ),
                           Padding(
@@ -237,8 +284,9 @@ class AddBankAccount extends StatelessWidget {
                             child: Text(
                               'IFSC Code'.tr,
                               style: TextStyle(
-                                  color: Colors.black.withOpacity(0.50),
-                                  fontWeight: FontWeight.w500),
+                                color: Colors.black.withOpacity(0.50),
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                           Padding(
@@ -254,23 +302,32 @@ class AddBankAccount extends StatelessWidget {
                                 }
                               },
                               decoration: const InputDecoration(
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  contentPadding: EdgeInsets.all(8)),
+                                ),
+                                contentPadding: EdgeInsets.all(8),
+                              ),
                             ),
                           ),
                           Padding(
@@ -278,8 +335,9 @@ class AddBankAccount extends StatelessWidget {
                             child: Text(
                               'Other information'.tr,
                               style: TextStyle(
-                                  color: Colors.black.withOpacity(0.50),
-                                  fontWeight: FontWeight.w500),
+                                color: Colors.black.withOpacity(0.50),
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                           Padding(
@@ -295,62 +353,69 @@ class AddBankAccount extends StatelessWidget {
                                 }
                               },
                               decoration: const InputDecoration(
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
-                                  contentPadding: EdgeInsets.all(8)),
+                                ),
+                                contentPadding: EdgeInsets.all(8),
+                              ),
                             ),
                           ),
                           Center(
                             child: Padding(
                               padding: const EdgeInsets.only(top: 45),
-                              child: ButtonThem.buildButton(context,
-                                  btnHeight: 44,
-                                  title:
-                                      isEdit ? "Edit bank".tr : "Add bank".tr,
-                                  btnColor: ConstantColors.primary,
-                                  txtColor: Colors.black, onPress: () {
-                                if (_formKey.currentState!.validate()) {
-                                  Map<String, String> bodyParams = {
-                                    'driver_id':
-                                        Preferences.getInt(Preferences.userId)
-                                            .toString(),
-                                    'bank_name': bankNameController.text,
-                                    'branch_name': branchNameController.text,
-                                    'holder_name': holderNameController.text,
-                                    'account_no': accountNumberController.text,
-                                    'information':
-                                        otherInformationController.text,
-                                    'ifsc_code': ifscCodeController.text
-                                  };
+                              child: ButtonThem.buildButton(
+                                context,
+                                btnHeight: 44,
+                                title: isEdit ? "Edit bank".tr : "Add bank".tr,
+                                btnColor: ConstantColors.primary,
+                                txtColor: Colors.black,
+                                onPress: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    Map<String, String> bodyParams = {
+                                      'driver_id': Preferences.getInt(Preferences.userId).toString(),
+                                      'bank_name': bankNameController.text,
+                                      'branch_name': branchNameController.text,
+                                      'holder_name': holderNameController.text,
+                                      'account_no': accountNumberController.text,
+                                      'information': otherInformationController.text,
+                                      'ifsc_code': ifscCodeController.text,
+                                    };
 
-                                  controller
-                                      .setBankDetails(bodyParams)
-                                      .then((value) {
-                                    if (value != null) {
-                                      Get.back(result: true);
-                                    } else {
-                                      ShowToastDialog.showToast(
-                                          "Something want wrong.".tr);
-                                    }
-                                  });
-                                }
-                              }),
+                                    controller.setBankDetails(bodyParams).then((value) {
+                                      if (value != null) {
+                                        Get.back(result: true);
+                                      } else {
+                                        ShowToastDialog.showToast(
+                                          "Something want wrong.".tr,
+                                        );
+                                      }
+                                    });
+                                  }
+                                },
+                              ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),

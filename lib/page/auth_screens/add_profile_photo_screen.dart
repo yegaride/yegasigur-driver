@@ -19,7 +19,7 @@ import 'package:image_picker/image_picker.dart';
 class AddProfilePhotoScreen extends StatelessWidget {
   final bool fromOtp;
 
-  AddProfilePhotoScreen({Key? key, required this.fromOtp}) : super(key: key);
+  AddProfilePhotoScreen({super.key, required this.fromOtp});
 
   @override
   Widget build(BuildContext context) {
@@ -45,24 +45,25 @@ class AddProfilePhotoScreen extends StatelessWidget {
                   }
                 },
                 child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.white,
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.3),
-                          blurRadius: 10,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Icon(
-                        Icons.arrow_back_ios_rounded,
-                        color: Colors.black,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.white,
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 10,
+                        offset: const Offset(0, 2),
                       ),
-                    )),
+                    ],
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Icon(
+                      Icons.arrow_back_ios_rounded,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -77,19 +78,21 @@ class AddProfilePhotoScreen extends StatelessWidget {
                 Text(
                   'select_profile_photo'.tr,
                   style: const TextStyle(
-                      color: Colors.black87,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 1.2,
-                      fontSize: 22),
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 1.2,
+                    fontSize: 22,
+                  ),
                 ),
                 const SizedBox(height: 15),
                 Text(
                   'profile_message'.tr,
                   style: const TextStyle(
-                      color: Colors.black54,
-                      fontWeight: FontWeight.w600,
-                      height: 2,
-                      letterSpacing: 1),
+                    color: Colors.black54,
+                    fontWeight: FontWeight.w600,
+                    height: 2,
+                    letterSpacing: 1,
+                  ),
                 ),
                 SizedBox(
                   height: Responsive.height(5, context),
@@ -100,12 +103,13 @@ class AddProfilePhotoScreen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: ClipOval(
-                                child: Image.file(
-                              File(controller.image.value),
-                              height: 190,
-                              width: 190,
-                              fit: BoxFit.cover,
-                            )),
+                              child: Image.file(
+                                File(controller.image.value),
+                                height: 190,
+                                width: 190,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         ),
                       )
@@ -142,13 +146,16 @@ class AddProfilePhotoScreen extends StatelessWidget {
                   if (value != null) {
                     if (value["success"] == "Success") {
                       UserModel userModel = Constant.getUserData();
-                      userModel.userData!.photoPath =
-                          value['data']['photo_path'];
+                      userModel.userData!.photoPath = value['data']['photo_path'];
                       Preferences.setString(
-                          Preferences.user, json.encode(userModel.toJson()));
-                      Get.to(DocumentVerifyScreen(
-                        fromOtp: false,
-                      ));
+                        Preferences.user,
+                        json.encode(userModel.toJson()),
+                      );
+                      Get.to(
+                        DocumentVerifyScreen(
+                          fromOtp: false,
+                        ),
+                      );
                     } else {
                       ShowToastDialog.showToast(value['error']);
                     }
@@ -159,8 +166,7 @@ class AddProfilePhotoScreen extends StatelessWidget {
               }
             },
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         );
       },
     );
@@ -168,9 +174,10 @@ class AddProfilePhotoScreen extends StatelessWidget {
 
   buildBottomSheet(BuildContext context, AddPhotoController controller) {
     return showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return StatefulBuilder(builder: (context, setState) {
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
             return Container(
               height: Responsive.height(22, context),
               color: Colors.white,
@@ -198,12 +205,15 @@ class AddProfilePhotoScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             IconButton(
-                                onPressed: () => pickFile(controller,
-                                    source: ImageSource.camera),
-                                icon: const Icon(
-                                  Icons.camera_alt,
-                                  size: 32,
-                                )),
+                              onPressed: () => pickFile(
+                                controller,
+                                source: ImageSource.camera,
+                              ),
+                              icon: const Icon(
+                                Icons.camera_alt,
+                                size: 32,
+                              ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(top: 3),
                               child: Text('camera'.tr),
@@ -218,32 +228,39 @@ class AddProfilePhotoScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             IconButton(
-                                onPressed: () => pickFile(controller,
-                                    source: ImageSource.gallery),
-                                icon: const Icon(
-                                  Icons.photo_library_sharp,
-                                  size: 32,
-                                )),
+                              onPressed: () => pickFile(
+                                controller,
+                                source: ImageSource.gallery,
+                              ),
+                              icon: const Icon(
+                                Icons.photo_library_sharp,
+                                size: 32,
+                              ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(top: 3),
                               child: Text('gallery'.tr),
                             ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ],
               ),
             );
-          });
-        });
+          },
+        );
+      },
+    );
   }
 
   final ImagePicker _imagePicker = ImagePicker();
 
-  Future pickFile(AddPhotoController controller,
-      {required ImageSource source}) async {
+  Future pickFile(
+    AddPhotoController controller, {
+    required ImageSource source,
+  }) async {
     try {
       XFile? image = await _imagePicker.pickImage(source: source);
       if (image == null) return;

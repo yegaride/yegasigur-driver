@@ -95,7 +95,16 @@ class Strip {
   String? idPaymentMethod;
   String? libelle;
 
-  Strip({this.id, this.key, this.clientpublishableKey, this.secretKey, this.isEnabled, this.isSandboxEnabled, this.idPaymentMethod, this.libelle});
+  Strip({
+    this.id,
+    this.key,
+    this.clientpublishableKey,
+    this.secretKey,
+    this.isEnabled,
+    this.isSandboxEnabled,
+    this.idPaymentMethod,
+    this.libelle,
+  });
 
   Strip.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
@@ -159,7 +168,18 @@ class PayFast {
   String? idPaymentMethod;
   String? libelle;
 
-  PayFast({this.id, this.merchantId, this.merchantKey, this.cancelUrl, this.notifyUrl, this.returnUrl, this.isEnabled, this.isSandboxEnabled, this.idPaymentMethod, this.libelle});
+  PayFast({
+    this.id,
+    this.merchantId,
+    this.merchantKey,
+    this.cancelUrl,
+    this.notifyUrl,
+    this.returnUrl,
+    this.isEnabled,
+    this.isSandboxEnabled,
+    this.idPaymentMethod,
+    this.libelle,
+  });
 
   PayFast.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
@@ -200,7 +220,16 @@ class PayStack {
   String? idPaymentMethod;
   String? libelle;
 
-  PayStack({this.id, this.secretKey, this.publicKey, this.callbackUrl, this.isEnabled, this.isSandboxEnabled, this.idPaymentMethod, this.libelle});
+  PayStack({
+    this.id,
+    this.secretKey,
+    this.publicKey,
+    this.callbackUrl,
+    this.isEnabled,
+    this.isSandboxEnabled,
+    this.idPaymentMethod,
+    this.libelle,
+  });
 
   PayStack.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
@@ -237,7 +266,16 @@ class FlutterWave {
   String? idPaymentMethod;
   String? libelle;
 
-  FlutterWave({this.id, this.secretKey, this.publicKey, this.encryptionKey, this.isEnabled, this.isSandboxEnabled, this.idPaymentMethod, this.libelle});
+  FlutterWave({
+    this.id,
+    this.secretKey,
+    this.publicKey,
+    this.encryptionKey,
+    this.isEnabled,
+    this.isSandboxEnabled,
+    this.idPaymentMethod,
+    this.libelle,
+  });
 
   FlutterWave.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
@@ -378,20 +416,21 @@ class PayPal {
   String? password;
   String? libelle;
 
-  PayPal(
-      {this.id,
-      this.appId,
-      this.secretKey,
-      this.merchantId,
-      this.privateKey,
-      this.publicKey,
-      this.tokenizationKey,
-      this.isEnabled,
-      this.isLive,
-      this.idPaymentMethod,
-      this.username,
-      this.password,
-      this.libelle});
+  PayPal({
+    this.id,
+    this.appId,
+    this.secretKey,
+    this.merchantId,
+    this.privateKey,
+    this.publicKey,
+    this.tokenizationKey,
+    this.isEnabled,
+    this.isLive,
+    this.idPaymentMethod,
+    this.username,
+    this.password,
+    this.libelle,
+  });
 
   PayPal.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();

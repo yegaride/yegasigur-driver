@@ -16,7 +16,7 @@ import 'package:image_picker/image_picker.dart';
 class DocumentVerifyScreen extends StatelessWidget {
   final bool fromOtp;
 
-  DocumentVerifyScreen({Key? key, required this.fromOtp}) : super(key: key);
+  DocumentVerifyScreen({super.key, required this.fromOtp});
 
   @override
   Widget build(BuildContext context) {
@@ -39,24 +39,25 @@ class DocumentVerifyScreen extends StatelessWidget {
                   }
                 },
                 child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.white,
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.3),
-                          blurRadius: 10,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Icon(
-                        Icons.arrow_back_ios_rounded,
-                        color: Colors.black,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.white,
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 10,
+                        offset: const Offset(0, 2),
                       ),
-                    )),
+                    ],
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Icon(
+                      Icons.arrow_back_ios_rounded,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -85,10 +86,11 @@ class DocumentVerifyScreen extends StatelessWidget {
                         Text(
                           'Add Verification Document'.tr,
                           style: const TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 1.2,
-                              fontSize: 20),
+                            color: Colors.black87,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1.2,
+                            fontSize: 20,
+                          ),
                         ),
                         SizedBox(
                           height: Responsive.height(2, context),
@@ -105,10 +107,10 @@ class DocumentVerifyScreen extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          controller.rideList[index].title
-                                              .toString(),
+                                          controller.rideList[index].title.toString(),
                                           style: const TextStyle(
-                                              color: Colors.black),
+                                            color: Colors.black,
+                                          ),
                                         ),
                                       ),
                                       ButtonThem.buildButton(
@@ -120,11 +122,11 @@ class DocumentVerifyScreen extends StatelessWidget {
                                         txtColor: Colors.white,
                                         onPress: () {
                                           buildBottomSheet(
-                                              context,
-                                              controller,
-                                              index,
-                                              controller.rideList[index].id
-                                                  .toString());
+                                            context,
+                                            controller,
+                                            index,
+                                            controller.rideList[index].id.toString(),
+                                          );
                                         },
                                       ),
                                     ],
@@ -134,13 +136,14 @@ class DocumentVerifyScreen extends StatelessWidget {
                                           ? Image.file(
                                               File(controller.imageList[index]),
                                               height: Responsive.height(
-                                                  25, context),
-                                              width:
-                                                  Responsive.width(90, context),
+                                                25,
+                                                context,
+                                              ),
+                                              width: Responsive.width(90, context),
                                               fit: BoxFit.cover,
                                             )
                                           : Container()
-                                      : Container()
+                                      : Container(),
                                 ],
                               );
                             },
@@ -168,8 +171,7 @@ class DocumentVerifyScreen extends StatelessWidget {
                 onPress: () {
                   log(controller.document.length.toString());
                   log(controller.rideList.length.toString());
-                  if (controller.document.length ==
-                      controller.rideList.length) {
+                  if (controller.document.length == controller.rideList.length) {
                     // print("${controller.imageList.map((element) => element).toList()}");
                     // print("${controller.document.map((element) => element.toJson()).toList()}");
 
@@ -186,19 +188,23 @@ class DocumentVerifyScreen extends StatelessWidget {
               ),
             ),
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         );
       },
     );
   }
 
-  buildBottomSheet(BuildContext context, DocumentController controller,
-      int index, String documentId) {
+  buildBottomSheet(
+    BuildContext context,
+    DocumentController controller,
+    int index,
+    String documentId,
+  ) {
     return showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return StatefulBuilder(builder: (context, setState) {
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
             return Container(
               height: Responsive.height(22, context),
               color: Colors.white,
@@ -226,14 +232,17 @@ class DocumentVerifyScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             IconButton(
-                                onPressed: () => pickFile(controller,
-                                    source: ImageSource.camera,
-                                    index: index,
-                                    documentId: documentId),
-                                icon: const Icon(
-                                  Icons.camera_alt,
-                                  size: 32,
-                                )),
+                              onPressed: () => pickFile(
+                                controller,
+                                source: ImageSource.camera,
+                                index: index,
+                                documentId: documentId,
+                              ),
+                              icon: const Icon(
+                                Icons.camera_alt,
+                                size: 32,
+                              ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(top: 3),
                               child: Text('camera'.tr),
@@ -248,36 +257,43 @@ class DocumentVerifyScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             IconButton(
-                                onPressed: () => pickFile(controller,
-                                    source: ImageSource.gallery,
-                                    index: index,
-                                    documentId: documentId),
-                                icon: const Icon(
-                                  Icons.photo_library_sharp,
-                                  size: 32,
-                                )),
+                              onPressed: () => pickFile(
+                                controller,
+                                source: ImageSource.gallery,
+                                index: index,
+                                documentId: documentId,
+                              ),
+                              icon: const Icon(
+                                Icons.photo_library_sharp,
+                                size: 32,
+                              ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(top: 3),
                               child: Text('gallery'.tr),
                             ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ],
               ),
             );
-          });
-        });
+          },
+        );
+      },
+    );
   }
 
   final ImagePicker _imagePicker = ImagePicker();
 
-  Future pickFile(DocumentController controller,
-      {required ImageSource source,
-      required int index,
-      required String documentId}) async {
+  Future pickFile(
+    DocumentController controller, {
+    required ImageSource source,
+    required int index,
+    required String documentId,
+  }) async {
     try {
       XFile? image = await _imagePicker.pickImage(source: source);
       if (image != null) {
@@ -285,7 +301,9 @@ class DocumentVerifyScreen extends StatelessWidget {
         controller.imageList.insert(index, image.path);
 
         Documents document = Documents(
-            documentId: documentId, attachmentIndex: index.toString());
+          documentId: documentId,
+          attachmentIndex: index.toString(),
+        );
         if (index < controller.document.length) {
           controller.document.removeAt(index);
           controller.document.insert(index, document);
@@ -333,13 +351,15 @@ class DocumentVerifyScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            ButtonThem.buildButton(context,
-                title: "Close".tr,
-                btnHeight: 40,
-                btnWidthRatio: 0.6,
-                btnColor: ConstantColors.primary,
-                txtColor: Colors.white,
-                onPress: () => Get.back()),
+            ButtonThem.buildButton(
+              context,
+              title: "Close".tr,
+              btnHeight: 40,
+              btnWidthRatio: 0.6,
+              btnColor: ConstantColors.primary,
+              txtColor: Colors.white,
+              onPress: () => Get.back(),
+            ),
           ],
         ),
       ),

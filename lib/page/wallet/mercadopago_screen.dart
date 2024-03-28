@@ -10,9 +10,9 @@ class MercadoPagoScreen extends StatefulWidget {
   final String initialURl;
 
   const MercadoPagoScreen({
-    Key? key,
+    super.key,
     required this.initialURl,
-  }) : super(key: key);
+  });
 
   @override
   State<MercadoPagoScreen> createState() => _MercadoPagoScreenState();
@@ -40,7 +40,8 @@ class _MercadoPagoScreenState extends State<MercadoPagoScreen> {
             if (navigation.url.contains("${API.baseUrl}payment/success")) {
               Navigator.pop(context, true);
             }
-            if (navigation.url.contains("${API.baseUrl}payment/failure") || navigation.url.contains("${API.baseUrl}payment/pending")) {
+            if (navigation.url.contains("${API.baseUrl}payment/failure") ||
+                navigation.url.contains("${API.baseUrl}payment/pending")) {
               Navigator.pop(context, false);
             }
             return NavigationDecision.navigate;
@@ -59,17 +60,18 @@ class _MercadoPagoScreenState extends State<MercadoPagoScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-            title: const Text("Payment"),
-            centerTitle: false,
-            leading: GestureDetector(
-              onTap: () {
-                _showMyDialog();
-              },
-              child: const Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-              ),
-            )),
+          title: const Text("Payment"),
+          centerTitle: false,
+          leading: GestureDetector(
+            onTap: () {
+              _showMyDialog();
+            },
+            child: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+          ),
+        ),
         body: WebViewWidget(controller: controller),
       ),
     );

@@ -9,18 +9,19 @@ class PrivacyPolicyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PrivacyPolicyController>(
-        init: PrivacyPolicyController(),
-        builder: (controller) {
-          return Scaffold(
-            body: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: controller.privacyData != null
-                  ? Html(
-                      data: controller.privacyData,
-                    )
-                  : const Offstage(),
-            ),
-          );
-        });
+      init: PrivacyPolicyController(),
+      builder: (controller) {
+        return Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: controller.privacyData != null
+                ? Html(
+                    data: controller.privacyData,
+                  )
+                : const Offstage(),
+          ),
+        );
+      },
+    );
   }
 }

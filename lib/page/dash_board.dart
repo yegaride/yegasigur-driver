@@ -16,15 +16,17 @@ import 'package:get/get.dart';
 import '../model/user_model.dart';
 
 class DashBoard extends StatelessWidget {
-  DashBoard({Key? key}) : super(key: key);
+  DashBoard({super.key});
 
   DateTime backPress = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: ConstantColors.primary,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: ConstantColors.primary,
+      ),
+    );
     return GetX<DashBoardController>(
       init: DashBoardController(),
       builder: (controller) {
@@ -63,14 +65,15 @@ class DashBoard extends StatelessWidget {
                           : Colors.white,
                 ),
               ),
-              leading: Builder(builder: (context) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                    child: Container(
+              leading: Builder(
+                builder: (context) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Scaffold.of(context).openDrawer();
+                      },
+                      child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           color: Colors.white,
@@ -85,10 +88,12 @@ class DashBoard extends StatelessWidget {
                         child: Image.asset(
                           "assets/icons/ic_side_menu.png",
                           color: Colors.black,
-                        )),
-                  ),
-                );
-              }),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
             drawer: buildAppDrawer(context, controller),
             body: controller.buildSelectedRoute(controller.selectedRoute.value),
@@ -151,35 +156,37 @@ class DashBoard extends StatelessWidget {
                         height: 20,
                         width: 50,
                         child: Switch(
-                            value: controller.isActive.value,
-                            activeColor: ConstantColors.blue,
-                            inactiveThumbColor: Colors.red,
-                            onChanged: (value) {
-                              controller.isActive.value = value;
+                          value: controller.isActive.value,
+                          activeColor: ConstantColors.blue,
+                          inactiveThumbColor: Colors.red,
+                          onChanged: (value) {
+                            controller.isActive.value = value;
 
-                              Map<String, dynamic> bodyParams = {
-                                'id_driver': Preferences.getInt(Preferences.userId),
-                                'online': controller.isActive.value ? 'yes' : 'no',
-                              };
+                            Map<String, dynamic> bodyParams = {
+                              'id_driver': Preferences.getInt(Preferences.userId),
+                              'online': controller.isActive.value ? 'yes' : 'no',
+                            };
 
-                              controller.changeOnlineStatus(bodyParams).then((value) {
-                                if (value != null) {
-                                  if (value['success'] == "success") {
-                                    UserModel userModel = Constant.getUserData();
-                                    userModel.userData!.online = value['data']['online'];
-                                    Preferences.setString(Preferences.user, jsonEncode(userModel.toJson()));
-                                    controller.getUsrData();
-                                    ShowToastDialog.showToast(value['message']);
-                                  } else {
-                                    ShowToastDialog.showToast(value['error']);
-                                  }
+                            controller.changeOnlineStatus(bodyParams).then((value) {
+                              if (value != null) {
+                                if (value['success'] == "success") {
+                                  UserModel userModel = Constant.getUserData();
+                                  userModel.userData!.online = value['data']['online'];
+                                  Preferences.setString(Preferences.user, jsonEncode(userModel.toJson()));
+                                  controller.getUsrData();
+                                  ShowToastDialog.showToast(value['message']);
+                                } else {
+                                  ShowToastDialog.showToast(value['error']);
                                 }
-                              });
-                              //Do you things
-                            }),
-                      )
+                              }
+                            });
+                            //Do you things
+                          },
+                        ),
+                      ),
                     ],
-                  )),
+                  ),
+                ),
           Column(children: drawerRoutes),
         ],
       ),

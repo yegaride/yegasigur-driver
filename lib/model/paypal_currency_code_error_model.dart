@@ -6,7 +6,8 @@
 
 import 'dart:convert';
 
-PayPalCurrencyCodeErrorModel payPalCurrencyCodeErrorModelFromJson(String str) => PayPalCurrencyCodeErrorModel.fromJson(json.decode(str));
+PayPalCurrencyCodeErrorModel payPalCurrencyCodeErrorModelFromJson(String str) =>
+    PayPalCurrencyCodeErrorModel.fromJson(json.decode(str));
 
 String payPalCurrencyCodeErrorModelToJson(PayPalCurrencyCodeErrorModel data) => json.encode(data.toJson());
 

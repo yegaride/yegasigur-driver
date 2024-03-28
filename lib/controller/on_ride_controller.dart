@@ -22,7 +22,8 @@ class OnRideController extends GetxController {
 
   Future<dynamic> getOnRideList() async {
     try {
-      final response = await http.get(Uri.parse("${API.getOnRide}?id_driver=${Preferences.getInt(Preferences.userId)}"), headers: API.header);
+      final response =
+          await http.get(Uri.parse("${API.getOnRide}?id_driver=${Preferences.getInt(Preferences.userId)}"), headers: API.header);
 
       log(response.body.toString());
       dynamic responseBody = json.decode(response.body.toString());

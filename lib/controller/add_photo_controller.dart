@@ -39,7 +39,13 @@ class AddPhotoController extends GetxController {
       );
       request.headers.addAll(API.header);
 
-      request.files.add(http.MultipartFile.fromBytes('image', File(image.value).readAsBytesSync(), filename: File(image.value).path.split('/').last));
+      request.files.add(
+        http.MultipartFile.fromBytes(
+          'image',
+          File(image.value).readAsBytesSync(),
+          filename: File(image.value).path.split('/').last,
+        ),
+      );
       request.fields['id_user'] = Preferences.getInt(Preferences.userId).toString();
       request.fields['user_cat'] = userCat;
 

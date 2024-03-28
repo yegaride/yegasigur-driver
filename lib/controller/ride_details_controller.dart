@@ -188,7 +188,10 @@ class RideDetailsController extends GetxController {
   Future<dynamic> verifyOTP({required String userId, required String rideId}) async {
     try {
       ShowToastDialog.showLoader("Please wait");
-      final response = await http.get(Uri.parse("${API.rideOtpVerify}?id_user_app=$userId&otp=${otpController.text.toString()}&ride_id=$rideId"), headers: API.header);
+      final response = await http.get(
+        Uri.parse("${API.rideOtpVerify}?id_user_app=$userId&otp=${otpController.text.toString()}&ride_id=$rideId"),
+        headers: API.header,
+      );
 
       Map<String, dynamic> responseBody = json.decode(response.body);
 
@@ -224,9 +227,9 @@ class RideDetailsController extends GetxController {
   Future<dynamic> cashPaymentRequest(RideData data) async {
     List taxList = [];
 
-    Constant.taxList.forEach((v) {
+    for (var v in Constant.taxList) {
       taxList.add(v.toJson());
-    });
+    }
     Map<String, dynamic> bodyParams = {
       'id_ride': data.id.toString(),
       'id_driver': data.idConducteur.toString(),

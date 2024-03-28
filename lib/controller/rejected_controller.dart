@@ -21,7 +21,10 @@ class RejectedController extends GetxController {
 
   Future<dynamic> getRejectedRide() async {
     try {
-      final response = await http.get(Uri.parse("${API.getRejectRequest}?id_driver=${Preferences.getInt(Preferences.userId)}"), headers: API.header);
+      final response = await http.get(
+        Uri.parse("${API.getRejectRequest}?id_driver=${Preferences.getInt(Preferences.userId)}"),
+        headers: API.header,
+      );
       Map<String, dynamic> responseBody = json.decode(response.body);
       if (response.statusCode == 200 && responseBody['success'] == "success") {
         isLoading.value = false;

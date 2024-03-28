@@ -41,7 +41,13 @@ class CarServiceHistoryController extends GetxController {
       );
       request.headers.addAll(API.header);
 
-      request.files.add(http.MultipartFile.fromBytes('image', File(carServiceBook.value).readAsBytesSync(), filename: File(carServiceBook.value).path.split('/').last));
+      request.files.add(
+        http.MultipartFile.fromBytes(
+          'image',
+          File(carServiceBook.value).readAsBytesSync(),
+          filename: File(carServiceBook.value).path.split('/').last,
+        ),
+      );
       request.fields['id_driver'] = Preferences.getInt(Preferences.userId).toString();
       request.fields['km_driven'] = kmDriven.toString();
 
@@ -74,7 +80,8 @@ class CarServiceHistoryController extends GetxController {
 
   Future<dynamic> getCarServiceBooks() async {
     try {
-      final response = await http.get(Uri.parse("${API.getCarServiceBook}${Preferences.getInt(Preferences.userId)}"), headers: API.header);
+      final response =
+          await http.get(Uri.parse("${API.getCarServiceBook}${Preferences.getInt(Preferences.userId)}"), headers: API.header);
       Map<String, dynamic> responseBody = json.decode(response.body);
       if (response.statusCode == 200 && responseBody['success'] == "success") {
         isLoading.value = false;

@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class DocumentStatusScreen extends StatelessWidget {
-  DocumentStatusScreen({Key? key}) : super(key: key);
+  DocumentStatusScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,8 @@ class DocumentStatusScreen extends StatelessWidget {
                                                   },
                                                 );
                                               },
-                                              child: const Icon(Icons.remove_red_eye))
+                                              child: const Icon(Icons.remove_red_eye),
+                                            )
                                           : Container(),
                                       const SizedBox(
                                         width: 10,
@@ -76,10 +77,11 @@ class DocumentStatusScreen extends StatelessWidget {
                                       Text(
                                         controller.documentList[index].documentStatus.toString(),
                                         style: TextStyle(
-                                            color: controller.documentList[index].documentStatus == "Disapprove" ||
-                                                    controller.documentList[index].documentStatus == "Pending"
-                                                ? Colors.red
-                                                : Colors.green),
+                                          color: controller.documentList[index].documentStatus == "Disapprove" ||
+                                                  controller.documentList[index].documentStatus == "Pending"
+                                              ? Colors.red
+                                              : Colors.green,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -110,11 +112,15 @@ class DocumentStatusScreen extends StatelessWidget {
                                         txtColor: Colors.white,
                                         onPress: () {
                                           buildBottomSheet(
-                                              context, controller, index, controller.documentList[index].id.toString());
+                                            context,
+                                            controller,
+                                            index,
+                                            controller.documentList[index].id.toString(),
+                                          );
                                         },
-                                      )
+                                      ),
                                     ],
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -131,9 +137,10 @@ class DocumentStatusScreen extends StatelessWidget {
 
   buildBottomSheet(BuildContext context, DocumentStatusController controller, int index, String documentId) {
     return showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return StatefulBuilder(builder: (context, setState) {
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
             return Container(
               height: Responsive.height(22, context),
               color: Colors.white,
@@ -161,12 +168,13 @@ class DocumentStatusScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             IconButton(
-                                onPressed: () =>
-                                    pickFile(controller, source: ImageSource.camera, index: index, documentId: documentId),
-                                icon: const Icon(
-                                  Icons.camera_alt,
-                                  size: 32,
-                                )),
+                              onPressed: () =>
+                                  pickFile(controller, source: ImageSource.camera, index: index, documentId: documentId),
+                              icon: const Icon(
+                                Icons.camera_alt,
+                                size: 32,
+                              ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(top: 3),
                               child: Text('camera'.tr),
@@ -181,32 +189,39 @@ class DocumentStatusScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             IconButton(
-                                onPressed: () =>
-                                    pickFile(controller, source: ImageSource.gallery, index: index, documentId: documentId),
-                                icon: const Icon(
-                                  Icons.photo_library_sharp,
-                                  size: 32,
-                                )),
+                              onPressed: () =>
+                                  pickFile(controller, source: ImageSource.gallery, index: index, documentId: documentId),
+                              icon: const Icon(
+                                Icons.photo_library_sharp,
+                                size: 32,
+                              ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(top: 3),
                               child: Text('gallery'.tr),
                             ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ],
               ),
             );
-          });
-        });
+          },
+        );
+      },
+    );
   }
 
   final ImagePicker _imagePicker = ImagePicker();
 
-  Future pickFile(DocumentStatusController controller,
-      {required ImageSource source, required int index, required String documentId}) async {
+  Future pickFile(
+    DocumentStatusController controller, {
+    required ImageSource source,
+    required int index,
+    required String documentId,
+  }) async {
     try {
       XFile? image = await _imagePicker.pickImage(source: source);
       if (image == null) return;
@@ -253,13 +268,15 @@ class DocumentStatusScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            ButtonThem.buildButton(context,
-                title: "Close".tr,
-                btnHeight: 40,
-                btnWidthRatio: 0.6,
-                btnColor: ConstantColors.primary,
-                txtColor: Colors.white,
-                onPress: () => Get.back()),
+            ButtonThem.buildButton(
+              context,
+              title: "Close".tr,
+              btnHeight: 40,
+              btnWidthRatio: 0.6,
+              btnColor: ConstantColors.primary,
+              txtColor: Colors.white,
+              onPress: () => Get.back(),
+            ),
           ],
         ),
       ),

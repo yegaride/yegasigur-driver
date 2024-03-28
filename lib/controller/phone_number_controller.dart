@@ -29,10 +29,12 @@ class PhoneNumberController extends GetxController {
       },
       codeSent: (String verificationId, int? resendToken) {
         ShowToastDialog.closeLoader();
-        Get.to(OtpScreen(
-          phoneNumber: phoneNumber,
-          verificationId: verificationId,
-        ));
+        Get.to(
+          OtpScreen(
+            phoneNumber: phoneNumber,
+            verificationId: verificationId,
+          ),
+        );
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );

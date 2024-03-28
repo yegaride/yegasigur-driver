@@ -5,7 +5,7 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 class ShowServiceDocScreen extends StatelessWidget {
   final ServiceData serviceData;
 
-  const ShowServiceDocScreen({Key? key, required this.serviceData}) : super(key: key);
+  const ShowServiceDocScreen({super.key, required this.serviceData});
 
   @override
   Widget build(BuildContext context) {

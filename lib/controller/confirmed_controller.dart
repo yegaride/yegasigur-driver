@@ -21,7 +21,10 @@ class ConfirmedController extends GetxController {
 
   Future<dynamic> getConformRideList() async {
     try {
-      final response = await http.get(Uri.parse("${API.getConformRide}?id_driver=${Preferences.getInt(Preferences.userId)}"), headers: API.header);
+      final response = await http.get(
+        Uri.parse("${API.getConformRide}?id_driver=${Preferences.getInt(Preferences.userId)}"),
+        headers: API.header,
+      );
 
       Map<String, dynamic> responseBody = json.decode(response.body);
       if (response.statusCode == 200 && responseBody['success'] == "success") {

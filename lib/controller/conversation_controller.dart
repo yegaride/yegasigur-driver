@@ -91,7 +91,8 @@ class ConversationController extends GetxController {
       'type': type,
     };
 
-    String idCollection = "${senderId.value < receiverId.value ? senderId.value : receiverId.value}-${orderId.value}-${senderId.value < receiverId.value ? receiverId.value : senderId.value}";
+    String idCollection =
+        "${senderId.value < receiverId.value ? senderId.value : receiverId.value}-${orderId.value}-${senderId.value < receiverId.value ? receiverId.value : senderId.value}";
 
     Map<String, dynamic> inboxData = {
       'id': idCollection,
@@ -103,7 +104,7 @@ class ConversationController extends GetxController {
       'senderName': senderName.value,
       'senderPhoto': senderPhoto.value,
       'receiverName': receiverName.value,
-      'receiverPhoto': receiverPhoto.value
+      'receiverPhoto': receiverPhoto.value,
     };
 
     Constant.conversation.doc(idCollection).set(inboxData);

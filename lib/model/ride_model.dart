@@ -302,7 +302,7 @@ class RideData {
     } else {
       data['stops'] = [];
     }
-    data['tax'] = taxModel != null ? taxModel!.map((v) => v.toJson()).toList() : null;
+    data['tax'] = taxModel?.map((v) => v.toJson()).toList();
     return data;
   }
 }
@@ -343,10 +343,10 @@ class UserInfo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['email'] = email;
+    data['phone'] = phone;
     return data;
   }
 }

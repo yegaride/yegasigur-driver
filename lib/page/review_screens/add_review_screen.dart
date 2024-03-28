@@ -11,7 +11,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 
 class AddReviewScreen extends StatelessWidget {
-  const AddReviewScreen({Key? key}) : super(key: key);
+  const AddReviewScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,50 +21,56 @@ class AddReviewScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: ConstantColors.primary,
           appBar: AppBar(
-              backgroundColor: ConstantColors.primary,
-              elevation: 0,
-              centerTitle: true,
-              title: Text(
-                  controller.data.value != null
-                      ? "Edit Review".tr
-                      : "Add review".tr,
-                  style: const TextStyle(color: Colors.black)),
-              leading: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Colors.white,
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.3),
-                            blurRadius: 10,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
+            backgroundColor: ConstantColors.primary,
+            elevation: 0,
+            centerTitle: true,
+            title: Text(
+              controller.data.value != null ? "Edit Review".tr : "Add review".tr,
+              style: const TextStyle(color: Colors.black),
+            ),
+            leading: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GestureDetector(
+                onTap: () {
+                  Get.back();
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.white,
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 10,
+                        offset: const Offset(0, 2),
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.only(right: 4),
-                        child: Icon(
-                          Icons.arrow_back_ios_rounded,
-                          color: Colors.black,
-                        ),
-                      )),
+                    ],
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.only(right: 4),
+                    child: Icon(
+                      Icons.arrow_back_ios_rounded,
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
-              )),
+              ),
+            ),
+          ),
           body: Stack(
             children: [
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 20, right: 20, top: 42, bottom: 20),
+                  left: 20,
+                  right: 20,
+                  top: 42,
+                  bottom: 20,
+                ),
                 child: Card(
                   elevation: 2,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   child: SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 65),
@@ -77,19 +83,20 @@ class AddReviewScreen extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: Text(
-                                    '${controller.data.value!.prenom.toString()} ${controller.data.value!.nom.toString()}',
-                                    style: const TextStyle(
-                                        color: Colors.black87,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18)),
+                                  '${controller.data.value!.prenom.toString()} ${controller.data.value!.nom.toString()}',
+                                  style: const TextStyle(
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                  ),
+                                ),
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 6.0),
+                                padding: const EdgeInsets.symmetric(vertical: 6.0),
                                 child: RatingBar.builder(
-                                  initialRating: double.parse(controller
-                                      .data.value!.moyenne
-                                      .toString()),
+                                  initialRating: double.parse(
+                                    controller.data.value!.moyenne.toString(),
+                                  ),
                                   minRating: 1,
                                   direction: Axis.horizontal,
                                   allowHalfRating: true,
@@ -115,21 +122,22 @@ class AddReviewScreen extends StatelessWidget {
                             child: Text(
                               'How is your trip?'.tr,
                               style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 2),
+                                fontSize: 18,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 2,
+                              ),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 8),
                             child: Text(
-                              'Your feedback  will help us improve \n driving experience better'
-                                  .tr,
+                              'Your feedback  will help us improve \n driving experience better'.tr,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  color: ConstantColors.subTitleTextColor,
-                                  letterSpacing: 0.8),
+                                color: ConstantColors.subTitleTextColor,
+                                letterSpacing: 0.8,
+                              ),
                             ),
                           ),
                           Padding(
@@ -138,8 +146,9 @@ class AddReviewScreen extends StatelessWidget {
                               'Rate for'.tr,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  color: ConstantColors.subTitleTextColor,
-                                  letterSpacing: 0.8),
+                                color: ConstantColors.subTitleTextColor,
+                                letterSpacing: 0.8,
+                              ),
                             ),
                           ),
                           Padding(
@@ -147,10 +156,11 @@ class AddReviewScreen extends StatelessWidget {
                             child: Text(
                               '${controller.data.value!.prenom.toString()} ${controller.data.value!.nom.toString()}',
                               style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 2),
+                                fontSize: 18,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 2,
+                              ),
                             ),
                           ),
                           Padding(
@@ -161,8 +171,7 @@ class AddReviewScreen extends StatelessWidget {
                               direction: Axis.horizontal,
                               allowHalfRating: true,
                               itemCount: 5,
-                              itemPadding:
-                                  const EdgeInsets.symmetric(horizontal: 4.0),
+                              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
                               itemBuilder: (context, _) => const Icon(
                                 Icons.star,
                                 color: Colors.amber,
@@ -174,11 +183,13 @@ class AddReviewScreen extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
-                                top: 30, left: 20, right: 20),
+                              top: 30,
+                              left: 20,
+                              right: 20,
+                            ),
                             child: TextFieldThem.boxBuildTextField(
                               hintText: 'Type comment....'.tr,
-                              controller:
-                                  controller.reviewCommentController.value,
+                              controller: controller.reviewCommentController.value,
                               textInputType: TextInputType.emailAddress,
                               maxLine: 5,
                               contentPadding: EdgeInsets.zero,
@@ -193,40 +204,42 @@ class AddReviewScreen extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
-                                top: 20, left: 20, right: 20, bottom: 20),
-                            child: ButtonThem.buildButton(context,
-                                btnHeight: 45,
-                                title: "Submit review".tr,
-                                btnColor: ConstantColors.primary,
-                                txtColor: Colors.black, onPress: () async {
-                              Map<String, String> bodyParams = {
-                                'ride_id': controller.data.value!.id.toString(),
-                                'id_user_app':
-                                    controller.data.value!.idUserApp.toString(),
-                                'id_conducteur': controller
-                                    .data.value!.idConducteur
-                                    .toString(),
-                                'note_value':
-                                    controller.rating.value.toString(),
-                                'comment': controller
-                                    .reviewCommentController.value.text,
-                              };
+                              top: 20,
+                              left: 20,
+                              right: 20,
+                              bottom: 20,
+                            ),
+                            child: ButtonThem.buildButton(
+                              context,
+                              btnHeight: 45,
+                              title: "Submit review".tr,
+                              btnColor: ConstantColors.primary,
+                              txtColor: Colors.black,
+                              onPress: () async {
+                                Map<String, String> bodyParams = {
+                                  'ride_id': controller.data.value!.id.toString(),
+                                  'id_user_app': controller.data.value!.idUserApp.toString(),
+                                  'id_conducteur': controller.data.value!.idConducteur.toString(),
+                                  'note_value': controller.rating.value.toString(),
+                                  'comment': controller.reviewCommentController.value.text,
+                                };
 
-                              await controller
-                                  .addReview(bodyParams)
-                                  .then((value) {
-                                if (value != null) {
-                                  if (value == true) {
-                                    ShowToastDialog.showToast(
-                                        "Review added successfully!".tr);
-                                    Get.back();
-                                  } else {
-                                    ShowToastDialog.showToast(
-                                        "Something went wrong".tr);
+                                await controller.addReview(bodyParams).then((value) {
+                                  if (value != null) {
+                                    if (value == true) {
+                                      ShowToastDialog.showToast(
+                                        "Review added successfully!".tr,
+                                      );
+                                      Get.back();
+                                    } else {
+                                      ShowToastDialog.showToast(
+                                        "Something went wrong".tr,
+                                      );
+                                    }
                                   }
-                                }
-                              });
-                            }),
+                                });
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -257,8 +270,7 @@ class AddReviewScreen extends StatelessWidget {
                       width: 110,
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Constant.loader(),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
                     ),
                   ),
                 ),

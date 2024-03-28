@@ -10,13 +10,13 @@ class CustomAlertDialog extends StatefulWidget {
   final Function()? onPressNegative;
 
   const CustomAlertDialog({
-    Key? key,
+    super.key,
     required this.title,
     required this.positiveButtonText,
     required this.negativeButtonText,
     this.onPressPositive,
     this.onPressNegative,
-  }) : super(key: key);
+  });
 
   @override
   CustomAlertDialogState createState() => CustomAlertDialogState();
@@ -40,9 +40,14 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
       children: <Widget>[
         Container(
           padding: const EdgeInsets.only(left: 20, top: 20, right: 20, bottom: 20),
-          decoration: BoxDecoration(shape: BoxShape.rectangle, color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: const [
-            BoxShadow(color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
-          ]),
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: const [
+              BoxShadow(color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
+            ],
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -85,9 +90,9 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
                             onPress: widget.onPressNegative!,
                           ),
                         )
-                      : Container()
+                      : Container(),
                 ],
-              )
+              ),
             ],
           ),
         ),

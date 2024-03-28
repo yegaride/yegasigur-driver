@@ -20,7 +20,7 @@ class SendNotification {
           'notification': <String, dynamic>{'body': body, 'title': title},
           'priority': 'high',
           'data': payload ?? <String, dynamic>{},
-          'to': token
+          'to': token,
         },
       ),
     );

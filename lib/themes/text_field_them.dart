@@ -4,18 +4,19 @@ import 'package:flutter/material.dart';
 class TextFieldThem {
   const TextFieldThem(Key? key);
 
-  static buildTextField(
-      {required String title,
-      required TextEditingController controller,
-      IconData? icon,
-      required String? Function(String?) validators,
-      TextInputType textInputType = TextInputType.text,
-      bool obscureText = true,
-      bool enabled = true,
-      EdgeInsets contentPadding = EdgeInsets.zero,
-      maxLine = 1,
-      maxLength = 300,
-      String? labelText}) {
+  static buildTextField({
+    required String title,
+    required TextEditingController controller,
+    IconData? icon,
+    required String? Function(String?) validators,
+    TextInputType textInputType = TextInputType.text,
+    bool obscureText = true,
+    bool enabled = true,
+    EdgeInsets contentPadding = EdgeInsets.zero,
+    maxLine = 1,
+    maxLength = 300,
+    String? labelText,
+  }) {
     return TextFormField(
       obscureText: !obscureText,
       validator: validators,
@@ -27,12 +28,13 @@ class TextFieldThem {
       enabled: enabled,
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
-          counterText: "",
-          labelText: labelText,
-          hintText: title,
-          contentPadding: contentPadding,
-          suffixIcon: Icon(icon),
-          border: const UnderlineInputBorder()),
+        counterText: "",
+        labelText: labelText,
+        hintText: title,
+        contentPadding: contentPadding,
+        suffixIcon: Icon(icon),
+        border: const UnderlineInputBorder(),
+      ),
     );
   }
 
@@ -94,44 +96,46 @@ class _AppInputState extends State<_AppInput> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-        obscureText: widget.obscureText ? hidePassword : widget.obscureText,
-        validator: widget.validators,
-        keyboardType: widget.textInputType,
-        textCapitalization: TextCapitalization.sentences,
-        controller: widget.controller,
-        maxLines: widget.maxLine,
-        maxLength: widget.maxLength,
-        enabled: widget.enabled,
-        textInputAction: TextInputAction.done,
-        decoration: InputDecoration(
-            counterText: "",
-            contentPadding: const EdgeInsets.all(8),
-            fillColor: Colors.white,
-            filled: true,
-            suffixIcon: widget.obscureText
-                ? IconButton(
-                    onPressed: () {
-                      setState(() {
-                        hidePassword = !hidePassword;
-                      });
-                    },
-                    icon: hidePassword ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off),
-                  )
-                : null,
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: ConstantColors.textFieldBoarderColor, width: 0.7),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: ConstantColors.textFieldBoarderColor, width: 0.7),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: ConstantColors.textFieldBoarderColor, width: 0.7),
-            ),
-            errorStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(color: ConstantColors.textFieldBoarderColor, width: 0.7),
-            ),
-            hintText: widget.hintText,
-            hintStyle: TextStyle(color: ConstantColors.hintTextColor)));
+      obscureText: widget.obscureText ? hidePassword : widget.obscureText,
+      validator: widget.validators,
+      keyboardType: widget.textInputType,
+      textCapitalization: TextCapitalization.sentences,
+      controller: widget.controller,
+      maxLines: widget.maxLine,
+      maxLength: widget.maxLength,
+      enabled: widget.enabled,
+      textInputAction: TextInputAction.done,
+      decoration: InputDecoration(
+        counterText: "",
+        contentPadding: const EdgeInsets.all(8),
+        fillColor: Colors.white,
+        filled: true,
+        suffixIcon: widget.obscureText
+            ? IconButton(
+                onPressed: () {
+                  setState(() {
+                    hidePassword = !hidePassword;
+                  });
+                },
+                icon: hidePassword ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off),
+              )
+            : null,
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: ConstantColors.textFieldBoarderColor, width: 0.7),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: ConstantColors.textFieldBoarderColor, width: 0.7),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: ConstantColors.textFieldBoarderColor, width: 0.7),
+        ),
+        errorStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: ConstantColors.textFieldBoarderColor, width: 0.7),
+        ),
+        hintText: widget.hintText,
+        hintStyle: TextStyle(color: ConstantColors.hintTextColor),
+      ),
+    );
   }
 }

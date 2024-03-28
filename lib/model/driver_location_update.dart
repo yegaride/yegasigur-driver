@@ -5,12 +5,13 @@ class DriverLocationUpdate {
   String? driverId;
   bool? active;
 
-  DriverLocationUpdate(
-      {this.driverLatitude,
-        this.driverLongitude,
-        this.rotation,
-        this.driverId,
-        this.active});
+  DriverLocationUpdate({
+    this.driverLatitude,
+    this.driverLongitude,
+    this.rotation,
+    this.driverId,
+    this.active,
+  });
 
   DriverLocationUpdate.fromJson(Map<String, dynamic> json) {
     driverLatitude = json['driver_latitude'];

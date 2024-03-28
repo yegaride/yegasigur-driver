@@ -7,14 +7,12 @@ class GetPaymentTxtTokenModel {
   Head head;
   Body body;
 
-  factory GetPaymentTxtTokenModel.fromJson(Map<String, dynamic> json) =>
-      GetPaymentTxtTokenModel(
+  factory GetPaymentTxtTokenModel.fromJson(Map<String, dynamic> json) => GetPaymentTxtTokenModel(
         head: Head.fromJson(json["head"]),
         body: Body.fromJson(json["body"]),
       );
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "head": head.toJson(),
         "body": body.toJson(),
       };
@@ -33,16 +31,14 @@ class Body {
   bool isPromoCodeValid;
   bool authenticated;
 
-  factory Body.fromJson(Map<String, dynamic> json) =>
-      Body(
+  factory Body.fromJson(Map<String, dynamic> json) => Body(
         resultInfo: ResultInfo.fromJson(json["resultInfo"]),
         txnToken: json["txnToken"],
         isPromoCodeValid: json["isPromoCodeValid"],
         authenticated: json["authenticated"],
       );
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "resultInfo": resultInfo.toJson(),
         "txnToken": txnToken,
         "isPromoCodeValid": isPromoCodeValid,
@@ -61,15 +57,13 @@ class ResultInfo {
   String resultCode;
   String resultMsg;
 
-  factory ResultInfo.fromJson(Map<String, dynamic> json) =>
-      ResultInfo(
+  factory ResultInfo.fromJson(Map<String, dynamic> json) => ResultInfo(
         resultStatus: json["resultStatus"],
         resultCode: json["resultCode"],
         resultMsg: json["resultMsg"],
       );
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "resultStatus": resultStatus,
         "resultCode": resultCode,
         "resultMsg": resultMsg,
@@ -87,15 +81,13 @@ class Head {
   String version;
   String signature;
 
-  factory Head.fromJson(Map<String, dynamic> json) =>
-      Head(
+  factory Head.fromJson(Map<String, dynamic> json) => Head(
         responseTimestamp: json["responseTimestamp"].toString(),
         version: json["version"].toString(),
         signature: json["signature"].toString(),
       );
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "responseTimestamp": responseTimestamp,
         "version": version,
         "signature": signature,

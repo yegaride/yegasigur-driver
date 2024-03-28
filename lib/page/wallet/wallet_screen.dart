@@ -54,131 +54,130 @@ class WalletScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetX<WalletController>(
-        init: WalletController(),
-        initState: (state) {
-          initPayPal();
-          walletController.getTrancation();
-        },
-        builder: (walletController) {
-          return Scaffold(
-            backgroundColor: ConstantColors.background,
-            body: RefreshIndicator(
-              onRefresh: () => walletController.getTrancation(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Stack(
-                      children: [
-                        Image.asset('assets/images/earning_bg.png'),
-                        Positioned(
-                          left: 5,
-                          right: 5,
-                          top: 0,
-                          bottom: 0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Total Earnings'.tr,
-                                      style: const TextStyle(fontSize: 15, color: Colors.white),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      Constant().amountShow(amount: walletController.totalEarn.toString()),
-                                      style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w700, color: Colors.white),
-                                    ),
-                                  ],
-                                ),
+      init: WalletController(),
+      initState: (state) {
+        initPayPal();
+        walletController.getTrancation();
+      },
+      builder: (walletController) {
+        return Scaffold(
+          backgroundColor: ConstantColors.background,
+          body: RefreshIndicator(
+            onRefresh: () => walletController.getTrancation(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Stack(
+                    children: [
+                      Image.asset('assets/images/earning_bg.png'),
+                      Positioned(
+                        left: 5,
+                        right: 5,
+                        top: 0,
+                        bottom: 0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Total Earnings'.tr,
+                                    style: const TextStyle(fontSize: 15, color: Colors.white),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    Constant().amountShow(amount: walletController.totalEarn.toString()),
+                                    style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w700, color: Colors.white),
+                                  ),
+                                ],
                               ),
-                              const SizedBox(
-                                width: 25,
-                              ),
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    addToWalletAmount(context, walletController);
-                                  },
-                                  child: Container(
-                                    height: 40,
-                                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(32),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "TOPUP WALLET".tr,
-                                        style:
-                                            TextStyle(color: ConstantColors.primary, fontWeight: FontWeight.w700, fontSize: 16),
-                                      ),
+                            ),
+                            const SizedBox(
+                              width: 25,
+                            ),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  addToWalletAmount(context, walletController);
+                                },
+                                child: Container(
+                                  height: 40,
+                                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(32),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "TOPUP WALLET".tr,
+                                      style: TextStyle(color: ConstantColors.primary, fontWeight: FontWeight.w700, fontSize: 16),
                                     ),
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: walletController.isLoading.value
-                            ? Constant.loader()
-                            : walletController.transactionList.isEmpty
-                                ? Constant.emptyView("No transaction found".tr)
-                                : ListView.builder(
-                                    physics: const BouncingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: walletController.transactionList.length,
-                                    itemBuilder: (context, index) {
-                                      return showRideTransaction(walletController.transactionList[index]);
-                                    },
-                                  ),
                       ),
+                    ],
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: walletController.isLoading.value
+                          ? Constant.loader()
+                          : walletController.transactionList.isEmpty
+                              ? Constant.emptyView("No transaction found".tr)
+                              : ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: walletController.transactionList.length,
+                                  itemBuilder: (context, index) {
+                                    return showRideTransaction(walletController.transactionList[index]);
+                                  },
+                                ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            bottomNavigationBar: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ButtonThem.buildButton(
-                      context,
-                      title: 'Withdraw'.tr,
-                      btnHeight: 45,
-                      btnWidthRatio: 0.8,
-                      btnColor: ConstantColors.primary,
-                      txtColor: Colors.black,
-                      onPress: () async {
-                        walletController.getBankDetails().then((value) {
-                          if (value == null) {
-                            ShowToastDialog.showToast('Please Update bank Details'.tr);
-                          } else {
-                            buildShowBottomSheet(context, walletController);
-                          }
-                        });
-                      },
-                    ),
+          ),
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ButtonThem.buildButton(
+                    context,
+                    title: 'Withdraw'.tr,
+                    btnHeight: 45,
+                    btnWidthRatio: 0.8,
+                    btnColor: ConstantColors.primary,
+                    txtColor: Colors.black,
+                    onPress: () async {
+                      walletController.getBankDetails().then((value) {
+                        if (value == null) {
+                          ShowToastDialog.showToast('Please Update bank Details'.tr);
+                        } else {
+                          buildShowBottomSheet(context, walletController);
+                        }
+                      });
+                    },
                   ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                      child: ButtonThem.buildBorderButton(
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: ButtonThem.buildBorderButton(
                     context,
                     title: 'History'.tr.toUpperCase(),
                     btnHeight: 45,
@@ -189,21 +188,26 @@ class WalletScreen extends StatelessWidget {
                     onPress: () async {
                       Get.to(const WithdrawalsScreen());
                     },
-                  ))
-                ],
-              ),
+                  ),
+                ),
+              ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
   showRideTransaction(TansactionData data) {
     return InkWell(
       onTap: () {
         if (data.departName!.isNotEmpty) {
-          Get.to(const TripHistoryScreen(), arguments: {
-            "rideData": RideData.fromJson(data.toJson()),
-          });
+          Get.to(
+            const TripHistoryScreen(),
+            arguments: {
+              "rideData": RideData.fromJson(data.toJson()),
+            },
+          );
         } else {}
       },
       child: Card(
@@ -238,11 +242,13 @@ class WalletScreen extends StatelessWidget {
                             : data.amount!.isNotEmpty
                                 ? Constant().amountShow(
                                     amount:
-                                        "${double.parse(data.amount!.toString()) + double.parse(data.adminCommission!.isNotEmpty ? data.adminCommission!.toString() : "0.0")}")
+                                        "${double.parse(data.amount!.toString()) + double.parse(data.adminCommission!.isNotEmpty ? data.adminCommission!.toString() : "0.0")}",
+                                  )
                                 : "",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: data.amount!.toString().contains('-') ? Colors.red : ConstantColors.primary),
+                          fontWeight: FontWeight.bold,
+                          color: data.amount!.toString().contains('-') ? Colors.red : ConstantColors.primary,
+                        ),
                       ),
                     ),
                   ],
@@ -275,7 +281,7 @@ class WalletScreen extends StatelessWidget {
                                     data.destinationName.toString(),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
-                                  )
+                                  ),
                                   // Text(data.destinationName.toString(),maxLines: 1,),
                                 ],
                               ),
@@ -294,7 +300,7 @@ class WalletScreen extends StatelessWidget {
                           style: TextStyle(color: ConstantColors.yellow, fontWeight: FontWeight.bold),
                         ),
                       ),
-              )
+              ),
             ],
           ),
         ),
@@ -307,13 +313,15 @@ class WalletScreen extends StatelessWidget {
 
   buildShowBottomSheet(BuildContext context, WalletController controller) {
     return showModalBottomSheet(
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15))),
-        context: context,
-        isDismissible: true,
-        isScrollControlled: true,
-        builder: (context) {
-          return StatefulBuilder(builder: (context, setState) {
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+      ),
+      context: context,
+      isDismissible: true,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
               child: Padding(
@@ -340,8 +348,9 @@ class WalletScreen extends StatelessWidget {
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                            border: Border.all(color: ConstantColors.primary.withOpacity(0.40), width: 4),
-                            borderRadius: const BorderRadius.all(Radius.circular(20))),
+                          border: Border.all(color: ConstantColors.primary.withOpacity(0.40), width: 4),
+                          borderRadius: const BorderRadius.all(Radius.circular(20)),
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(10),
                           child: Column(
@@ -365,9 +374,12 @@ class WalletScreen extends StatelessWidget {
                                           child: Text(
                                             controller.bankDetails.accountNo.toString(),
                                             style: TextStyle(
-                                                color: Colors.black.withOpacity(0.80), fontSize: 18, fontWeight: FontWeight.w800),
+                                              color: Colors.black.withOpacity(0.80),
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w800,
+                                            ),
                                           ),
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -396,13 +408,19 @@ class WalletScreen extends StatelessWidget {
                                       child: Text(
                                         controller.bankDetails.otherInfo.toString(),
                                         style: TextStyle(
-                                            color: Colors.black.withOpacity(0.60), fontSize: 18, fontWeight: FontWeight.w500),
+                                          color: Colors.black.withOpacity(0.60),
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
                                     Text(
                                       controller.bankDetails.branchName.toString(),
                                       style: TextStyle(
-                                          color: Colors.black.withOpacity(0.60), fontSize: 16, fontWeight: FontWeight.w500),
+                                        color: Colors.black.withOpacity(0.60),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -484,7 +502,8 @@ class WalletScreen extends StatelessWidget {
                                   if (double.parse(Constant.minimumWithdrawalAmount.toString()) >
                                       double.parse(amountController.text)) {
                                     ShowToastDialog.showToast(
-                                        '${'Withdraw amount must be greater or equal to'.tr}${Constant().amountShow(amount: Constant.minimumWithdrawalAmount.toString())}');
+                                      '${'Withdraw amount must be greater or equal to'.tr}${Constant().amountShow(amount: Constant.minimumWithdrawalAmount.toString())}',
+                                    );
                                   } else {
                                     Map<String, dynamic> bodyParams = {
                                       'driver_id': Preferences.getInt(Preferences.userId),
@@ -508,757 +527,792 @@ class WalletScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
             );
-          });
-        });
+          },
+        );
+      },
+    );
   }
 
   addToWalletAmount(BuildContext context, WalletController walletController) {
     return showModalBottomSheet(
-        elevation: 5,
-        useRootNavigator: true,
-        isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
-        context: context,
-        backgroundColor: ConstantColors.background,
-        builder: (context) {
-          return GetX<WalletController>(
-              init: WalletController(),
-              initState: (controller) {
-                razorPayController.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-                razorPayController.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWaller);
-                razorPayController.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-              },
-              builder: (controller) {
-                return SizedBox(
-                  height: Get.height / 1.2,
-                  child: SingleChildScrollView(
-                    child: InkWell(
-                      onTap: () {
-                        FocusScope.of(context).unfocus();
-                      },
-                      child: Column(
+      elevation: 5,
+      useRootNavigator: true,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+      ),
+      context: context,
+      backgroundColor: ConstantColors.background,
+      builder: (context) {
+        return GetX<WalletController>(
+          init: WalletController(),
+          initState: (controller) {
+            razorPayController.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+            razorPayController.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWaller);
+            razorPayController.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+          },
+          builder: (controller) {
+            return SizedBox(
+              height: Get.height / 1.2,
+              child: SingleChildScrollView(
+                child: InkWell(
+                  onTap: () {
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+                              child: RichText(
+                                text: TextSpan(
+                                  text: "Topup Wallet".tr,
+                                  style: const TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w800),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
-                                  child: RichText(
-                                    text: TextSpan(
-                                      text: "Topup Wallet".tr,
-                                      style: const TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w800),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15.0,
+                            ),
+                            child: Text(
+                              "Add Topup Amount".tr,
+                              style: const TextStyle(fontWeight: FontWeight.w700, color: Colors.grey),
                             ),
                           ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 15.0,
-                                ),
-                                child: Text("Add Topup Amount".tr,
-                                    style: const TextStyle(fontWeight: FontWeight.w700, color: Colors.grey)),
+                        ],
+                      ),
+                      Form(
+                        key: _walletFormKey,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+                          child: TextFormField(
+                            validator: (String? value) {
+                              if (value!.isNotEmpty) {
+                                return null;
+                              } else {
+                                return "required".tr;
+                              }
+                            },
+                            keyboardType: TextInputType.number,
+                            textCapitalization: TextCapitalization.sentences,
+                            controller: amountController,
+                            maxLength: 13,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
                               ),
-                            ],
-                          ),
-                          Form(
-                            key: _walletFormKey,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
-                              child: TextFormField(
-                                validator: (String? value) {
-                                  if (value!.isNotEmpty) {
-                                    return null;
-                                  } else {
-                                    return "required".tr;
-                                  }
-                                },
-                                keyboardType: TextInputType.number,
-                                textCapitalization: TextCapitalization.sentences,
-                                controller: amountController,
-                                maxLength: 13,
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  counterText: "",
-                                  hintText: "enter_amount".tr,
-                                  contentPadding: const EdgeInsets.only(top: 20, left: 10),
-                                  prefix: Text(Constant.currency.toString()),
-                                ),
-                              ),
+                              counterText: "",
+                              hintText: "enter_amount".tr,
+                              contentPadding: const EdgeInsets.only(top: 20, left: 10),
+                              prefix: Text(Constant.currency.toString()),
                             ),
                           ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 15.0,
-                                ),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: "Select Payment Option".tr,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          Visibility(
-                            visible: walletController.paymentSettingModel.value.strip!.isEnabled == "true" ? true : false,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                elevation: walletController.stripe.value ? 0 : 2,
-                                child: RadioListTile(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      side: BorderSide(
-                                          color: walletController.stripe.value ? ConstantColors.primary : Colors.transparent)),
-                                  controlAffinity: ListTileControlAffinity.trailing,
-                                  value: "Stripe",
-                                  groupValue: walletController.selectedRadioTile!.value,
-                                  onChanged: (String? value) {
-                                    walletController.stripe = true.obs;
-                                    walletController.razorPay = false.obs;
-                                    walletController.payTm = false.obs;
-                                    walletController.paypal = false.obs;
-                                    walletController.payStack = false.obs;
-                                    walletController.flutterWave = false.obs;
-                                    walletController.mercadoPago = false.obs;
-                                    walletController.payFast = false.obs;
-                                    walletController.selectedRadioTile!.value = value!;
-                                  },
-                                  selected: walletController.stripe.value,
-                                  //selectedRadioTile == "strip" ? true : false,
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 6,
-                                  ),
-                                  title: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.blueGrey.shade50,
-                                            borderRadius: BorderRadius.circular(8),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10),
-                                            child: SizedBox(
-                                              width: 80,
-                                              height: 35,
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(vertical: 6.0),
-                                                child: Image.asset(
-                                                  "assets/images/stripe.png",
-                                                ),
-                                              ),
-                                            ),
-                                          )),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      Text("Stripe".tr),
-                                    ],
-                                  ),
-                                  //toggleable: true,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Visibility(
-                            visible: walletController.paymentSettingModel.value.payStack!.isEnabled == "true" ? true : false,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                elevation: walletController.payStack.value ? 0 : 2,
-                                child: RadioListTile(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      side: BorderSide(
-                                          color: walletController.payStack.value ? ConstantColors.primary : Colors.transparent)),
-                                  controlAffinity: ListTileControlAffinity.trailing,
-                                  value: "PayStack",
-                                  groupValue: walletController.selectedRadioTile!.value,
-                                  onChanged: (String? value) {
-                                    walletController.stripe = false.obs;
-                                    walletController.razorPay = false.obs;
-                                    walletController.payTm = false.obs;
-                                    walletController.paypal = false.obs;
-                                    walletController.payStack = true.obs;
-                                    walletController.flutterWave = false.obs;
-                                    walletController.mercadoPago = false.obs;
-                                    walletController.payFast = false.obs;
-                                    walletController.selectedRadioTile!.value = value!;
-                                  },
-                                  selected: walletController.payStack.value,
-                                  //selectedRadioTile == "strip" ? true : false,
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 6,
-                                  ),
-                                  title: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.blueGrey.shade50,
-                                            borderRadius: BorderRadius.circular(8),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10),
-                                            child: SizedBox(
-                                              width: 80,
-                                              height: 35,
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(vertical: 6.0),
-                                                child: Image.asset(
-                                                  "assets/images/paystack.png",
-                                                ),
-                                              ),
-                                            ),
-                                          )),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      Text("PayStack".tr),
-                                    ],
-                                  ),
-                                  //toggleable: true,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Visibility(
-                            visible: walletController.paymentSettingModel.value.flutterWave!.isEnabled == "true" ? true : false,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                elevation: walletController.flutterWave.value ? 0 : 2,
-                                child: RadioListTile(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      side: BorderSide(
-                                          color:
-                                              walletController.flutterWave.value ? ConstantColors.primary : Colors.transparent)),
-                                  controlAffinity: ListTileControlAffinity.trailing,
-                                  value: "FlutterWave",
-                                  groupValue: walletController.selectedRadioTile!.value,
-                                  onChanged: (String? value) {
-                                    walletController.stripe = false.obs;
-                                    walletController.razorPay = false.obs;
-                                    walletController.payTm = false.obs;
-                                    walletController.paypal = false.obs;
-                                    walletController.payStack = false.obs;
-                                    walletController.flutterWave = true.obs;
-                                    walletController.mercadoPago = false.obs;
-                                    walletController.payFast = false.obs;
-                                    walletController.selectedRadioTile!.value = value!;
-                                  },
-                                  selected: walletController.flutterWave.value,
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 6,
-                                  ),
-                                  title: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.blueGrey.shade50,
-                                            borderRadius: BorderRadius.circular(8),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10),
-                                            child: SizedBox(
-                                              width: 80,
-                                              height: 35,
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(vertical: 6.0),
-                                                child: Image.asset(
-                                                  "assets/images/flutterwave.png",
-                                                ),
-                                              ),
-                                            ),
-                                          )),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      const Text("FlutterWave"),
-                                    ],
-                                  ),
-                                  //toggleable: true,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Visibility(
-                            visible: walletController.paymentSettingModel.value.razorpay!.isEnabled == "true" ? true : false,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                elevation: walletController.razorPay.value ? 0 : 2,
-                                child: RadioListTile(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      side: BorderSide(
-                                          color: walletController.razorPay.value ? ConstantColors.primary : Colors.transparent)),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 6,
-                                  ),
-                                  controlAffinity: ListTileControlAffinity.trailing,
-                                  value: "RazorPay",
-                                  groupValue: walletController.selectedRadioTile!.value,
-                                  onChanged: (String? value) {
-                                    walletController.stripe = false.obs;
-                                    walletController.razorPay = true.obs;
-                                    walletController.payTm = false.obs;
-                                    walletController.paypal = false.obs;
-                                    walletController.payStack = false.obs;
-                                    walletController.flutterWave = false.obs;
-                                    walletController.mercadoPago = false.obs;
-                                    walletController.payFast = false.obs;
-                                    walletController.selectedRadioTile!.value = value!;
-                                  },
-                                  selected: walletController.razorPay.value,
-                                  //selectedRadioTile == "strip" ? true : false,
-                                  title: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.blueGrey.shade50,
-                                            borderRadius: BorderRadius.circular(8),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 10),
-                                            child: SizedBox(
-                                                width: 80, height: 35, child: Image.asset("assets/images/razorpay_@3x.png")),
-                                          )),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      const Text("RazorPay"),
-                                    ],
-                                  ),
-                                  //toggleable: true,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Visibility(
-                            visible: walletController.paymentSettingModel.value.payFast!.isEnabled == "true" ? true : false,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 20),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                elevation: walletController.payFast.value ? 0 : 2,
-                                child: RadioListTile(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      side: BorderSide(
-                                          color: walletController.payFast.value ? ConstantColors.primary : Colors.transparent)),
-                                  controlAffinity: ListTileControlAffinity.trailing,
-                                  value: "PayFast",
-                                  groupValue: walletController.selectedRadioTile!.value,
-                                  onChanged: (String? value) {
-                                    walletController.stripe = false.obs;
-                                    walletController.razorPay = false.obs;
-                                    walletController.payTm = false.obs;
-                                    walletController.paypal = false.obs;
-                                    walletController.payStack = false.obs;
-                                    walletController.flutterWave = false.obs;
-                                    walletController.mercadoPago = false.obs;
-                                    walletController.payFast = true.obs;
-                                    walletController.selectedRadioTile!.value = value!;
-                                  },
-                                  selected: walletController.payFast.value,
-                                  //selectedRadioTile == "strip" ? true : false,
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 6,
-                                  ),
-                                  title: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.blueGrey.shade50,
-                                            borderRadius: BorderRadius.circular(8),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10),
-                                            child: SizedBox(
-                                              width: 80,
-                                              height: 35,
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(vertical: 6.0),
-                                                child: Image.asset(
-                                                  "assets/images/payfast.png",
-                                                ),
-                                              ),
-                                            ),
-                                          )),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      const Text("Pay Fast"),
-                                    ],
-                                  ),
-                                  //toggleable: true,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Visibility(
-                            visible: walletController.paymentSettingModel.value.paytm!.isEnabled == "true" ? true : false,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                elevation: walletController.payTm.value ? 0 : 2,
-                                child: RadioListTile(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      side: BorderSide(
-                                          color: walletController.payTm.value ? ConstantColors.primary : Colors.transparent)),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 6,
-                                  ),
-                                  controlAffinity: ListTileControlAffinity.trailing,
-                                  value: "PayTm",
-                                  groupValue: walletController.selectedRadioTile!.value,
-                                  onChanged: (String? value) {
-                                    walletController.stripe = false.obs;
-                                    walletController.razorPay = false.obs;
-                                    walletController.payTm = true.obs;
-                                    walletController.paypal = false.obs;
-                                    walletController.payStack = false.obs;
-                                    walletController.flutterWave = false.obs;
-                                    walletController.mercadoPago = false.obs;
-                                    walletController.payFast = false.obs;
-                                    walletController.selectedRadioTile!.value = value!;
-                                  },
-                                  selected: walletController.payTm.value,
-                                  //selectedRadioTile == "strip" ? true : false,
-                                  title: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.blueGrey.shade50,
-                                            borderRadius: BorderRadius.circular(8),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 10),
-                                            child: SizedBox(
-                                                width: 80,
-                                                height: 35,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.symmetric(vertical: 3.0),
-                                                  child: Image.asset(
-                                                    "assets/images/paytm_@3x.png",
-                                                  ),
-                                                )),
-                                          )),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      Text("Paytm".tr),
-                                    ],
-                                  ),
-                                  //toggleable: true,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Visibility(
-                            visible: walletController.paymentSettingModel.value.mercadopago!.isEnabled == "true" ? true : false,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 20),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                elevation: walletController.mercadoPago.value ? 0 : 2,
-                                child: RadioListTile(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      side: BorderSide(
-                                          color:
-                                              walletController.mercadoPago.value ? ConstantColors.primary : Colors.transparent)),
-                                  controlAffinity: ListTileControlAffinity.trailing,
-                                  value: "MercadoPago",
-                                  groupValue: walletController.selectedRadioTile!.value,
-                                  onChanged: (String? value) {
-                                    walletController.stripe = false.obs;
-                                    walletController.razorPay = false.obs;
-                                    walletController.payTm = false.obs;
-                                    walletController.paypal = false.obs;
-                                    walletController.payStack = false.obs;
-                                    walletController.flutterWave = false.obs;
-                                    walletController.mercadoPago = true.obs;
-                                    walletController.payFast = false.obs;
-                                    walletController.selectedRadioTile!.value = value!;
-                                  },
-                                  selected: walletController.mercadoPago.value,
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 6,
-                                  ),
-                                  title: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.blueGrey.shade50,
-                                            borderRadius: BorderRadius.circular(8),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10),
-                                            child: SizedBox(
-                                              width: 80,
-                                              height: 35,
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(vertical: 6.0),
-                                                child: Image.asset(
-                                                  "assets/images/mercadopago.png",
-                                                ),
-                                              ),
-                                            ),
-                                          )),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      Text("Mercado Pago".tr),
-                                    ],
-                                  ),
-                                  //toggleable: true,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Visibility(
-                            visible: walletController.paymentSettingModel.value.payPal!.isEnabled == "true" ? true : false,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                elevation: walletController.paypal.value ? 0 : 2,
-                                child: RadioListTile(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      side: BorderSide(
-                                          color: walletController.paypal.value ? ConstantColors.primary : Colors.transparent)),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 6,
-                                  ),
-                                  controlAffinity: ListTileControlAffinity.trailing,
-                                  value: "PayPal",
-                                  groupValue: walletController.selectedRadioTile!.value,
-                                  onChanged: (String? value) {
-                                    walletController.stripe = false.obs;
-                                    walletController.razorPay = false.obs;
-                                    walletController.payTm = false.obs;
-                                    walletController.paypal = true.obs;
-                                    walletController.payStack = false.obs;
-                                    walletController.flutterWave = false.obs;
-                                    walletController.mercadoPago = false.obs;
-                                    walletController.payFast = false.obs;
-                                    walletController.selectedRadioTile!.value = value!;
-                                  },
-                                  selected: walletController.paypal.value,
-                                  title: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.blueGrey.shade50,
-                                            borderRadius: BorderRadius.circular(8),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 10),
-                                            child: SizedBox(
-                                                width: 80,
-                                                height: 35,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.symmetric(vertical: 3.0),
-                                                  child: Image.asset("assets/images/paypal_@3x.png"),
-                                                )),
-                                          )),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      Text("PayPal".tr),
-                                    ],
-                                  ),
-                                  //toggleable: true,
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          // controller.isLoading.value
-                          //     ? Constant.loader()
-                          //     : controller.paymentMethodList.isEmpty
-                          //         ? Constant.emptyView(context, "Payment method not found please contact administrator", false)
-                          //         : ListView.builder(
-                          //             itemCount: controller.paymentMethodList.length,
-                          //             shrinkWrap: true,
-                          //             itemBuilder: (context, index) {
-                          //               return Obx(
-                          //                 () => controller.paymentMethodList[index].libelle != "Cash" &&
-                          //                         controller.paymentMethodList[index].libelle != "My Wallet"
-                          //                     ? Visibility(
-                          //                         visible: controller.paymentMethodList[index].statut == "yes",
-                          //                         child: Padding(
-                          //                           padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 15),
-                          //                           child: Card(
-                          //                               shape: RoundedRectangleBorder(
-                          //                                 borderRadius: BorderRadius.circular(8),
-                          //                               ),
-                          //                               elevation: controller.selectedRadioTile!.value ==
-                          //                                       controller.paymentMethodList[index].libelle.toString()
-                          //                                   ? 0
-                          //                                   : 2,
-                          //                               child: RadioListTile(
-                          //                                 shape: RoundedRectangleBorder(
-                          //                                     borderRadius: BorderRadius.circular(8),
-                          //                                     side: BorderSide(
-                          //                                         color: controller.selectedRadioTile!.value ==
-                          //                                                 controller.paymentMethodList[index].libelle.toString()
-                          //                                             ? ConstantColors.primary
-                          //                                             : Colors.transparent)),
-                          //                                 controlAffinity: ListTileControlAffinity.trailing,
-                          //                                 value: controller.paymentMethodList[index].libelle.toString(),
-                          //                                 groupValue: controller.selectedRadioTile!.value,
-                          //                                 onChanged: (newValue) {
-                          //                                   controller.selectedRadioTile!.value = newValue.toString();
-                          //                                 },
-                          //                                 title: Row(
-                          //                                   children: [
-                          //                                     Padding(
-                          //                                       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                          //                                       child: Container(
-                          //                                         decoration: BoxDecoration(
-                          //                                           color: Colors.grey.withOpacity(0.10),
-                          //                                           borderRadius: BorderRadius.circular(8),
-                          //                                         ),
-                          //                                         child: Padding(
-                          //                                           padding:
-                          //                                               const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10),
-                          //                                           child: SizedBox(
-                          //                                             width: 80,
-                          //                                             height: 35,
-                          //                                             child: Padding(
-                          //                                               padding: const EdgeInsets.symmetric(vertical: 6.0),
-                          //                                               child: CachedNetworkImage(
-                          //                                                 imageUrl: controller.paymentMethodList[index].image!,
-                          //                                                 placeholder: (context, url) => Constant.loader(),
-                          //                                                 errorWidget: (context, url, error) =>
-                          //                                                     const Icon(Icons.error),
-                          //                                               ),
-                          //                                             ),
-                          //                                           ),
-                          //                                         ),
-                          //                                       ),
-                          //                                     ),
-                          //                                     Padding(
-                          //                                       padding: const EdgeInsets.only(left: 10),
-                          //                                       child: Text(
-                          //                                         controller.paymentMethodList[index].libelle.toString(),
-                          //                                         style: const TextStyle(color: Colors.black),
-                          //                                       ),
-                          //                                     ),
-                          //                                   ],
-                          //                                 ),
-                          //                               )),
-                          //                         ),
-                          //                       )
-                          //                     : Container(),
-                          //               );
-                          //             }),
+                        ),
+                      ),
+                      Row(
+                        children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15),
-                            child: GestureDetector(
-                              onTap: () async {
-                                if (_walletFormKey.currentState!.validate()) {
-                                  Get.back();
-                                  showLoadingAlert(context);
-                                  if (walletController.selectedRadioTile!.value == "Stripe") {
-                                    stripeMakePayment(amount: amountController.text);
-                                  } else if (walletController.selectedRadioTile!.value == "RazorPay") {
-                                    startRazorpayPayment();
-                                  } else if (walletController.selectedRadioTile!.value == "PayTm") {
-                                    getPaytmCheckSum(context, amount: double.parse(amountController.text));
-                                  } else if (walletController.selectedRadioTile!.value == "PayPal") {
-                                    print("====AMOUNT : ${amountController.text}");
-                                    paypalPaymentSheet(amountController.text);
-                                    // _paypalPayment();
-                                  } else if (walletController.selectedRadioTile!.value == "PayStack") {
-                                    payStackPayment(context);
-                                  } else if (walletController.selectedRadioTile!.value == "FlutterWave") {
-                                    flutterWaveInitiatePayment(context);
-                                  } else if (walletController.selectedRadioTile!.value == "PayFast") {
-                                    payFastPayment(context);
-                                  } else if (walletController.selectedRadioTile!.value == "MercadoPago") {
-                                    mercadoPagoMakePayment(context);
-                                  } else {
-                                    Get.back();
-                                    ShowToastDialog.showToast("Please select payment method".tr);
-                                  }
-                                }
-                              },
-                              child: Container(
-                                height: 45,
-                                decoration: BoxDecoration(
-                                  color: ConstantColors.primary,
-                                  borderRadius: BorderRadius.circular(8),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15.0,
+                            ),
+                            child: RichText(
+                              text: TextSpan(
+                                text: "Select Payment Option".tr,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                  fontSize: 16,
                                 ),
-                                child: Center(
-                                    child: Text(
-                                  "CONTINUE".tr.toUpperCase(),
-                                  style: const TextStyle(color: Colors.white),
-                                )),
                               ),
                             ),
                           ),
                         ],
                       ),
-                    ),
+
+                      Visibility(
+                        visible: walletController.paymentSettingModel.value.strip!.isEnabled == "true" ? true : false,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            elevation: walletController.stripe.value ? 0 : 2,
+                            child: RadioListTile(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                side: BorderSide(
+                                  color: walletController.stripe.value ? ConstantColors.primary : Colors.transparent,
+                                ),
+                              ),
+                              controlAffinity: ListTileControlAffinity.trailing,
+                              value: "Stripe",
+                              groupValue: walletController.selectedRadioTile!.value,
+                              onChanged: (String? value) {
+                                walletController.stripe = true.obs;
+                                walletController.razorPay = false.obs;
+                                walletController.payTm = false.obs;
+                                walletController.paypal = false.obs;
+                                walletController.payStack = false.obs;
+                                walletController.flutterWave = false.obs;
+                                walletController.mercadoPago = false.obs;
+                                walletController.payFast = false.obs;
+                                walletController.selectedRadioTile!.value = value!;
+                              },
+                              selected: walletController.stripe.value,
+                              //selectedRadioTile == "strip" ? true : false,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                              ),
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.blueGrey.shade50,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10),
+                                      child: SizedBox(
+                                        width: 80,
+                                        height: 35,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 6.0),
+                                          child: Image.asset(
+                                            "assets/images/stripe.png",
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text("Stripe".tr),
+                                ],
+                              ),
+                              //toggleable: true,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: walletController.paymentSettingModel.value.payStack!.isEnabled == "true" ? true : false,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            elevation: walletController.payStack.value ? 0 : 2,
+                            child: RadioListTile(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                side: BorderSide(
+                                  color: walletController.payStack.value ? ConstantColors.primary : Colors.transparent,
+                                ),
+                              ),
+                              controlAffinity: ListTileControlAffinity.trailing,
+                              value: "PayStack",
+                              groupValue: walletController.selectedRadioTile!.value,
+                              onChanged: (String? value) {
+                                walletController.stripe = false.obs;
+                                walletController.razorPay = false.obs;
+                                walletController.payTm = false.obs;
+                                walletController.paypal = false.obs;
+                                walletController.payStack = true.obs;
+                                walletController.flutterWave = false.obs;
+                                walletController.mercadoPago = false.obs;
+                                walletController.payFast = false.obs;
+                                walletController.selectedRadioTile!.value = value!;
+                              },
+                              selected: walletController.payStack.value,
+                              //selectedRadioTile == "strip" ? true : false,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                              ),
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.blueGrey.shade50,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10),
+                                      child: SizedBox(
+                                        width: 80,
+                                        height: 35,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 6.0),
+                                          child: Image.asset(
+                                            "assets/images/paystack.png",
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text("PayStack".tr),
+                                ],
+                              ),
+                              //toggleable: true,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: walletController.paymentSettingModel.value.flutterWave!.isEnabled == "true" ? true : false,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            elevation: walletController.flutterWave.value ? 0 : 2,
+                            child: RadioListTile(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                side: BorderSide(
+                                  color: walletController.flutterWave.value ? ConstantColors.primary : Colors.transparent,
+                                ),
+                              ),
+                              controlAffinity: ListTileControlAffinity.trailing,
+                              value: "FlutterWave",
+                              groupValue: walletController.selectedRadioTile!.value,
+                              onChanged: (String? value) {
+                                walletController.stripe = false.obs;
+                                walletController.razorPay = false.obs;
+                                walletController.payTm = false.obs;
+                                walletController.paypal = false.obs;
+                                walletController.payStack = false.obs;
+                                walletController.flutterWave = true.obs;
+                                walletController.mercadoPago = false.obs;
+                                walletController.payFast = false.obs;
+                                walletController.selectedRadioTile!.value = value!;
+                              },
+                              selected: walletController.flutterWave.value,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                              ),
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.blueGrey.shade50,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10),
+                                      child: SizedBox(
+                                        width: 80,
+                                        height: 35,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 6.0),
+                                          child: Image.asset(
+                                            "assets/images/flutterwave.png",
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  const Text("FlutterWave"),
+                                ],
+                              ),
+                              //toggleable: true,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: walletController.paymentSettingModel.value.razorpay!.isEnabled == "true" ? true : false,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            elevation: walletController.razorPay.value ? 0 : 2,
+                            child: RadioListTile(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                side: BorderSide(
+                                  color: walletController.razorPay.value ? ConstantColors.primary : Colors.transparent,
+                                ),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                              ),
+                              controlAffinity: ListTileControlAffinity.trailing,
+                              value: "RazorPay",
+                              groupValue: walletController.selectedRadioTile!.value,
+                              onChanged: (String? value) {
+                                walletController.stripe = false.obs;
+                                walletController.razorPay = true.obs;
+                                walletController.payTm = false.obs;
+                                walletController.paypal = false.obs;
+                                walletController.payStack = false.obs;
+                                walletController.flutterWave = false.obs;
+                                walletController.mercadoPago = false.obs;
+                                walletController.payFast = false.obs;
+                                walletController.selectedRadioTile!.value = value!;
+                              },
+                              selected: walletController.razorPay.value,
+                              //selectedRadioTile == "strip" ? true : false,
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.blueGrey.shade50,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 10),
+                                      child: SizedBox(
+                                        width: 80,
+                                        height: 35,
+                                        child: Image.asset("assets/images/razorpay_@3x.png"),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  const Text("RazorPay"),
+                                ],
+                              ),
+                              //toggleable: true,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: walletController.paymentSettingModel.value.payFast!.isEnabled == "true" ? true : false,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 20),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            elevation: walletController.payFast.value ? 0 : 2,
+                            child: RadioListTile(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                side: BorderSide(
+                                  color: walletController.payFast.value ? ConstantColors.primary : Colors.transparent,
+                                ),
+                              ),
+                              controlAffinity: ListTileControlAffinity.trailing,
+                              value: "PayFast",
+                              groupValue: walletController.selectedRadioTile!.value,
+                              onChanged: (String? value) {
+                                walletController.stripe = false.obs;
+                                walletController.razorPay = false.obs;
+                                walletController.payTm = false.obs;
+                                walletController.paypal = false.obs;
+                                walletController.payStack = false.obs;
+                                walletController.flutterWave = false.obs;
+                                walletController.mercadoPago = false.obs;
+                                walletController.payFast = true.obs;
+                                walletController.selectedRadioTile!.value = value!;
+                              },
+                              selected: walletController.payFast.value,
+                              //selectedRadioTile == "strip" ? true : false,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                              ),
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.blueGrey.shade50,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10),
+                                      child: SizedBox(
+                                        width: 80,
+                                        height: 35,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 6.0),
+                                          child: Image.asset(
+                                            "assets/images/payfast.png",
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  const Text("Pay Fast"),
+                                ],
+                              ),
+                              //toggleable: true,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: walletController.paymentSettingModel.value.paytm!.isEnabled == "true" ? true : false,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            elevation: walletController.payTm.value ? 0 : 2,
+                            child: RadioListTile(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                side: BorderSide(
+                                  color: walletController.payTm.value ? ConstantColors.primary : Colors.transparent,
+                                ),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                              ),
+                              controlAffinity: ListTileControlAffinity.trailing,
+                              value: "PayTm",
+                              groupValue: walletController.selectedRadioTile!.value,
+                              onChanged: (String? value) {
+                                walletController.stripe = false.obs;
+                                walletController.razorPay = false.obs;
+                                walletController.payTm = true.obs;
+                                walletController.paypal = false.obs;
+                                walletController.payStack = false.obs;
+                                walletController.flutterWave = false.obs;
+                                walletController.mercadoPago = false.obs;
+                                walletController.payFast = false.obs;
+                                walletController.selectedRadioTile!.value = value!;
+                              },
+                              selected: walletController.payTm.value,
+                              //selectedRadioTile == "strip" ? true : false,
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.blueGrey.shade50,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 10),
+                                      child: SizedBox(
+                                        width: 80,
+                                        height: 35,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 3.0),
+                                          child: Image.asset(
+                                            "assets/images/paytm_@3x.png",
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text("Paytm".tr),
+                                ],
+                              ),
+                              //toggleable: true,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: walletController.paymentSettingModel.value.mercadopago!.isEnabled == "true" ? true : false,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 20),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            elevation: walletController.mercadoPago.value ? 0 : 2,
+                            child: RadioListTile(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                side: BorderSide(
+                                  color: walletController.mercadoPago.value ? ConstantColors.primary : Colors.transparent,
+                                ),
+                              ),
+                              controlAffinity: ListTileControlAffinity.trailing,
+                              value: "MercadoPago",
+                              groupValue: walletController.selectedRadioTile!.value,
+                              onChanged: (String? value) {
+                                walletController.stripe = false.obs;
+                                walletController.razorPay = false.obs;
+                                walletController.payTm = false.obs;
+                                walletController.paypal = false.obs;
+                                walletController.payStack = false.obs;
+                                walletController.flutterWave = false.obs;
+                                walletController.mercadoPago = true.obs;
+                                walletController.payFast = false.obs;
+                                walletController.selectedRadioTile!.value = value!;
+                              },
+                              selected: walletController.mercadoPago.value,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                              ),
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.blueGrey.shade50,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10),
+                                      child: SizedBox(
+                                        width: 80,
+                                        height: 35,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 6.0),
+                                          child: Image.asset(
+                                            "assets/images/mercadopago.png",
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text("Mercado Pago".tr),
+                                ],
+                              ),
+                              //toggleable: true,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: walletController.paymentSettingModel.value.payPal!.isEnabled == "true" ? true : false,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            elevation: walletController.paypal.value ? 0 : 2,
+                            child: RadioListTile(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                side: BorderSide(
+                                  color: walletController.paypal.value ? ConstantColors.primary : Colors.transparent,
+                                ),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                              ),
+                              controlAffinity: ListTileControlAffinity.trailing,
+                              value: "PayPal",
+                              groupValue: walletController.selectedRadioTile!.value,
+                              onChanged: (String? value) {
+                                walletController.stripe = false.obs;
+                                walletController.razorPay = false.obs;
+                                walletController.payTm = false.obs;
+                                walletController.paypal = true.obs;
+                                walletController.payStack = false.obs;
+                                walletController.flutterWave = false.obs;
+                                walletController.mercadoPago = false.obs;
+                                walletController.payFast = false.obs;
+                                walletController.selectedRadioTile!.value = value!;
+                              },
+                              selected: walletController.paypal.value,
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.blueGrey.shade50,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 10),
+                                      child: SizedBox(
+                                        width: 80,
+                                        height: 35,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 3.0),
+                                          child: Image.asset("assets/images/paypal_@3x.png"),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text("PayPal".tr),
+                                ],
+                              ),
+                              //toggleable: true,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // controller.isLoading.value
+                      //     ? Constant.loader()
+                      //     : controller.paymentMethodList.isEmpty
+                      //         ? Constant.emptyView(context, "Payment method not found please contact administrator", false)
+                      //         : ListView.builder(
+                      //             itemCount: controller.paymentMethodList.length,
+                      //             shrinkWrap: true,
+                      //             itemBuilder: (context, index) {
+                      //               return Obx(
+                      //                 () => controller.paymentMethodList[index].libelle != "Cash" &&
+                      //                         controller.paymentMethodList[index].libelle != "My Wallet"
+                      //                     ? Visibility(
+                      //                         visible: controller.paymentMethodList[index].statut == "yes",
+                      //                         child: Padding(
+                      //                           padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 15),
+                      //                           child: Card(
+                      //                               shape: RoundedRectangleBorder(
+                      //                                 borderRadius: BorderRadius.circular(8),
+                      //                               ),
+                      //                               elevation: controller.selectedRadioTile!.value ==
+                      //                                       controller.paymentMethodList[index].libelle.toString()
+                      //                                   ? 0
+                      //                                   : 2,
+                      //                               child: RadioListTile(
+                      //                                 shape: RoundedRectangleBorder(
+                      //                                     borderRadius: BorderRadius.circular(8),
+                      //                                     side: BorderSide(
+                      //                                         color: controller.selectedRadioTile!.value ==
+                      //                                                 controller.paymentMethodList[index].libelle.toString()
+                      //                                             ? ConstantColors.primary
+                      //                                             : Colors.transparent)),
+                      //                                 controlAffinity: ListTileControlAffinity.trailing,
+                      //                                 value: controller.paymentMethodList[index].libelle.toString(),
+                      //                                 groupValue: controller.selectedRadioTile!.value,
+                      //                                 onChanged: (newValue) {
+                      //                                   controller.selectedRadioTile!.value = newValue.toString();
+                      //                                 },
+                      //                                 title: Row(
+                      //                                   children: [
+                      //                                     Padding(
+                      //                                       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                      //                                       child: Container(
+                      //                                         decoration: BoxDecoration(
+                      //                                           color: Colors.grey.withOpacity(0.10),
+                      //                                           borderRadius: BorderRadius.circular(8),
+                      //                                         ),
+                      //                                         child: Padding(
+                      //                                           padding:
+                      //                                               const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10),
+                      //                                           child: SizedBox(
+                      //                                             width: 80,
+                      //                                             height: 35,
+                      //                                             child: Padding(
+                      //                                               padding: const EdgeInsets.symmetric(vertical: 6.0),
+                      //                                               child: CachedNetworkImage(
+                      //                                                 imageUrl: controller.paymentMethodList[index].image!,
+                      //                                                 placeholder: (context, url) => Constant.loader(),
+                      //                                                 errorWidget: (context, url, error) =>
+                      //                                                     const Icon(Icons.error),
+                      //                                               ),
+                      //                                             ),
+                      //                                           ),
+                      //                                         ),
+                      //                                       ),
+                      //                                     ),
+                      //                                     Padding(
+                      //                                       padding: const EdgeInsets.only(left: 10),
+                      //                                       child: Text(
+                      //                                         controller.paymentMethodList[index].libelle.toString(),
+                      //                                         style: const TextStyle(color: Colors.black),
+                      //                                       ),
+                      //                                     ),
+                      //                                   ],
+                      //                                 ),
+                      //                               )),
+                      //                         ),
+                      //                       )
+                      //                     : Container(),
+                      //               );
+                      //             }),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15),
+                        child: GestureDetector(
+                          onTap: () async {
+                            if (_walletFormKey.currentState!.validate()) {
+                              Get.back();
+                              showLoadingAlert(context);
+                              if (walletController.selectedRadioTile!.value == "Stripe") {
+                                stripeMakePayment(amount: amountController.text);
+                              } else if (walletController.selectedRadioTile!.value == "RazorPay") {
+                                startRazorpayPayment();
+                              } else if (walletController.selectedRadioTile!.value == "PayTm") {
+                                getPaytmCheckSum(context, amount: double.parse(amountController.text));
+                              } else if (walletController.selectedRadioTile!.value == "PayPal") {
+                                print("====AMOUNT : ${amountController.text}");
+                                paypalPaymentSheet(amountController.text);
+                                // _paypalPayment();
+                              } else if (walletController.selectedRadioTile!.value == "PayStack") {
+                                payStackPayment(context);
+                              } else if (walletController.selectedRadioTile!.value == "FlutterWave") {
+                                flutterWaveInitiatePayment(context);
+                              } else if (walletController.selectedRadioTile!.value == "PayFast") {
+                                payFastPayment(context);
+                              } else if (walletController.selectedRadioTile!.value == "MercadoPago") {
+                                mercadoPagoMakePayment(context);
+                              } else {
+                                Get.back();
+                                ShowToastDialog.showToast("Please select payment method".tr);
+                              }
+                            }
+                          },
+                          child: Container(
+                            height: 45,
+                            decoration: BoxDecoration(
+                              color: ConstantColors.primary,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "CONTINUE".tr.toUpperCase(),
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                );
-              });
-        });
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   void _handleExternalWaller(ExternalWalletResponse response) {
@@ -1283,12 +1337,14 @@ class WalletScreen extends StatelessWidget {
   }
 
   showSnackBarAlert({required String message, Color color = Colors.green}) {
-    return Get.showSnackbar(GetSnackBar(
-      isDismissible: true,
-      message: message,
-      backgroundColor: color,
-      duration: const Duration(seconds: 8),
-    ));
+    return Get.showSnackbar(
+      GetSnackBar(
+        isDismissible: true,
+        message: message,
+        backgroundColor: color,
+        duration: const Duration(seconds: 8),
+      ),
+    );
   }
 
   Future<void> _refreshAPI() async {
@@ -1344,12 +1400,15 @@ class WalletScreen extends StatelessWidget {
   payFastPayment(context) {
     PayFast? payfast = walletController.paymentSettingModel.value.payFast;
     PayStackURLGen.getPayHTML(
-            payFastSettingData: payfast!, amount: double.parse(amountController.text.toString()).round().toString())
-        .then((String? value) async {
-      bool isDone = await Get.to(PayFastScreen(
-        htmlData: value!,
-        payFastSettingData: payfast,
-      ));
+      payFastSettingData: payfast!,
+      amount: double.parse(amountController.text.toString()).round().toString(),
+    ).then((String? value) async {
+      bool isDone = await Get.to(
+        PayFastScreen(
+          htmlData: value!,
+          payFastSettingData: payfast,
+        ),
+      );
       if (isDone) {
         Get.back();
         walletController.setAmount(amountController.text).then((value) {
@@ -1387,22 +1446,23 @@ class WalletScreen extends StatelessWidget {
       } else {
         await stripe1.Stripe.instance
             .initPaymentSheet(
-                paymentSheetParameters: stripe1.SetupPaymentSheetParameters(
-              paymentIntentClientSecret: paymentIntentData!['client_secret'],
-              allowsDelayedPaymentMethods: false,
-              googlePay: stripe1.PaymentSheetGooglePay(
-                merchantCountryCode: 'US',
-                testEnv: walletController.paymentSettingModel.value.strip!.isSandboxEnabled == 'true' ? true : false,
-                currencyCode: "USD",
-              ),
-              style: ThemeMode.system,
-              appearance: stripe1.PaymentSheetAppearance(
-                colors: stripe1.PaymentSheetAppearanceColors(
-                  primary: ConstantColors.primary,
+              paymentSheetParameters: stripe1.SetupPaymentSheetParameters(
+                paymentIntentClientSecret: paymentIntentData!['client_secret'],
+                allowsDelayedPaymentMethods: false,
+                googlePay: stripe1.PaymentSheetGooglePay(
+                  merchantCountryCode: 'US',
+                  testEnv: walletController.paymentSettingModel.value.strip!.isSandboxEnabled == 'true' ? true : false,
+                  currencyCode: "USD",
                 ),
+                style: ThemeMode.system,
+                appearance: stripe1.PaymentSheetAppearance(
+                  colors: stripe1.PaymentSheetAppearanceColors(
+                    primary: ConstantColors.primary,
+                  ),
+                ),
+                merchantDisplayName: 'Cabme',
               ),
-              merchantDisplayName: 'Cabme',
-            ))
+            )
             .then((value) {});
 
         displayStripePaymentSheet();
@@ -1485,8 +1545,8 @@ class WalletScreen extends StatelessWidget {
       'send_sms_hash': true,
       'prefill': {'contact': "8888888888", 'email': "demo@demo.com"},
       'external': {
-        'wallets': ['paytm']
-      }
+        'wallets': ['paytm'],
+      },
     };
 
     try {
@@ -1508,18 +1568,19 @@ class WalletScreen extends StatelessWidget {
     String orderId = DateTime.now().microsecondsSinceEpoch.toString();
     String getChecksum = "${API.baseUrl}payments/getpaytmchecksum";
     final response = await http.post(
-        Uri.parse(
-          getChecksum,
-        ),
-        headers: {
-          'apikey': API.apiKey,
-          'accesstoken': Preferences.getString(Preferences.accesstoken),
-        },
-        body: {
-          "mid": walletController.paymentSettingModel.value.paytm!.merchantId,
-          "order_id": orderId,
-          "key_secret": walletController.paymentSettingModel.value.paytm!.merchantKey,
-        });
+      Uri.parse(
+        getChecksum,
+      ),
+      headers: {
+        'apikey': API.apiKey,
+        'accesstoken': Preferences.getString(Preferences.accesstoken),
+      },
+      body: {
+        "mid": walletController.paymentSettingModel.value.paytm!.merchantId,
+        "order_id": orderId,
+        "key_secret": walletController.paymentSettingModel.value.paytm!.merchantKey,
+      },
+    );
 
     final data = jsonDecode(response.body);
 
@@ -1552,23 +1613,24 @@ class WalletScreen extends StatelessWidget {
       callback = "${callback}https://securegw.paytm.in/theia/paytmCallback?ORDER_ID=$orderId";
     }
     final response = await http.post(
-        Uri.parse(
-          initiateURL,
-        ),
-        headers: {
-          'apikey': API.apiKey,
-          'accesstoken': Preferences.getString(Preferences.accesstoken),
-        },
-        body: {
-          "mid": walletController.paymentSettingModel.value.paytm!.merchantId!.trim(),
-          "order_id": orderId,
-          "key_secret": walletController.paymentSettingModel.value.paytm!.merchantKey!.trim(),
-          "amount": amount.toString(),
-          "currency": "INR",
-          "callback_url": callback,
-          "custId": "30",
-          "issandbox": walletController.paymentSettingModel.value.paytm!.isSandboxEnabled.toString() == "true" ? "1" : "2",
-        });
+      Uri.parse(
+        initiateURL,
+      ),
+      headers: {
+        'apikey': API.apiKey,
+        'accesstoken': Preferences.getString(Preferences.accesstoken),
+      },
+      body: {
+        "mid": walletController.paymentSettingModel.value.paytm!.merchantId!.trim(),
+        "order_id": orderId,
+        "key_secret": walletController.paymentSettingModel.value.paytm!.merchantKey!.trim(),
+        "amount": amount.toString(),
+        "currency": "INR",
+        "callback_url": callback,
+        "custId": "30",
+        "issandbox": walletController.paymentSettingModel.value.paytm!.isSandboxEnabled.toString() == "true" ? "1" : "2",
+      },
+    );
     final data = jsonDecode(response.body);
 
     if (data["body"]["txnToken"] == null || data["body"]["txnToken"].toString().isEmpty) {
@@ -1682,13 +1744,13 @@ class WalletScreen extends StatelessWidget {
     final mp = MP.fromAccessToken(walletController.paymentSettingModel.value.mercadopago!.accesstoken);
     var pref = {
       "items": [
-        {"title": "Wallet TopUp", "quantity": 1, "unit_price": double.parse(amountController.text)}
+        {"title": "Wallet TopUp", "quantity": 1, "unit_price": double.parse(amountController.text)},
       ],
       "auto_return": "all",
       "back_urls": {
         "failure": "${API.baseUrl}payment/failure",
         "pending": "${API.baseUrl}payment/pending",
-        "success": "${API.baseUrl}payment/success"
+        "success": "${API.baseUrl}payment/success",
       },
     };
 
@@ -1871,14 +1933,16 @@ class WalletScreen extends StatelessWidget {
       if (value != null) {
         PayStackUrlModel payStackModel = value;
 
-        bool isDone = await Get.to(() => PayStackScreen(
-              walletController: walletController,
-              secretKey: secretKey,
-              initialURl: payStackModel.data.authorizationUrl,
-              amount: amountController.text,
-              reference: payStackModel.data.reference,
-              callBackUrl: walletController.paymentSettingModel.value.payStack!.callbackUrl.toString(),
-            ));
+        bool isDone = await Get.to(
+          () => PayStackScreen(
+            walletController: walletController,
+            secretKey: secretKey,
+            initialURl: payStackModel.data.authorizationUrl,
+            amount: amountController.text,
+            reference: payStackModel.data.reference,
+            callBackUrl: walletController.paymentSettingModel.value.payStack!.callbackUrl.toString(),
+          ),
+        );
         Get.back();
 
         if (isDone) {

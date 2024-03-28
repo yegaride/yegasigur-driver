@@ -9,53 +9,57 @@ import 'package:get/get.dart';
 import '../../themes/constant_colors.dart';
 
 class CarServiceBookHistory extends StatelessWidget {
-  const CarServiceBookHistory({Key? key}) : super(key: key);
+  const CarServiceBookHistory({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GetX<CarServiceHistoryController>(
-        init: CarServiceHistoryController(),
-        builder: (controller) {
-          return RefreshIndicator(
-            onRefresh: () => controller.getCarServiceBooks(),
-            child: Scaffold(
-              backgroundColor: ConstantColors.background,
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.endFloat,
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  Get.to(() => const AddCarServiceBookHistory());
-                },
-                backgroundColor: ConstantColors.yellow,
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.black,
-                ),
+      init: CarServiceHistoryController(),
+      builder: (controller) {
+        return RefreshIndicator(
+          onRefresh: () => controller.getCarServiceBooks(),
+          child: Scaffold(
+            backgroundColor: ConstantColors.background,
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Get.to(() => const AddCarServiceBookHistory());
+              },
+              backgroundColor: ConstantColors.yellow,
+              child: const Icon(
+                Icons.add,
+                color: Colors.black,
               ),
-              body: controller.isLoading.value
-                  ? Constant.loader()
-                  : controller.serviceList.isEmpty
-                      ? Center(
-                          child:
-                              Text('No car service history not available'.tr))
-                      : ListView.builder(
-                          itemCount: controller.serviceList.length,
-                          itemBuilder: (context, index) {
-                            return showServiceBookDetails(
-                                serviceData: controller.serviceList[index]);
-                          }),
             ),
-          );
-        });
+            body: controller.isLoading.value
+                ? Constant.loader()
+                : controller.serviceList.isEmpty
+                    ? Center(
+                        child: Text('No car service history not available'.tr),
+                      )
+                    : ListView.builder(
+                        itemCount: controller.serviceList.length,
+                        itemBuilder: (context, index) {
+                          return showServiceBookDetails(
+                            serviceData: controller.serviceList[index],
+                          );
+                        },
+                      ),
+          ),
+        );
+      },
+    );
   }
 
   showServiceBookDetails({required ServiceData serviceData}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
       child: GestureDetector(
-        onTap: () => Get.to(() => ShowServiceDocScreen(
-              serviceData: serviceData,
-            )),
+        onTap: () => Get.to(
+          () => ShowServiceDocScreen(
+            serviceData: serviceData,
+          ),
+        ),
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -129,17 +133,19 @@ class CarServiceBookHistory extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 6.0),
                       child: Container(
-                          decoration: BoxDecoration(
-                              color: ConstantColors.blue,
-                              borderRadius: BorderRadius.circular(1)),
-                          child: const Padding(
-                            padding: EdgeInsets.all(4.0),
-                            child: Icon(
-                              Icons.file_copy_rounded,
-                              size: 16,
-                              color: Colors.white,
-                            ),
-                          )),
+                        decoration: BoxDecoration(
+                          color: ConstantColors.blue,
+                          borderRadius: BorderRadius.circular(1),
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.all(4.0),
+                          child: Icon(
+                            Icons.file_copy_rounded,
+                            size: 16,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                     ),
                     Text(
                       serviceData.fileName.toString(),

@@ -134,11 +134,12 @@ class DashBoardController extends GetxController {
           LocationData currentLocation = locationData;
           Constant.currentLocation = locationData;
           DriverLocationUpdate driverLocationUpdate = DriverLocationUpdate(
-              rotation: currentLocation.heading.toString(),
-              active: isActive.value,
-              driverId: Preferences.getInt(Preferences.userId).toString(),
-              driverLatitude: currentLocation.latitude.toString(),
-              driverLongitude: currentLocation.longitude.toString());
+            rotation: currentLocation.heading.toString(),
+            active: isActive.value,
+            driverId: Preferences.getInt(Preferences.userId).toString(),
+            driverLatitude: currentLocation.latitude.toString(),
+            driverLongitude: currentLocation.longitude.toString(),
+          );
           Constant.driverLocationUpdate.doc(Preferences.getInt(Preferences.userId).toString()).set(driverLocationUpdate.toJson());
           setCurrentLocation(currentLocation.latitude.toString(), currentLocation.longitude.toString());
         });
@@ -151,11 +152,12 @@ class DashBoardController extends GetxController {
               LocationData currentLocation = locationData;
               Constant.currentLocation = locationData;
               DriverLocationUpdate driverLocationUpdate = DriverLocationUpdate(
-                  rotation: currentLocation.heading.toString(),
-                  active: isActive.value,
-                  driverId: Preferences.getInt(Preferences.userId).toString(),
-                  driverLatitude: currentLocation.latitude.toString(),
-                  driverLongitude: currentLocation.longitude.toString());
+                rotation: currentLocation.heading.toString(),
+                active: isActive.value,
+                driverId: Preferences.getInt(Preferences.userId).toString(),
+                driverLatitude: currentLocation.latitude.toString(),
+                driverLongitude: currentLocation.longitude.toString(),
+              );
               Constant.driverLocationUpdate
                   .doc(Preferences.getInt(Preferences.userId).toString())
                   .set(driverLocationUpdate.toJson());
@@ -166,11 +168,12 @@ class DashBoardController extends GetxController {
       }
     } else {
       DriverLocationUpdate driverLocationUpdate = DriverLocationUpdate(
-          rotation: "0",
-          active: false,
-          driverId: Preferences.getInt(Preferences.userId).toString(),
-          driverLatitude: "0",
-          driverLongitude: "0");
+        rotation: "0",
+        active: false,
+        driverId: Preferences.getInt(Preferences.userId).toString(),
+        driverLatitude: "0",
+        driverLongitude: "0",
+      );
       Constant.driverLocationUpdate.doc(Preferences.getInt(Preferences.userId).toString()).set(driverLocationUpdate.toJson());
     }
   }
@@ -202,7 +205,7 @@ class DashBoardController extends GetxController {
         'id_user': Preferences.getInt(Preferences.userId),
         'user_cat': userModel!.userData!.userCat,
         'latitude': latitude,
-        'longitude': longitude
+        'longitude': longitude,
       };
       final response = await http.post(Uri.parse(API.updateLocation), headers: API.header, body: jsonEncode(bodyParams));
 
@@ -231,7 +234,7 @@ class DashBoardController extends GetxController {
         'user_id': Preferences.getInt(Preferences.userId),
         'fcm_id': token,
         'device_id': "",
-        'user_cat': userModel!.userData!.userCat
+        'user_cat': userModel!.userData!.userCat,
       };
       final response = await http.post(Uri.parse(API.updateToken), headers: API.header, body: jsonEncode(bodyParams));
 

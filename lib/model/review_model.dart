@@ -33,7 +33,17 @@ class Data {
   String? modifier;
   String? comment;
 
-  Data({this.id, this.rideId, this.niveauDriver, this.idConducteur, this.idUserApp, this.statut, this.creer, this.modifier, this.comment});
+  Data({
+    this.id,
+    this.rideId,
+    this.niveauDriver,
+    this.idConducteur,
+    this.idUserApp,
+    this.statut,
+    this.creer,
+    this.modifier,
+    this.comment,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();

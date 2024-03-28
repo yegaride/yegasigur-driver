@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 class RejectedScreen extends StatelessWidget {
-  const RejectedScreen({Key? key}) : super(key: key);
+  const RejectedScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,23 +18,25 @@ class RejectedScreen extends StatelessWidget {
       init: RejectedController(),
       builder: (controller) {
         return Scaffold(
-            backgroundColor: ConstantColors.background,
-            body: RefreshIndicator(
-              onRefresh: () => controller.getRejectedRide(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: controller.isLoading.value
-                    ? Constant.loader()
-                    : controller.rideList.isEmpty
-                        ? Constant.emptyView("Your don't have any ride booked.")
-                        : ListView.builder(
-                            itemCount: controller.rideList.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return rejectedRideWidgets(context, controller.rideList[index]);
-                            }),
-              ),
-            ));
+          backgroundColor: ConstantColors.background,
+          body: RefreshIndicator(
+            onRefresh: () => controller.getRejectedRide(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: controller.isLoading.value
+                  ? Constant.loader()
+                  : controller.rideList.isEmpty
+                      ? Constant.emptyView("Your don't have any ride booked.")
+                      : ListView.builder(
+                          itemCount: controller.rideList.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return rejectedRideWidgets(context, controller.rideList[index]);
+                          },
+                        ),
+            ),
+          ),
+        );
       },
     );
   }
@@ -89,7 +91,7 @@ class RejectedScreen extends StatelessWidget {
                     Text(
                       'canceled'.tr,
                       style: TextStyle(color: ConstantColors.blue),
-                    )
+                    ),
                   ],
                 ),
                 Padding(
@@ -104,10 +106,11 @@ class RejectedScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black12,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                border: Border.all(
+                                  color: Colors.black12,
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 18),
                                 child: Column(
@@ -120,7 +123,10 @@ class RejectedScreen extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text(" ${data.numberPoeple.toString()}", style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
+                                      child: Text(
+                                        " ${data.numberPoeple.toString()}",
+                                        style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -133,10 +139,11 @@ class RejectedScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black12,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                border: Border.all(
+                                  color: Colors.black12,
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 20),
                                 child: Column(
@@ -173,10 +180,11 @@ class RejectedScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black12,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                border: Border.all(
+                                  color: Colors.black12,
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 18),
                                 child: Column(
@@ -189,8 +197,10 @@ class RejectedScreen extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text("${double.parse(data.distance.toString()).toStringAsFixed(int.parse(Constant.decimal!))} ${Constant.distanceUnit}",
-                                          style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
+                                      child: Text(
+                                        "${double.parse(data.distance.toString()).toStringAsFixed(int.parse(Constant.decimal!))} ${Constant.distanceUnit}",
+                                        style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -203,10 +213,11 @@ class RejectedScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black12,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                border: Border.all(
+                                  color: Colors.black12,
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 18),
                                 child: Column(
@@ -219,8 +230,12 @@ class RejectedScreen extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
-                                      child: TextScroll(data.duree.toString(),
-                                          mode: TextScrollMode.bouncing, pauseBetween: const Duration(seconds: 2), style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
+                                      child: TextScroll(
+                                        data.duree.toString(),
+                                        mode: TextScrollMode.bouncing,
+                                        pauseBetween: const Duration(seconds: 2),
+                                        style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -253,8 +268,15 @@ class RejectedScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('${data.prenom.toString()} ${data.nom.toString()}', style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600)),
-                              StarRating(size: 18, rating: double.parse(data.moyenneDriver.toString()), color: ConstantColors.yellow),
+                              Text(
+                                '${data.prenom.toString()} ${data.nom.toString()}',
+                                style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600),
+                              ),
+                              StarRating(
+                                size: 18,
+                                rating: double.parse(data.moyenneDriver.toString()),
+                                color: ConstantColors.yellow,
+                              ),
                             ],
                           ),
                         ),
@@ -278,9 +300,12 @@ class RejectedScreen extends StatelessWidget {
                               size: 18,
                             ),
                           ),
-                          Text(data.dateRetour.toString(), style: const TextStyle(color: Colors.black26, fontWeight: FontWeight.w600)),
+                          Text(
+                            data.dateRetour.toString(),
+                            style: const TextStyle(color: Colors.black26, fontWeight: FontWeight.w600),
+                          ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),

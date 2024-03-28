@@ -71,48 +71,49 @@ class RideDetailsdata {
   String? existingUserId;
   UserInfo? userInfo;
 
-  RideDetailsdata(
-      {this.id,
-      this.idUserApp,
-      this.departName,
-      this.destinationName,
-      this.latitudeDepart,
-      this.longitudeDepart,
-      this.latitudeArrivee,
-      this.longitudeArrivee,
-      this.place,
-      this.numberPoeple,
-      this.distance,
-      this.duree,
-      this.montant,
-      this.tipAmount,
-      this.discount,
-      this.transactionId,
-      this.trajet,
-      this.statut,
-      this.statutPaiement,
-      this.idConducteur,
-      this.idPaymentMethod,
-      this.creer,
-      this.modifier,
-      this.dateRetour,
-      this.heureRetour,
-      this.statutRound,
-      this.statutCourse,
-      this.idConducteurAccepter,
-      this.tripObjective,
-      this.tripCategory,
-      this.ageChildren1,
-      this.ageChildren2,
-      this.ageChildren3,
-      this.feelSafe,
-      this.feelSafeDriver,
-      this.carDriverConfirmed,
-      this.deletedAt,
-      this.taxModel,
-      this.userInfo,
-      this.existingUserId,
-      this.updatedAt});
+  RideDetailsdata({
+    this.id,
+    this.idUserApp,
+    this.departName,
+    this.destinationName,
+    this.latitudeDepart,
+    this.longitudeDepart,
+    this.latitudeArrivee,
+    this.longitudeArrivee,
+    this.place,
+    this.numberPoeple,
+    this.distance,
+    this.duree,
+    this.montant,
+    this.tipAmount,
+    this.discount,
+    this.transactionId,
+    this.trajet,
+    this.statut,
+    this.statutPaiement,
+    this.idConducteur,
+    this.idPaymentMethod,
+    this.creer,
+    this.modifier,
+    this.dateRetour,
+    this.heureRetour,
+    this.statutRound,
+    this.statutCourse,
+    this.idConducteurAccepter,
+    this.tripObjective,
+    this.tripCategory,
+    this.ageChildren1,
+    this.ageChildren2,
+    this.ageChildren3,
+    this.feelSafe,
+    this.feelSafeDriver,
+    this.carDriverConfirmed,
+    this.deletedAt,
+    this.taxModel,
+    this.userInfo,
+    this.existingUserId,
+    this.updatedAt,
+  });
 
   RideDetailsdata.fromJson(Map<String, dynamic> json) {
     List<TaxModel>? taxList = [];
@@ -207,7 +208,7 @@ class RideDetailsdata {
     data['car_driver_confirmed'] = carDriverConfirmed;
     data['deleted_at'] = deletedAt;
     data['updated_at'] = updatedAt;
-    data['tax'] = taxModel != null ? taxModel!.map((v) => v.toJson()).toList() : null;
+    data['tax'] = taxModel?.map((v) => v.toJson()).toList();
     data['existing_user_id'] = existingUserId;
     if (userInfo != null) {
       data['user_info'] = userInfo!.toJson();

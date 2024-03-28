@@ -1,18 +1,21 @@
 const Map<String, String> trFR = {
-  'into_dec_one': "Créez un compte, Choisissez une course, recevez une confirmation de votre course, effectuez votre trajet, payez et notez le chauffeur !",
+  'into_dec_one':
+      "Créez un compte, Choisissez une course, recevez une confirmation de votre course, effectuez votre trajet, payez et notez le chauffeur !",
   'intro_title_one': "Réserver un taxi",
   'intro_title_two': "APPEL",
   'into_dec_two': "Communiquez avec n'importe quel conducteur \nen appelant",
   'intro_title_three': "Gagner de l'argent",
   'into_dec_three': "Prenez plus d'emplois et gagnez plus et continuez d'augmenter vos revenus",
   'select_profile_photo': "Sélectionnez une photo pour votre profil",
-  'profile_message': "Vous devez faire ressortir votre visage et vos épaules sur la photo. bref il faut te reconnaitre a travers la photo",
+  'profile_message':
+      "Vous devez faire ressortir votre visage et vos épaules sur la photo. bref il faut te reconnaitre a travers la photo",
   'select_photo': "SÉLECTIONNER UNE PHOTO",
   'please_select': "Veuillez sélectionner",
   'gallery': "Galerie",
   'camera': "Appareil photo",
   'select_identity_photo': "Sélectionnez une photo pour votre carte d'identité nationale",
-  'identity_message': "Prenez une bonne photo de votre carte d'identité. Toutes les informations nécessaires doivent ressortir en photo",
+  'identity_message':
+      "Prenez une bonne photo de votre carte d'identité. Toutes les informations nécessaires doivent ressortir en photo",
   'select_language': "choisissez votre langue",
   'next': "Suivant",
   'done': "Fait",

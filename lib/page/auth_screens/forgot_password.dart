@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
-  ForgotPasswordScreen({Key? key}) : super(key: key);
+  ForgotPasswordScreen({super.key});
 
   final controller = Get.put(ForgotPasswordController());
 
@@ -37,27 +37,29 @@ class ForgotPasswordScreen extends StatelessWidget {
                       Text(
                         "Forgot Password".tr,
                         style: const TextStyle(
-                            letterSpacing: 0.60,
-                            fontSize: 22,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600),
+                          letterSpacing: 0.60,
+                          fontSize: 22,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       SizedBox(
-                          width: 80,
-                          child: Divider(
-                            color: ConstantColors.primary,
-                            thickness: 3,
-                          )),
+                        width: 80,
+                        child: Divider(
+                          color: ConstantColors.primary,
+                          thickness: 3,
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Text(
-                          "Enter the email address we will send an OPT to create new password."
-                              .tr,
+                          "Enter the email address we will send an OPT to create new password.".tr,
                           textAlign: TextAlign.start,
                           style: TextStyle(
-                              letterSpacing: 1.0,
-                              color: ConstantColors.hintTextColor,
-                              fontWeight: FontWeight.w600),
+                            letterSpacing: 1.0,
+                            color: ConstantColors.hintTextColor,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                       Padding(
@@ -80,41 +82,42 @@ class ForgotPasswordScreen extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                          padding: const EdgeInsets.only(top: 40),
-                          child: ButtonThem.buildButton(
-                            context,
-                            title: 'send'.tr,
-                            btnHeight: 50,
-                            btnColor: ConstantColors.primary,
-                            txtColor: Colors.white,
-                            onPress: () {
-                              FocusScope.of(context).unfocus();
-                              if (_formKey.currentState!.validate()) {
-                                Map<String, String> bodyParams = {
-                                  'email': _emailTextEditController.text.trim(),
-                                  'user_cat': "driver",
-                                };
-                                controller.sendEmail(bodyParams).then((value) {
-                                  if (value != null) {
-                                    if (value == true) {
-                                      Get.to(
-                                          ForgotPasswordOtpScreen(
-                                              email: _emailTextEditController
-                                                  .text
-                                                  .trim()),
-                                          duration:
-                                              const Duration(milliseconds: 400),
-                                          //duration of transitions, default 1 sec
-                                          transition: Transition.rightToLeft);
-                                    } else {
-                                      ShowToastDialog.showToast(
-                                          "Please try again later".tr);
-                                    }
+                        padding: const EdgeInsets.only(top: 40),
+                        child: ButtonThem.buildButton(
+                          context,
+                          title: 'send'.tr,
+                          btnHeight: 50,
+                          btnColor: ConstantColors.primary,
+                          txtColor: Colors.white,
+                          onPress: () {
+                            FocusScope.of(context).unfocus();
+                            if (_formKey.currentState!.validate()) {
+                              Map<String, String> bodyParams = {
+                                'email': _emailTextEditController.text.trim(),
+                                'user_cat': "driver",
+                              };
+                              controller.sendEmail(bodyParams).then((value) {
+                                if (value != null) {
+                                  if (value == true) {
+                                    Get.to(
+                                      ForgotPasswordOtpScreen(
+                                        email: _emailTextEditController.text.trim(),
+                                      ),
+                                      duration: const Duration(milliseconds: 400),
+                                      //duration of transitions, default 1 sec
+                                      transition: Transition.rightToLeft,
+                                    );
+                                  } else {
+                                    ShowToastDialog.showToast(
+                                      "Please try again later".tr,
+                                    );
                                   }
-                                });
-                              }
-                            },
-                          )),
+                                }
+                              });
+                            }
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -126,26 +129,27 @@ class ForgotPasswordScreen extends StatelessWidget {
                     Get.back();
                   },
                   child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Colors.white,
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.3),
-                            blurRadius: 10,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Icon(
-                          Icons.arrow_back_ios_rounded,
-                          color: Colors.black,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.white,
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          blurRadius: 10,
+                          offset: const Offset(0, 2),
                         ),
-                      )),
+                      ],
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Icon(
+                        Icons.arrow_back_ios_rounded,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
                 ),
-              )
+              ),
             ],
           ),
         ),

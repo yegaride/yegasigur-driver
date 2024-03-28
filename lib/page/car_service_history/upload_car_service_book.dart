@@ -13,11 +13,10 @@ import 'package:get/get.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class AddCarServiceBookHistory extends StatelessWidget {
-  const AddCarServiceBookHistory({Key? key}) : super(key: key);
+  const AddCarServiceBookHistory({super.key});
 
   static final GlobalKey<FormState> _formKey = GlobalKey();
-  static final TextEditingController kmDrivenController =
-      TextEditingController();
+  static final TextEditingController kmDrivenController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +37,11 @@ class AddCarServiceBookHistory extends StatelessWidget {
                   Text(
                     'Upload Car Service Book'.tr,
                     style: const TextStyle(
-                        color: Colors.black87,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 1.2,
-                        fontSize: 22),
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1.2,
+                      fontSize: 22,
+                    ),
                   ),
                   const SizedBox(height: 15),
                   Form(
@@ -112,11 +112,8 @@ class AddCarServiceBookHistory extends StatelessWidget {
                 color: Colors.black,
               ),
               onPressed: () async {
-                if (controller.carServiceBook.isNotEmpty &&
-                    _formKey.currentState!.validate()) {
-                  controller
-                      .userCarServiceBook(kmDriven: kmDrivenController.text)
-                      .then((value) {
+                if (controller.carServiceBook.isNotEmpty && _formKey.currentState!.validate()) {
+                  controller.userCarServiceBook(kmDriven: kmDrivenController.text).then((value) {
                     if (value != null) {
                       if (value["success"] == "Success") {
                         controller.getCarServiceBooks();
@@ -134,8 +131,7 @@ class AddCarServiceBookHistory extends StatelessWidget {
               },
             ),
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         );
       },
     );

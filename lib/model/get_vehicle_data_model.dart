@@ -46,26 +46,27 @@ class VehicleData {
   String? minimumDeliveryCharges;
   String? minimumDeliveryChargesWithin;
 
-  VehicleData(
-      {this.id,
-      this.brand,
-      this.model,
-      this.carMake,
-      this.milage,
-      this.km,
-      this.color,
-      this.numberplate,
-      this.passenger,
-      this.idConducteur,
-      this.statut,
-      this.creer,
-      this.modifier,
-      this.updatedAt,
-      this.deletedAt,
-      this.idTypeVehicule,
-      this.deliveryCharges,
-      this.minimumDeliveryCharges,
-      this.minimumDeliveryChargesWithin});
+  VehicleData({
+    this.id,
+    this.brand,
+    this.model,
+    this.carMake,
+    this.milage,
+    this.km,
+    this.color,
+    this.numberplate,
+    this.passenger,
+    this.idConducteur,
+    this.statut,
+    this.creer,
+    this.modifier,
+    this.updatedAt,
+    this.deletedAt,
+    this.idTypeVehicule,
+    this.deliveryCharges,
+    this.minimumDeliveryCharges,
+    this.minimumDeliveryChargesWithin,
+  });
 
   VehicleData.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();

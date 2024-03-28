@@ -16,7 +16,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 class CreateRideScreen extends StatefulWidget {
-  const CreateRideScreen({Key? key}) : super(key: key);
+  const CreateRideScreen({super.key});
 
   @override
   State<CreateRideScreen> createState() => _CreateRideScreenState();
@@ -24,7 +24,11 @@ class CreateRideScreen extends StatefulWidget {
 
 class _CreateRideScreenState extends State<CreateRideScreen> {
   final CameraPosition _kInitialPosition = const CameraPosition(
-      target: LatLng(20.9153, -100.7439), zoom: 11.0, tilt: 0, bearing: 0);
+    target: LatLng(20.9153, -100.7439),
+    zoom: 11.0,
+    tilt: 0,
+    bearing: 0,
+  );
 
   final TextEditingController departureController = TextEditingController();
   final TextEditingController destinationController = TextEditingController();
@@ -56,37 +60,37 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
 
   setIcons() async {
     BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(
-              size: Size(10, 10),
-            ),
-            "assets/icons/pickup.png")
-        .then((value) {
+      const ImageConfiguration(
+        size: Size(10, 10),
+      ),
+      "assets/icons/pickup.png",
+    ).then((value) {
       departureIcon = value;
     });
 
     BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(
-              size: Size(10, 10),
-            ),
-            "assets/icons/dropoff.png")
-        .then((value) {
+      const ImageConfiguration(
+        size: Size(10, 10),
+      ),
+      "assets/icons/dropoff.png",
+    ).then((value) {
       destinationIcon = value;
     });
 
     BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(
-              size: Size(10, 10),
-            ),
-            "assets/icons/ic_taxi.png")
-        .then((value) {
+      const ImageConfiguration(
+        size: Size(10, 10),
+      ),
+      "assets/icons/ic_taxi.png",
+    ).then((value) {
       taxiIcon = value;
     });
     BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(
-              size: Size(10, 10),
-            ),
-            "assets/icons/location.png")
-        .then((value) {
+      const ImageConfiguration(
+        size: Size(10, 10),
+      ),
+      "assets/icons/location.png",
+    ).then((value) {
       stopIcon = value;
     });
   }
@@ -99,33 +103,23 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
   void getCurrentLocation(bool isDepartureSet) async {
     if (isDepartureSet) {
       LocationData location = await currentLocation.getLocation();
-      List<get_cord_address.Placemark> placeMarks =
-          await get_cord_address.placemarkFromCoordinates(
-              location.latitude ?? 0.0, location.longitude ?? 0.0);
+      List<get_cord_address.Placemark> placeMarks = await get_cord_address.placemarkFromCoordinates(
+        location.latitude ?? 0.0,
+        location.longitude ?? 0.0,
+      );
 
-      final address = (placeMarks.first.subLocality!.isEmpty
-              ? ''
-              : "${placeMarks.first.subLocality}, ") +
-          (placeMarks.first.street!.isEmpty
-              ? ''
-              : "${placeMarks.first.street}, ") +
+      final address = (placeMarks.first.subLocality!.isEmpty ? '' : "${placeMarks.first.subLocality}, ") +
+          (placeMarks.first.street!.isEmpty ? '' : "${placeMarks.first.street}, ") +
           (placeMarks.first.name!.isEmpty ? '' : "${placeMarks.first.name}, ") +
-          (placeMarks.first.subAdministrativeArea!.isEmpty
-              ? ''
-              : "${placeMarks.first.subAdministrativeArea}, ") +
-          (placeMarks.first.administrativeArea!.isEmpty
-              ? ''
-              : "${placeMarks.first.administrativeArea}, ") +
-          (placeMarks.first.country!.isEmpty
-              ? ''
-              : "${placeMarks.first.country}, ") +
-          (placeMarks.first.postalCode!.isEmpty
-              ? ''
-              : "${placeMarks.first.postalCode}, ");
+          (placeMarks.first.subAdministrativeArea!.isEmpty ? '' : "${placeMarks.first.subAdministrativeArea}, ") +
+          (placeMarks.first.administrativeArea!.isEmpty ? '' : "${placeMarks.first.administrativeArea}, ") +
+          (placeMarks.first.country!.isEmpty ? '' : "${placeMarks.first.country}, ") +
+          (placeMarks.first.postalCode!.isEmpty ? '' : "${placeMarks.first.postalCode}, ");
       departureController.text = address;
       setState(() {
         setDepartureMarker(
-            LatLng(location.latitude ?? 0.0, location.longitude ?? 0.0));
+          LatLng(location.latitude ?? 0.0, location.longitude ?? 0.0),
+        );
       });
     }
   }
@@ -151,9 +145,12 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
             onMapCreated: (GoogleMapController controller) async {
               _controller = controller;
               LocationData location = await currentLocation.getLocation();
-              _controller!.moveCamera(CameraUpdate.newLatLngZoom(
+              _controller!.moveCamera(
+                CameraUpdate.newLatLngZoom(
                   LatLng(location.latitude ?? 0.0, location.longitude ?? 0.0),
-                  14));
+                  14,
+                ),
+              );
             },
             polylines: Set<Polyline>.of(polyLines.values),
             myLocationEnabled: true,
@@ -180,150 +177,135 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: Container(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 10),
+                      vertical: 8.0,
+                      horizontal: 10,
+                    ),
                     child: Column(
                       children: [
-                        Builder(builder: (context) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 00),
-                            child: Row(
-                              children: [
-                                Image.asset(
-                                  "assets/icons/location.png",
-                                  height: 25,
-                                  width: 25,
-                                ),
-                                Expanded(
-                                  child: InkWell(
-                                    onTap: () async {
-                                      await controller
-                                          .placeSelectAPI(context)
-                                          .then((value) {
-                                        if (value != null) {
-                                          departureController.text = value
-                                              .result.formattedAddress
-                                              .toString();
-                                          setDepartureMarker(LatLng(
-                                              value.result.geometry!.location
-                                                  .lat,
-                                              value.result.geometry!.location
-                                                  .lng));
-                                        }
-                                      });
-                                    },
-                                    child: buildTextField(
-                                      title: "Departure".tr,
-                                      textController: departureController,
+                        Builder(
+                          builder: (context) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 00),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    "assets/icons/location.png",
+                                    height: 25,
+                                    width: 25,
+                                  ),
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: () async {
+                                        await controller.placeSelectAPI(context).then((value) {
+                                          if (value != null) {
+                                            departureController.text = value.result.formattedAddress.toString();
+                                            setDepartureMarker(
+                                              LatLng(
+                                                value.result.geometry!.location.lat,
+                                                value.result.geometry!.location.lng,
+                                              ),
+                                            );
+                                          }
+                                        });
+                                      },
+                                      child: buildTextField(
+                                        title: "Departure".tr,
+                                        textController: departureController,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    getCurrentLocation(true);
-                                  },
-                                  autofocus: false,
-                                  icon: const Icon(
-                                    Icons.my_location_outlined,
-                                    size: 18,
+                                  IconButton(
+                                    onPressed: () {
+                                      getCurrentLocation(true);
+                                    },
+                                    autofocus: false,
+                                    icon: const Icon(
+                                      Icons.my_location_outlined,
+                                      size: 18,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                         ReorderableListView(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           children: <Widget>[
-                            for (int index = 0;
-                                index < controller.multiStopListNew.length;
-                                index += 1)
+                            for (int index = 0; index < controller.multiStopListNew.length; index += 1)
                               Container(
                                 key: ValueKey(
-                                    controller.multiStopListNew[index]),
+                                  controller.multiStopListNew[index],
+                                ),
                                 child: Column(
                                   children: [
                                     const Divider(),
                                     InkWell(
-                                        onTap: () async {
-                                          await controller
-                                              .placeSelectAPI(context)
-                                              .then((value) {
-                                            if (value != null) {
-                                              controller.multiStopListNew[index]
-                                                      .editingController.text =
-                                                  value.result.formattedAddress
-                                                      .toString();
-                                              controller.multiStopListNew[index]
-                                                      .latitude =
-                                                  value.result.geometry!
-                                                      .location.lat
-                                                      .toString();
-                                              controller.multiStopListNew[index]
-                                                      .longitude =
-                                                  value.result.geometry!
-                                                      .location.lng
-                                                      .toString();
-                                              setStopMarker(
-                                                  LatLng(
-                                                      value.result.geometry!
-                                                          .location.lat,
-                                                      value.result.geometry!
-                                                          .location.lng),
-                                                  index);
-                                            }
-                                          });
-                                        },
-                                        child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                String.fromCharCode(index + 65),
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: ConstantColors
-                                                        .hintTextColor),
+                                      onTap: () async {
+                                        await controller.placeSelectAPI(context).then((value) {
+                                          if (value != null) {
+                                            controller.multiStopListNew[index].editingController.text =
+                                                value.result.formattedAddress.toString();
+                                            controller.multiStopListNew[index].latitude =
+                                                value.result.geometry!.location.lat.toString();
+                                            controller.multiStopListNew[index].longitude =
+                                                value.result.geometry!.location.lng.toString();
+                                            setStopMarker(
+                                              LatLng(
+                                                value.result.geometry!.location.lat,
+                                                value.result.geometry!.location.lng,
                                               ),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              Expanded(
-                                                child: buildTextField(
-                                                  title:
-                                                      "Where do you want to stop ?"
-                                                          .tr,
-                                                  textController: controller
-                                                      .multiStopListNew[index]
-                                                      .editingController,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              InkWell(
-                                                onTap: () {
-                                                  controller.removeStops(index);
-                                                  _markers
-                                                      .remove("Stop $index");
-                                                  getDirections();
-                                                },
-                                                child: Icon(
-                                                  Icons.close,
-                                                  size: 25,
-                                                  color: ConstantColors
-                                                      .hintTextColor,
-                                                ),
-                                              )
-                                            ])),
+                                              index,
+                                            );
+                                          }
+                                        });
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            String.fromCharCode(index + 65),
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: ConstantColors.hintTextColor,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Expanded(
+                                            child: buildTextField(
+                                              title: "Where do you want to stop ?".tr,
+                                              textController: controller.multiStopListNew[index].editingController,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              controller.removeStops(index);
+                                              _markers.remove("Stop $index");
+                                              getDirections();
+                                            },
+                                            child: Icon(
+                                              Icons.close,
+                                              size: 25,
+                                              color: ConstantColors.hintTextColor,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -333,11 +315,8 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                               if (oldIndex < newIndex) {
                                 newIndex -= 1;
                               }
-                              final AddStopModel item = controller
-                                  .multiStopListNew
-                                  .removeAt(oldIndex);
-                              controller.multiStopListNew
-                                  .insert(newIndex, item);
+                              final AddStopModel item = controller.multiStopListNew.removeAt(oldIndex);
+                              controller.multiStopListNew.insert(newIndex, item);
                             });
                           },
                         ),
@@ -351,16 +330,15 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                             Expanded(
                               child: InkWell(
                                 onTap: () async {
-                                  await controller
-                                      .placeSelectAPI(context)
-                                      .then((value) {
+                                  await controller.placeSelectAPI(context).then((value) {
                                     if (value != null) {
-                                      destinationController.text = value
-                                          .result.formattedAddress
-                                          .toString();
-                                      setDestinationMarker(LatLng(
+                                      destinationController.text = value.result.formattedAddress.toString();
+                                      setDestinationMarker(
+                                        LatLng(
                                           value.result.geometry!.location.lat,
-                                          value.result.geometry!.location.lng));
+                                          value.result.geometry!.location.lng,
+                                        ),
+                                      );
                                     }
                                   });
                                 },
@@ -389,8 +367,9 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                               Text(
                                 'Add stop'.tr,
                                 style: TextStyle(
-                                    color: ConstantColors.hintTextColor,
-                                    fontSize: 16),
+                                  color: ConstantColors.hintTextColor,
+                                  fontSize: 16,
+                                ),
                               ),
                             ],
                           ),
@@ -401,7 +380,7 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -417,8 +396,14 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
         icon: departureIcon!,
       );
       departureLatLong = departure;
-      _controller!.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-          target: LatLng(departure.latitude, departure.longitude), zoom: 14)));
+      _controller!.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: LatLng(departure.latitude, departure.longitude),
+            zoom: 14,
+          ),
+        ),
+      );
 
       // _controller?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(departure.latitude, departure.longitude), zoom: 18)));
       if (departureLatLong != null && destinationLatLong != null) {
@@ -449,8 +434,7 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
     setState(() {
       _markers['Stop $index'] = Marker(
         markerId: MarkerId('Stop $index'),
-        infoWindow:
-            InfoWindow(title: "Stop ${String.fromCharCode(index + 65)}"),
+        infoWindow: InfoWindow(title: "Stop ${String.fromCharCode(index + 65)}"),
         position: destination,
         icon: stopIcon!,
       ); //BitmapDescriptor.fromBytes(unit8List));
@@ -463,8 +447,10 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
     });
   }
 
-  Widget buildTextField(
-      {required title, required TextEditingController textController}) {
+  Widget buildTextField({
+    required title,
+    required TextEditingController textController,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0),
       child: TextField(
@@ -516,90 +502,96 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
 
   conformationBottomSheet(BuildContext context) {
     return showModalBottomSheet(
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(15), topLeft: Radius.circular(15))),
-        context: context,
-        isDismissible: false,
-        backgroundColor: Colors.transparent,
-        builder: (context) {
-          return StatefulBuilder(builder: (context, setState) {
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(15),
+          topLeft: Radius.circular(15),
+        ),
+      ),
+      context: context,
+      isDismissible: false,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
             return Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
               child: Row(
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: ButtonThem.buildIconButton(context,
-                        icon: Icons.arrow_back_ios,
-                        iconColor: Colors.black,
-                        btnHeight: 40,
-                        btnWidthRatio: 0.25,
-                        title: "Back".tr,
-                        btnColor: ConstantColors.yellow,
-                        txtColor: Colors.black, onPress: () {
-                      Get.back();
-                    }),
+                    child: ButtonThem.buildIconButton(
+                      context,
+                      icon: Icons.arrow_back_ios,
+                      iconColor: Colors.black,
+                      btnHeight: 40,
+                      btnWidthRatio: 0.25,
+                      title: "Back".tr,
+                      btnColor: ConstantColors.yellow,
+                      txtColor: Colors.black,
+                      onPress: () {
+                        Get.back();
+                      },
+                    ),
                   ),
                   Expanded(
-                    child: ButtonThem.buildButton(context,
-                        btnHeight: 40,
-                        title: "Continue".tr,
-                        btnColor: ConstantColors.primary,
-                        txtColor: Colors.white, onPress: () async {
-                      controller.checkBalance().then((value) {
-                        if (value == true) {
-                          controller.getDriverDetails().then((value) async {
-                            if (value != null) {
-                              await controller
-                                  .getDurationDistance(
-                                      departureLatLong!, destinationLatLong!)
-                                  .then((durationValue) async {
-                                if (durationValue != null) {
-                                  if (Constant.distanceUnit == "KM") {
-                                    controller.distance.value =
-                                        durationValue['rows']
-                                                .first['elements']
-                                                .first['distance']['value'] /
-                                            1000.00;
-                                  } else {
-                                    controller.distance.value =
-                                        durationValue['rows']
-                                                .first['elements']
-                                                .first['distance']['value'] /
-                                            1609.34;
-                                  }
+                    child: ButtonThem.buildButton(
+                      context,
+                      btnHeight: 40,
+                      title: "Continue".tr,
+                      btnColor: ConstantColors.primary,
+                      txtColor: Colors.white,
+                      onPress: () async {
+                        controller.checkBalance().then((value) {
+                          if (value == true) {
+                            controller.getDriverDetails().then((value) async {
+                              if (value != null) {
+                                await controller
+                                    .getDurationDistance(
+                                  departureLatLong!,
+                                  destinationLatLong!,
+                                )
+                                    .then((durationValue) async {
+                                  if (durationValue != null) {
+                                    if (Constant.distanceUnit == "KM") {
+                                      controller.distance.value =
+                                          durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                    } else {
+                                      controller.distance.value =
+                                          durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                    }
 
-                                  controller.duration.value =
-                                      durationValue['rows']
-                                          .first['elements']
-                                          .first['duration']['text'];
-                                  Get.back();
-                                  tripOptionBottomSheet(context);
-                                }
-                              });
-                            } else {
-                              ShowToastDialog.showToast(
-                                  'Your document is not verified by admin'.tr);
-                            }
-                          });
-                        } else {
-                          ShowToastDialog.showToast(
+                                    controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                    Get.back();
+                                    tripOptionBottomSheet(context);
+                                  }
+                                });
+                              } else {
+                                ShowToastDialog.showToast(
+                                  'Your document is not verified by admin'.tr,
+                                );
+                              }
+                            });
+                          } else {
+                            ShowToastDialog.showToast(
                               "Your wallet balance must be".tr +
                                   Constant().amountShow(
-                                      amount: Constant.minimumWalletBalance!
-                                          .toString()) +
-                                  'to book ride.'.tr);
-                        }
-                      });
-                    }),
+                                    amount: Constant.minimumWalletBalance!.toString(),
+                                  ) +
+                                  'to book ride.'.tr,
+                            );
+                          }
+                        });
+                      },
+                    ),
                   ),
                 ],
               ),
             );
-          });
-        });
+          },
+        );
+      },
+    );
   }
 
   final passengerFirstNameController = TextEditingController();
@@ -610,20 +602,21 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
 
   tripOptionBottomSheet(BuildContext context) {
     return showModalBottomSheet(
-        context: context,
-        isDismissible: false,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (context) {
-          return Container(
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(15))),
-            margin: const EdgeInsets.all(10),
-            child: StatefulBuilder(builder: (context, setState) {
+      context: context,
+      isDismissible: false,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+          ),
+          margin: const EdgeInsets.all(10),
+          child: StatefulBuilder(
+            builder: (context, setState) {
               return Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
                 child: Padding(
                   padding: MediaQuery.of(context).viewInsets,
                   child: Column(
@@ -638,7 +631,9 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                             Text(
                               "Customer Info".tr,
                               style: const TextStyle(
-                                  fontSize: 18, color: Colors.black),
+                                fontSize: 18,
+                                color: Colors.black,
+                              ),
                             ),
                             Visibility(
                               visible: controller.createUser.value,
@@ -654,7 +649,9 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                                 child: Text(
                                   "Select user".tr,
                                   style: const TextStyle(
-                                      fontSize: 16, color: Colors.black),
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
                             ),
@@ -679,47 +676,48 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                                         searchFieldProps: TextFieldProps(
                                           cursorColor: ConstantColors.primary,
                                           decoration: InputDecoration(
-                                            contentPadding:
-                                                const EdgeInsets.fromLTRB(
-                                                    8, 0, 8, 0),
+                                            contentPadding: const EdgeInsets.fromLTRB(
+                                              8,
+                                              0,
+                                              8,
+                                              0,
+                                            ),
                                             border: const OutlineInputBorder(
                                               borderSide: BorderSide(
-                                                  color: Colors.grey,
-                                                  width: 1.0),
+                                                color: Colors.grey,
+                                                width: 1.0,
+                                              ),
                                             ),
                                             hintText: "Search user".tr,
                                           ),
                                         ),
                                       ),
-                                      dropdownDecoratorProps:
-                                          DropDownDecoratorProps(
-                                        dropdownSearchDecoration:
-                                            InputDecoration(
-                                          contentPadding:
-                                              const EdgeInsets.fromLTRB(
-                                                  8, 0, 8, 0),
+                                      dropdownDecoratorProps: DropDownDecoratorProps(
+                                        dropdownSearchDecoration: InputDecoration(
+                                          contentPadding: const EdgeInsets.fromLTRB(
+                                            8,
+                                            0,
+                                            8,
+                                            0,
+                                          ),
                                           border: const OutlineInputBorder(
                                             borderSide: BorderSide(
-                                                color: Colors.grey, width: 1.0),
+                                              color: Colors.grey,
+                                              width: 1.0,
+                                            ),
                                           ),
                                           hintText: "Select user".tr,
                                         ),
                                       ),
 
-                                      compareFn: (item1, item2) =>
-                                          item1.fullName() == item2.fullName(),
-                                      itemAsString: (CustomerData u) =>
-                                          u.userAsString(),
+                                      compareFn: (item1, item2) => item1.fullName() == item2.fullName(),
+                                      itemAsString: (CustomerData u) => u.userAsString(),
                                       onChanged: (CustomerData? value) async {
                                         controller.selectedUser = value;
-                                        passengerFirstNameController.text =
-                                            value!.prenom!;
-                                        passengerLastNameController.text =
-                                            value.nom!;
-                                        passengerEmailController.text =
-                                            value.email!;
-                                        passengerNumberController.text =
-                                            value.phone!;
+                                        passengerFirstNameController.text = value!.prenom!;
+                                        passengerLastNameController.text = value.nom!;
+                                        passengerEmailController.text = value.email!;
+                                        passengerNumberController.text = value.phone!;
                                       },
                                       items: controller.userList,
                                       selectedItem: controller.selectedUser,
@@ -790,11 +788,15 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                                         contentPadding: const EdgeInsets.all(8),
                                         focusedBorder: const OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Colors.grey, width: 1.0),
+                                            color: Colors.grey,
+                                            width: 1.0,
+                                          ),
                                         ),
                                         enabledBorder: const OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Colors.grey, width: 1.0),
+                                            color: Colors.grey,
+                                            width: 1.0,
+                                          ),
                                         ),
                                         hintText: 'No. of passenger'.tr,
                                       ),
@@ -828,8 +830,9 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                                   Text(
                                     'Create user'.tr,
                                     style: TextStyle(
-                                        color: ConstantColors.hintTextColor,
-                                        fontSize: 16),
+                                      color: ConstantColors.hintTextColor,
+                                      fontSize: 16,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -856,11 +859,15 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                                         contentPadding: const EdgeInsets.all(8),
                                         focusedBorder: const OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Colors.grey, width: 1.0),
+                                            color: Colors.grey,
+                                            width: 1.0,
+                                          ),
                                         ),
                                         enabledBorder: const OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Colors.grey, width: 1.0),
+                                            color: Colors.grey,
+                                            width: 1.0,
+                                          ),
                                         ),
                                         hintText: 'First name'.tr,
                                       ),
@@ -877,11 +884,15 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                                         contentPadding: const EdgeInsets.all(8),
                                         focusedBorder: const OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Colors.grey, width: 1.0),
+                                            color: Colors.grey,
+                                            width: 1.0,
+                                          ),
                                         ),
                                         enabledBorder: const OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Colors.grey, width: 1.0),
+                                            color: Colors.grey,
+                                            width: 1.0,
+                                          ),
                                         ),
                                         hintText: 'Last name'.tr,
                                       ),
@@ -899,11 +910,15 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                                   contentPadding: const EdgeInsets.all(8),
                                   focusedBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                      color: Colors.grey,
+                                      width: 1.0,
+                                    ),
                                   ),
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                      color: Colors.grey,
+                                      width: 1.0,
+                                    ),
                                   ),
                                   hintText: 'email'.tr,
                                 ),
@@ -918,11 +933,15 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                                   contentPadding: const EdgeInsets.all(8),
                                   focusedBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                      color: Colors.grey,
+                                      width: 1.0,
+                                    ),
                                   ),
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                      color: Colors.grey,
+                                      width: 1.0,
+                                    ),
                                   ),
                                   hintText: 'Phone number'.tr,
                                 ),
@@ -937,11 +956,15 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                                   contentPadding: const EdgeInsets.all(8),
                                   focusedBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                      color: Colors.grey,
+                                      width: 1.0,
+                                    ),
                                   ),
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.grey, width: 1.0),
+                                      color: Colors.grey,
+                                      width: 1.0,
+                                    ),
                                   ),
                                   hintText: 'No. of passenger'.tr,
                                 ),
@@ -955,75 +978,78 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                         child: Row(
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: ButtonThem.buildIconButton(context,
-                                  icon: Icons.arrow_back_ios,
-                                  iconColor: Colors.black,
-                                  btnHeight: 40,
-                                  btnWidthRatio: 0.25,
-                                  title: "Back".tr,
-                                  btnColor: ConstantColors.yellow,
-                                  txtColor: Colors.black, onPress: () {
-                                Get.back();
-                              }),
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              child: ButtonThem.buildIconButton(
+                                context,
+                                icon: Icons.arrow_back_ios,
+                                iconColor: Colors.black,
+                                btnHeight: 40,
+                                btnWidthRatio: 0.25,
+                                title: "Back".tr,
+                                btnColor: ConstantColors.yellow,
+                                txtColor: Colors.black,
+                                onPress: () {
+                                  Get.back();
+                                },
+                              ),
                             ),
                             Expanded(
-                              child: ButtonThem.buildButton(context,
-                                  btnHeight: 40,
-                                  title: "book_now".tr,
-                                  btnColor: ConstantColors.primary,
-                                  txtColor: Colors.white, onPress: () async {
-                                if ((passengerFirstNameController.text.isEmpty ||
-                                        passengerLastNameController
-                                            .text.isEmpty ||
-                                        passengerNumberController
-                                            .text.isEmpty ||
-                                        passengerEmailController
-                                            .text.isEmpty) &&
-                                    controller.selectedUser == null) {
-                                  ShowToastDialog.showToast(
-                                      "Please Enter Details".tr);
-                                } else if (passengerController.text.isEmpty) {
-                                  ShowToastDialog.showToast(
-                                      "Please Enter Details".tr);
-                                } else {
-                                  double cout = 0.0;
-
-                                  if (controller.distance.value >
-                                      double.parse(controller.vehicleData!
-                                          .minimumDeliveryChargesWithin!)) {
-                                    cout = (controller.distance.value *
-                                            double.parse(controller
-                                                .vehicleData!.deliveryCharges!))
-                                        .toDouble();
+                              child: ButtonThem.buildButton(
+                                context,
+                                btnHeight: 40,
+                                title: "book_now".tr,
+                                btnColor: ConstantColors.primary,
+                                txtColor: Colors.white,
+                                onPress: () async {
+                                  if ((passengerFirstNameController.text.isEmpty ||
+                                          passengerLastNameController.text.isEmpty ||
+                                          passengerNumberController.text.isEmpty ||
+                                          passengerEmailController.text.isEmpty) &&
+                                      controller.selectedUser == null) {
+                                    ShowToastDialog.showToast(
+                                      "Please Enter Details".tr,
+                                    );
+                                  } else if (passengerController.text.isEmpty) {
+                                    ShowToastDialog.showToast(
+                                      "Please Enter Details".tr,
+                                    );
                                   } else {
-                                    cout = double.parse(controller
-                                        .vehicleData!.minimumDeliveryCharges
-                                        .toString());
-                                  }
-                                  for (var i = 0;
-                                      i < Constant.taxList.length;
-                                      i++) {
-                                    if (Constant.taxList[i].statut == 'yes') {
-                                      if (Constant.taxList[i].type == "Fixed") {
-                                        controller.taxAmount.value +=
-                                            double.parse(Constant
-                                                .taxList[i].value
-                                                .toString());
-                                      } else {
-                                        controller.taxAmount.value += (cout *
-                                                double.parse(Constant
-                                                    .taxList[i].value!
-                                                    .toString())) /
-                                            100;
+                                    double cout = 0.0;
+
+                                    if (controller.distance.value >
+                                        double.parse(
+                                          controller.vehicleData!.minimumDeliveryChargesWithin!,
+                                        )) {
+                                      cout = (controller.distance.value *
+                                              double.parse(
+                                                controller.vehicleData!.deliveryCharges!,
+                                              ))
+                                          .toDouble();
+                                    } else {
+                                      cout = double.parse(
+                                        controller.vehicleData!.minimumDeliveryCharges.toString(),
+                                      );
+                                    }
+                                    for (var i = 0; i < Constant.taxList.length; i++) {
+                                      if (Constant.taxList[i].statut == 'yes') {
+                                        if (Constant.taxList[i].type == "Fixed") {
+                                          controller.taxAmount.value += double.parse(
+                                            Constant.taxList[i].value.toString(),
+                                          );
+                                        } else {
+                                          controller.taxAmount.value += (cout *
+                                                  double.parse(
+                                                    Constant.taxList[i].value!.toString(),
+                                                  )) /
+                                              100;
+                                        }
                                       }
                                     }
+                                    Get.back();
+                                    conformDataBottomSheet(context, cout);
                                   }
-                                  Get.back();
-                                  conformDataBottomSheet(context, cout);
-                                }
-                              }),
+                                },
+                              ),
                             ),
                           ],
                         ),
@@ -1032,27 +1058,30 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                   ),
                 ),
               );
-            }),
-          );
-        });
+            },
+          ),
+        );
+      },
+    );
   }
 
   conformDataBottomSheet(BuildContext context, double tripPrice) {
     return showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        isDismissible: false,
-        backgroundColor: Colors.transparent,
-        builder: (context) {
-          return Container(
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(15))),
-            margin: const EdgeInsets.all(10),
-            child: StatefulBuilder(builder: (context, setState) {
+      context: context,
+      isScrollControlled: true,
+      isDismissible: false,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+          ),
+          margin: const EdgeInsets.all(10),
+          child: StatefulBuilder(
+            builder: (context, setState) {
               return Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
                 child: Obx(
                   () => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1063,33 +1092,42 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                         child: Row(
                           children: [
                             Expanded(
-                                child: buildDetails(
-                                    title: "Cash".tr,
-                                    value: 'Payment method'.tr)),
+                              child: buildDetails(
+                                title: "Cash".tr,
+                                value: 'Payment method'.tr,
+                              ),
+                            ),
                             const SizedBox(
                               width: 10,
                             ),
                             Expanded(
-                                child: buildDetails(
-                                    title:
-                                        "${controller.distance.value.toStringAsFixed(int.parse(Constant.decimal!))}${Constant.distanceUnit}",
-                                    value: 'Distance'.tr)),
+                              child: buildDetails(
+                                title:
+                                    "${controller.distance.value.toStringAsFixed(int.parse(Constant.decimal!))}${Constant.distanceUnit}",
+                                value: 'Distance'.tr,
+                              ),
+                            ),
                             const SizedBox(
                               width: 10,
                             ),
                             Expanded(
-                                child: buildDetails(
-                                    title: controller.duration.value,
-                                    value: 'Duration'.tr)),
+                              child: buildDetails(
+                                title: controller.duration.value,
+                                value: 'Duration'.tr,
+                              ),
+                            ),
                             const SizedBox(
                               width: 10,
                             ),
                             Expanded(
-                                child: buildDetails(
-                                    title: Constant().amountShow(
-                                        amount: tripPrice.toString()),
-                                    value: 'Trip Price'.tr,
-                                    txtColor: ConstantColors.primary)),
+                              child: buildDetails(
+                                title: Constant().amountShow(
+                                  amount: tripPrice.toString(),
+                                ),
+                                value: 'Trip Price'.tr,
+                                txtColor: ConstantColors.primary,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -1102,25 +1140,32 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                           TaxModel taxModel = Constant.taxList[index];
                           return ListTile(
                             contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 0, vertical: 0),
+                              horizontal: 0,
+                              vertical: 0,
+                            ),
                             title: Text(
                               '${taxModel.libelle.toString()} (${taxModel.type == "Fixed" ? Constant().amountShow(amount: taxModel.value) : "${taxModel.value}%"})',
                               style: TextStyle(
-                                  letterSpacing: 1.0,
-                                  color: ConstantColors.subTitleTextColor,
-                                  fontWeight: FontWeight.w600),
+                                letterSpacing: 1.0,
+                                color: ConstantColors.subTitleTextColor,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                             trailing: Text(
-                                Constant().amountShow(
-                                    amount: controller
-                                        .calculateTax(
-                                            taxModel: taxModel,
-                                            tripPrice: tripPrice)
-                                        .toString()),
-                                style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    color: ConstantColors.subTitleTextColor,
-                                    fontWeight: FontWeight.w800)),
+                              Constant().amountShow(
+                                amount: controller
+                                    .calculateTax(
+                                      taxModel: taxModel,
+                                      tripPrice: tripPrice,
+                                    )
+                                    .toString(),
+                              ),
+                              style: TextStyle(
+                                letterSpacing: 1.0,
+                                color: ConstantColors.subTitleTextColor,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
                           );
                         },
                       ),
@@ -1133,20 +1178,24 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Total amount:".tr,
-                              style: TextStyle(
-                                  letterSpacing: 1.0,
-                                  color: ConstantColors.subTitleTextColor,
-                                  fontWeight: FontWeight.w800)),
                           Text(
-                              Constant().amountShow(
-                                  amount:
-                                      (tripPrice + controller.taxAmount.value)
-                                          .toString()),
-                              style: TextStyle(
-                                  letterSpacing: 1.0,
-                                  color: ConstantColors.subTitleTextColor,
-                                  fontWeight: FontWeight.w800))
+                            "Total amount:".tr,
+                            style: TextStyle(
+                              letterSpacing: 1.0,
+                              color: ConstantColors.subTitleTextColor,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          Text(
+                            Constant().amountShow(
+                              amount: (tripPrice + controller.taxAmount.value).toString(),
+                            ),
+                            style: TextStyle(
+                              letterSpacing: 1.0,
+                              color: ConstantColors.subTitleTextColor,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
                         ],
                       ),
                       Divider(
@@ -1156,121 +1205,113 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: ButtonThem.buildIconButton(context,
-                                icon: Icons.arrow_back_ios,
-                                iconColor: Colors.black,
-                                btnHeight: 40,
-                                btnWidthRatio: 0.25,
-                                title: "Back".tr,
-                                btnColor: ConstantColors.yellow,
-                                txtColor: Colors.black, onPress: () async {
-                              Get.back();
-                              tripOptionBottomSheet(context);
-                            }),
+                            child: ButtonThem.buildIconButton(
+                              context,
+                              icon: Icons.arrow_back_ios,
+                              iconColor: Colors.black,
+                              btnHeight: 40,
+                              btnWidthRatio: 0.25,
+                              title: "Back".tr,
+                              btnColor: ConstantColors.yellow,
+                              txtColor: Colors.black,
+                              onPress: () async {
+                                Get.back();
+                                tripOptionBottomSheet(context);
+                              },
+                            ),
                           ),
                           Expanded(
-                            child: ButtonThem.buildButton(context,
-                                btnHeight: 40,
-                                title: "book_now".tr,
-                                btnColor: ConstantColors.primary,
-                                txtColor: Colors.white, onPress: () {
-                              List stopsList = [];
-                              for (var i = 0;
-                                  i < controller.multiStopListNew.length;
-                                  i++) {
-                                stopsList.add({
-                                  "latitude": controller
-                                      .multiStopListNew[i].latitude
-                                      .toString(),
-                                  "longitude": controller
-                                      .multiStopListNew[i].longitude
-                                      .toString(),
-                                  "location": controller.multiStopListNew[i]
-                                      .editingController.text
-                                      .toString()
-                                });
-                              }
-                              Map<String, dynamic> bodyParams = {
-                                'user_id': controller.selectedUser != null
-                                    ? controller.selectedUser!.id!
-                                    : DateTime.now().millisecondsSinceEpoch,
-                                'lat1': departureLatLong!.latitude.toString(),
-                                'lng1': departureLatLong!.longitude.toString(),
-                                'lat2': destinationLatLong!.latitude.toString(),
-                                'lng2':
-                                    destinationLatLong!.longitude.toString(),
-                                'cout': tripPrice.toString(),
-                                'distance': controller.distance.toString(),
-                                'distance_unit':
-                                    Constant.distanceUnit.toString(),
-                                'duree': controller.duration.toString(),
-                                'id_conducteur':
-                                    Preferences.getInt(Preferences.userId)
-                                        .toString(),
-                                'id_payment': controller.paymentMethodId.value,
-                                'depart_name': departureController.text,
-                                'destination_name': destinationController.text,
-                                'stops': stopsList,
-                                'place': '',
-                                'number_poeple': passengerController.text,
-                                'image': '',
-                                'image_name': "",
-                                'user_detail': {
-                                  'name':
-                                      "${passengerFirstNameController.text} ${passengerLastNameController.text}",
-                                  'phone':
-                                      passengerNumberController.text.toString(),
-                                  'email':
-                                      passengerEmailController.text.toString()
-                                },
-                                'ride_type': "driver",
-                                'statut_round': 'no',
-                                'trip_objective': "",
-                                'age_children1': "",
-                                'age_children2': "",
-                                'age_children3': "",
-                              };
+                            child: ButtonThem.buildButton(
+                              context,
+                              btnHeight: 40,
+                              title: "book_now".tr,
+                              btnColor: ConstantColors.primary,
+                              txtColor: Colors.white,
+                              onPress: () {
+                                List stopsList = [];
+                                for (var i = 0; i < controller.multiStopListNew.length; i++) {
+                                  stopsList.add({
+                                    "latitude": controller.multiStopListNew[i].latitude.toString(),
+                                    "longitude": controller.multiStopListNew[i].longitude.toString(),
+                                    "location": controller.multiStopListNew[i].editingController.text.toString(),
+                                  });
+                                }
+                                Map<String, dynamic> bodyParams = {
+                                  'user_id': controller.selectedUser != null
+                                      ? controller.selectedUser!.id!
+                                      : DateTime.now().millisecondsSinceEpoch,
+                                  'lat1': departureLatLong!.latitude.toString(),
+                                  'lng1': departureLatLong!.longitude.toString(),
+                                  'lat2': destinationLatLong!.latitude.toString(),
+                                  'lng2': destinationLatLong!.longitude.toString(),
+                                  'cout': tripPrice.toString(),
+                                  'distance': controller.distance.toString(),
+                                  'distance_unit': Constant.distanceUnit.toString(),
+                                  'duree': controller.duration.toString(),
+                                  'id_conducteur': Preferences.getInt(Preferences.userId).toString(),
+                                  'id_payment': controller.paymentMethodId.value,
+                                  'depart_name': departureController.text,
+                                  'destination_name': destinationController.text,
+                                  'stops': stopsList,
+                                  'place': '',
+                                  'number_poeple': passengerController.text,
+                                  'image': '',
+                                  'image_name': "",
+                                  'user_detail': {
+                                    'name': "${passengerFirstNameController.text} ${passengerLastNameController.text}",
+                                    'phone': passengerNumberController.text.toString(),
+                                    'email': passengerEmailController.text.toString(),
+                                  },
+                                  'ride_type': "driver",
+                                  'statut_round': 'no',
+                                  'trip_objective': "",
+                                  'age_children1': "",
+                                  'age_children2': "",
+                                  'age_children3': "",
+                                };
 
-                              controller.bookRide(bodyParams).then((value) {
-                                if (value != null) {
-                                  if (value['success'] == "success") {
-                                    Get.back();
-                                    getDirections();
-                                    setIcons();
-                                    departureController.clear();
-                                    destinationController.clear();
-                                    polyLines = {};
-                                    departureLatLong = null;
-                                    destinationLatLong = null;
+                                controller.bookRide(bodyParams).then((value) {
+                                  if (value != null) {
+                                    if (value['success'] == "success") {
+                                      Get.back();
+                                      getDirections();
+                                      setIcons();
+                                      departureController.clear();
+                                      destinationController.clear();
+                                      polyLines = {};
+                                      departureLatLong = null;
+                                      destinationLatLong = null;
 
-                                    passengerFirstNameController.clear();
-                                    passengerLastNameController.clear();
-                                    passengerEmailController.clear();
-                                    passengerController.clear();
-                                    passengerNumberController.clear();
-                                    tripPrice = 0.0;
-                                    _markers.clear();
+                                      passengerFirstNameController.clear();
+                                      passengerLastNameController.clear();
+                                      passengerEmailController.clear();
+                                      passengerController.clear();
+                                      passengerNumberController.clear();
+                                      tripPrice = 0.0;
+                                      _markers.clear();
 
-                                    showDialog(
+                                      showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
                                           return CustomDialogBox(
                                             text: "Ok".tr,
                                             title: "",
-                                            descriptions:
-                                                "Your booking is confirmed".tr,
+                                            descriptions: "Your booking is confirmed".tr,
                                             onPress: () {
                                               Get.back();
                                               Get.back();
                                             },
                                             img: Image.asset(
-                                                'assets/images/green_checked.png'),
+                                              'assets/images/green_checked.png',
+                                            ),
                                           );
-                                        });
+                                        },
+                                      );
+                                    }
                                   }
-                                }
-                              });
-                            }),
+                                });
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -1278,17 +1319,20 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
                   ),
                 ),
               );
-            }),
-          );
-        });
+            },
+          ),
+        );
+      },
+    );
   }
 
   buildDetails({title, value, Color txtColor = Colors.black}) {
     return Container(
       height: 110,
       decoration: BoxDecoration(
-          color: Colors.blueGrey.shade50,
-          borderRadius: BorderRadius.circular(8)),
+        color: Colors.blueGrey.shade50,
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -1299,7 +1343,10 @@ class _CreateRideScreenState extends State<CreateRideScreen> {
               title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 15, color: txtColor, fontWeight: FontWeight.w600),
+                fontSize: 15,
+                color: txtColor,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
           const SizedBox(

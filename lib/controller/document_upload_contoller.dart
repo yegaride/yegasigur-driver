@@ -79,7 +79,13 @@ class DocumentController extends GetxController {
       request.headers.addAll(API.header);
 
       for (var element in imageList) {
-        request.files.add(http.MultipartFile.fromBytes('attachment[]', File(element).readAsBytesSync(), filename: File(element).path.split('/').last));
+        request.files.add(
+          http.MultipartFile.fromBytes(
+            'attachment[]',
+            File(element).readAsBytesSync(),
+            filename: File(element).path.split('/').last,
+          ),
+        );
       }
 
       request.fields['driver_id'] = Preferences.getInt(Preferences.userId).toString();

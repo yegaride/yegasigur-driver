@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 class CompletedScreen extends StatelessWidget {
-  const CompletedScreen({Key? key}) : super(key: key);
+  const CompletedScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,23 +20,25 @@ class CompletedScreen extends StatelessWidget {
       init: CompletedController(),
       builder: (controller) {
         return Scaffold(
-            backgroundColor: ConstantColors.background,
-            body: RefreshIndicator(
-              onRefresh: () => controller.getCompletedRide(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: controller.isLoading.value
-                    ? Constant.loader()
-                    : controller.rideList.isEmpty
-                        ? Constant.emptyView("Your don't have any ride booked.")
-                        : ListView.builder(
-                            itemCount: controller.rideList.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return completedRideWidgets(context, controller.rideList[index], controller);
-                            }),
-              ),
-            ));
+          backgroundColor: ConstantColors.background,
+          body: RefreshIndicator(
+            onRefresh: () => controller.getCompletedRide(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: controller.isLoading.value
+                  ? Constant.loader()
+                  : controller.rideList.isEmpty
+                      ? Constant.emptyView("Your don't have any ride booked.")
+                      : ListView.builder(
+                          itemCount: controller.rideList.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return completedRideWidgets(context, controller.rideList[index], controller);
+                          },
+                        ),
+            ),
+          ),
+        );
       },
     );
   }
@@ -87,7 +89,7 @@ class CompletedScreen extends StatelessWidget {
                     Text(
                       'completed'.tr,
                       style: TextStyle(color: ConstantColors.blue),
-                    )
+                    ),
                   ],
                 ),
                 Padding(
@@ -102,10 +104,11 @@ class CompletedScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black12,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                border: Border.all(
+                                  color: Colors.black12,
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 18),
                                 child: Column(
@@ -118,7 +121,10 @@ class CompletedScreen extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text(" ${data.numberPoeple.toString()}", style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
+                                      child: Text(
+                                        " ${data.numberPoeple.toString()}",
+                                        style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -131,10 +137,11 @@ class CompletedScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black12,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                border: Border.all(
+                                  color: Colors.black12,
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 20),
                                 child: Column(
@@ -171,10 +178,11 @@ class CompletedScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black12,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                border: Border.all(
+                                  color: Colors.black12,
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 18),
                                 child: Column(
@@ -187,8 +195,10 @@ class CompletedScreen extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text("${double.parse(data.distance.toString()).toStringAsFixed(int.parse(Constant.decimal!))} ${Constant.distanceUnit}",
-                                          style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
+                                      child: Text(
+                                        "${double.parse(data.distance.toString()).toStringAsFixed(int.parse(Constant.decimal!))} ${Constant.distanceUnit}",
+                                        style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -201,10 +211,11 @@ class CompletedScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black12,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                border: Border.all(
+                                  color: Colors.black12,
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 18),
                                 child: Column(
@@ -217,8 +228,12 @@ class CompletedScreen extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
-                                      child: TextScroll(data.duree.toString(),
-                                          mode: TextScrollMode.bouncing, pauseBetween: const Duration(seconds: 2), style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
+                                      child: TextScroll(
+                                        data.duree.toString(),
+                                        mode: TextScrollMode.bouncing,
+                                        pauseBetween: const Duration(seconds: 2),
+                                        style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -251,8 +266,15 @@ class CompletedScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('${data.prenom} ${data.nom}', style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600)),
-                              StarRating(size: 18, rating: double.parse(data.moyenneDriver.toString()), color: ConstantColors.yellow),
+                              Text(
+                                '${data.prenom} ${data.nom}',
+                                style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600),
+                              ),
+                              StarRating(
+                                size: 18,
+                                rating: double.parse(data.moyenneDriver.toString()),
+                                color: ConstantColors.yellow,
+                              ),
                             ],
                           ),
                         ),
@@ -276,9 +298,12 @@ class CompletedScreen extends StatelessWidget {
                               size: 18,
                             ),
                           ),
-                          Text(data.dateRetour.toString(), style: const TextStyle(color: Colors.black26, fontWeight: FontWeight.w600)),
+                          Text(
+                            data.dateRetour.toString(),
+                            style: const TextStyle(color: Colors.black26, fontWeight: FontWeight.w600),
+                          ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -287,51 +312,59 @@ class CompletedScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(
-                          child: ButtonThem.buildButton(context,
-                              btnHeight: 40,
-                              title: data.statutPaiement == "yes" ? "Paid" : "Not paid",
-                              btnColor: data.statutPaiement == "yes" ? Colors.green : ConstantColors.primary,
-                              txtColor: Colors.white, onPress: () {
-                        // if (data.payment == "Cash") {
-                        //   controller.conformPaymentByCache(data.id.toString()).then((value) {
-                        //     if (value != null) {
-                        //       showDialog(
-                        //           context: context,
-                        //           builder: (BuildContext context) {
-                        //             return CustomDialogBox(
-                        //               title: "Payment by cash",
-                        //               descriptions: "Payment collected successfully",
-                        //               text: "Ok",
-                        //               onPress: () {
-                        //                 Get.back();
-                        //                 controller.getCompletedRide();
-                        //               },
-                        //               img: Image.asset('assets/images/green_checked.png'),
-                        //             );
-                        //           });
-                        //     }
-                        //   });
-                        // } else {}
-                      })),
+                        child: ButtonThem.buildButton(
+                          context,
+                          btnHeight: 40,
+                          title: data.statutPaiement == "yes" ? "Paid" : "Not paid",
+                          btnColor: data.statutPaiement == "yes" ? Colors.green : ConstantColors.primary,
+                          txtColor: Colors.white,
+                          onPress: () {
+                            // if (data.payment == "Cash") {
+                            //   controller.conformPaymentByCache(data.id.toString()).then((value) {
+                            //     if (value != null) {
+                            //       showDialog(
+                            //           context: context,
+                            //           builder: (BuildContext context) {
+                            //             return CustomDialogBox(
+                            //               title: "Payment by cash",
+                            //               descriptions: "Payment collected successfully",
+                            //               text: "Ok",
+                            //               onPress: () {
+                            //                 Get.back();
+                            //                 controller.getCompletedRide();
+                            //               },
+                            //               img: Image.asset('assets/images/green_checked.png'),
+                            //             );
+                            //           });
+                            //     }
+                            //   });
+                            // } else {}
+                          },
+                        ),
+                      ),
                       Visibility(
                         visible: data.statutPaiement == "yes",
                         child: Expanded(
                           child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: ButtonThem.buildBorderButton(
-                                context,
-                                title: 'Add Review'.tr,
-                                btnWidthRatio: 0.8,
-                                btnHeight: 40,
-                                btnColor: Colors.white,
-                                txtColor: ConstantColors.primary,
-                                btnBorderColor: ConstantColors.primary,
-                                onPress: () async {
-                                  Get.to(const AddReviewScreen(), arguments: {
+                            padding: const EdgeInsets.only(left: 10),
+                            child: ButtonThem.buildBorderButton(
+                              context,
+                              title: 'Add Review'.tr,
+                              btnWidthRatio: 0.8,
+                              btnHeight: 40,
+                              btnColor: Colors.white,
+                              txtColor: ConstantColors.primary,
+                              btnBorderColor: ConstantColors.primary,
+                              onPress: () async {
+                                Get.to(
+                                  const AddReviewScreen(),
+                                  arguments: {
                                     'rideData': data,
-                                  });
-                                },
-                              )),
+                                  },
+                                );
+                              },
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -350,9 +383,12 @@ class CompletedScreen extends StatelessWidget {
                     txtColor: ConstantColors.primary,
                     btnBorderColor: ConstantColors.primary,
                     onPress: () async {
-                      Get.to(AddComplaintScreen(), arguments: {
-                        'rideData': data,
-                      });
+                      Get.to(
+                        AddComplaintScreen(),
+                        arguments: {
+                          'rideData': data,
+                        },
+                      );
                     },
                   ),
                 ),

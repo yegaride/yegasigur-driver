@@ -10,7 +10,6 @@ import 'package:cabme_driver/constant/show_toast_dialog.dart';
 import 'package:cabme_driver/controller/dash_board_controller.dart';
 import 'package:cabme_driver/model/customer_model.dart';
 import 'package:cabme_driver/model/driver_model.dart';
-import 'package:cabme_driver/model/ride_model.dart';
 import 'package:cabme_driver/model/tax_model.dart';
 import 'package:cabme_driver/model/trancation_model.dart';
 import 'package:cabme_driver/service/api.dart';
@@ -50,18 +49,16 @@ class CreateRideController extends GetxController {
 
   Future<dynamic> getPaymentSettingData() async {
     try {
-      final response =
-          await http.get(Uri.parse(API.paymentSetting), headers: API.header);
+      final response = await http.get(Uri.parse(API.paymentSetting), headers: API.header);
 
       Map<String, dynamic> responseBody = json.decode(response.body);
       if (response.statusCode == 200 && responseBody['success'] == "success") {
-        paymentMethodId.value =
-            responseBody['Cash']['id_payment_method'].toString();
-      } else if (response.statusCode == 200 &&
-          responseBody['success'] == "Failed") {
+        paymentMethodId.value = responseBody['Cash']['id_payment_method'].toString();
+      } else if (response.statusCode == 200 && responseBody['success'] == "Failed") {
       } else {
         ShowToastDialog.showToast(
-            'Something want wrong. Please try again later');
+          'Something want wrong. Please try again later',
+        );
         throw Exception('Failed to load album');
       }
     } on TimeoutException catch (e) {
@@ -80,19 +77,21 @@ class CreateRideController extends GetxController {
   Future<dynamic> getVehicleDataAPI() async {
     try {
       final response = await http.get(
-          Uri.parse(
-              "${API.getVehicleData}${Preferences.getInt(Preferences.userId)}"),
-          headers: API.header);
+        Uri.parse(
+          "${API.getVehicleData}${Preferences.getInt(Preferences.userId)}",
+        ),
+        headers: API.header,
+      );
 
       Map<String, dynamic> responseBody = json.decode(response.body);
 
       if (response.statusCode == 200 && responseBody['success'] == "success") {
         vehicleData = VehicleData.fromJson(responseBody['data']);
-      } else if (response.statusCode == 200 &&
-          responseBody['success'] == "Failed") {
+      } else if (response.statusCode == 200 && responseBody['success'] == "Failed") {
       } else {
         ShowToastDialog.showToast(
-            'Something want wrong. Please try again later'.tr);
+          'Something want wrong. Please try again later'.tr,
+        );
         throw Exception('Failed to load album'.tr);
       }
     } on TimeoutException catch (e) {
@@ -110,8 +109,7 @@ class CreateRideController extends GetxController {
 
   Future<dynamic> getUserDataAPI() async {
     try {
-      final response =
-          await http.get(Uri.parse(API.getCustomer), headers: API.header);
+      final response = await http.get(Uri.parse(API.getCustomer), headers: API.header);
 
       dynamic responseBody = json.decode(response.body);
       if (response.statusCode == 200) {
@@ -120,7 +118,8 @@ class CreateRideController extends GetxController {
         });
       } else {
         ShowToastDialog.showToast(
-            'Something want wrong. Please try again later'.tr);
+          'Something want wrong. Please try again later'.tr,
+        );
         throw Exception('Failed to load album'.tr);
       }
     } on TimeoutException catch (e) {
@@ -141,7 +140,7 @@ class CreateRideController extends GetxController {
     // then get the Prediction selected
     Prediction? p = await PlacesAutocomplete.show(
       context: context,
-      apiKey: Constant.kGoogleApiKey ?? '',
+      apiKey: Constant.kGoogleApiKey,
       mode: Mode.overlay,
       onError: (response) {
         log("-->${response.status}");
@@ -161,8 +160,7 @@ class CreateRideController extends GetxController {
         apiKey: Constant.kGoogleApiKey,
         apiHeaders: await const GoogleApiHeaders().getHeaders(),
       );
-      PlacesDetailsResponse? detail =
-          await places.getDetailsByPlaceId(p.placeId.toString());
+      PlacesDetailsResponse? detail = await places.getDetailsByPlaceId(p.placeId.toString());
 
       return detail;
     }
@@ -170,7 +168,9 @@ class CreateRideController extends GetxController {
   }
 
   Future<dynamic> getDurationDistance(
-      LatLng departureLatLong, LatLng destinationLatLong) async {
+    LatLng departureLatLong,
+    LatLng destinationLatLong,
+  ) async {
     ShowToastDialog.showLoader("Please wait".tr);
     double originLat, originLong, destLat, destLong;
     originLat = departureLatLong.latitude;
@@ -179,14 +179,14 @@ class CreateRideController extends GetxController {
     destLong = destinationLatLong.longitude;
 
     String url = 'https://maps.googleapis.com/maps/api/distancematrix/json';
-    http.Response restaurantToCustomerTime = await http.get(Uri.parse(
-        '$url?units=metric&origins=$originLat,'
-        '$originLong&destinations=$destLat,$destLong&key=${Constant.kGoogleApiKey}'));
+    http.Response restaurantToCustomerTime = await http.get(
+      Uri.parse('$url?units=metric&origins=$originLat,'
+          '$originLong&destinations=$destLat,$destLong&key=${Constant.kGoogleApiKey}'),
+    );
 
     var decodedResponse = jsonDecode(restaurantToCustomerTime.body);
 
-    if (decodedResponse['status'] == 'OK' &&
-        decodedResponse['rows'].first['elements'].first['status'] == 'OK') {
+    if (decodedResponse['status'] == 'OK' && decodedResponse['rows'].first['elements'].first['status'] == 'OK') {
       ShowToastDialog.closeLoader();
       return decodedResponse;
       //   estimatedTime = decodedResponse['rows'].first['elements'].first['distance']['value'] / 1000.00;
@@ -201,8 +201,11 @@ class CreateRideController extends GetxController {
   Future<dynamic> bookRide(Map<String, dynamic> bodyParams) async {
     try {
       ShowToastDialog.showLoader("Please wait");
-      final response = await http.post(Uri.parse(API.bookRides),
-          headers: API.header, body: jsonEncode(bodyParams));
+      final response = await http.post(
+        Uri.parse(API.bookRides),
+        headers: API.header,
+        body: jsonEncode(bodyParams),
+      );
 
       Map<String, dynamic> responseBody = json.decode(response.body);
 
@@ -212,7 +215,8 @@ class CreateRideController extends GetxController {
       } else {
         ShowToastDialog.closeLoader();
         ShowToastDialog.showToast(
-            'Something want wrong. Please try again later');
+          'Something want wrong. Please try again later',
+        );
         throw Exception('Failed to load album');
       }
     } on TimeoutException catch (e) {
@@ -237,16 +241,20 @@ class CreateRideController extends GetxController {
 
   addStops() async {
     ShowToastDialog.showLoader("Please wait".tr);
-    multiStopList.add(AddStopModel(
+    multiStopList.add(
+      AddStopModel(
         editingController: TextEditingController(),
         latitude: "",
-        longitude: ""));
+        longitude: "",
+      ),
+    );
     multiStopListNew = List<AddStopModel>.generate(
       multiStopList.length,
       (int index) => AddStopModel(
-          editingController: multiStopList[index].editingController,
-          latitude: multiStopList[index].latitude,
-          longitude: multiStopList[index].longitude),
+        editingController: multiStopList[index].editingController,
+        latitude: multiStopList[index].latitude,
+        longitude: multiStopList[index].longitude,
+      ),
     );
     ShowToastDialog.closeLoader();
     update();
@@ -258,9 +266,10 @@ class CreateRideController extends GetxController {
     multiStopListNew = List<AddStopModel>.generate(
       multiStopList.length,
       (int index) => AddStopModel(
-          editingController: multiStopList[index].editingController,
-          latitude: multiStopList[index].latitude,
-          longitude: multiStopList[index].longitude),
+        editingController: multiStopList[index].editingController,
+        latitude: multiStopList[index].latitude,
+        longitude: multiStopList[index].longitude,
+      ),
     );
     ShowToastDialog.closeLoader();
     update();
@@ -281,26 +290,25 @@ class CreateRideController extends GetxController {
   Future<bool> checkBalance() async {
     ShowToastDialog.showLoader("Please wait");
     final response = await http.get(
-        Uri.parse(
-            "${API.walletHistory}?id_diver=${Preferences.getInt(Preferences.userId)}"),
-        headers: API.header);
+      Uri.parse(
+        "${API.walletHistory}?id_diver=${Preferences.getInt(Preferences.userId)}",
+      ),
+      headers: API.header,
+    );
 
     Map<String, dynamic> responseBody = json.decode(response.body);
 
     if (response.statusCode == 200 && responseBody['success'] == "success") {
       TruncationModel model = TruncationModel.fromJson(responseBody);
 
-      if (double.parse(model.totalEarnings!.toString()) >=
-          double.parse(Constant.minimumWalletBalance!)) {
+      if (double.parse(model.totalEarnings!.toString()) >= double.parse(Constant.minimumWalletBalance!)) {
         return true;
       } else {
         ShowToastDialog.closeLoader();
         return false;
       }
-    } else if (response.statusCode == 200 &&
-        responseBody['success'] == "Failed") {
-      if (double.parse('0'.toString()) >=
-          double.parse(Constant.minimumWalletBalance!)) {
+    } else if (response.statusCode == 200 && responseBody['success'] == "Failed") {
+      if (double.parse('0'.toString()) >= double.parse(Constant.minimumWalletBalance!)) {
         return true;
       } else {
         ShowToastDialog.closeLoader();
@@ -315,16 +323,14 @@ class CreateRideController extends GetxController {
   Future<DriverData?> getDriverDetails() async {
     ShowToastDialog.showLoader("Please wait");
     try {
-      final response =
-          await http.get(Uri.parse(API.driverDetails), headers: API.header);
+      final response = await http.get(Uri.parse(API.driverDetails), headers: API.header);
 
       Map<String, dynamic> responseBody = json.decode(response.body);
 
       if (response.statusCode == 200) {
         DriverModel driverData = DriverModel.fromJson(responseBody);
         for (var i = 0; i < driverData.data!.length; i++) {
-          if (driverData.data![i].id.toString() ==
-              Preferences.getInt(Preferences.userId).toString()) {
+          if (driverData.data![i].id.toString() == Preferences.getInt(Preferences.userId).toString()) {
             return driverData.data![i];
           }
         }
@@ -332,7 +338,8 @@ class CreateRideController extends GetxController {
       } else {
         ShowToastDialog.closeLoader();
         ShowToastDialog.showToast(
-            'Something want wrong. Please try again later');
+          'Something want wrong. Please try again later',
+        );
         throw Exception('Failed to load album');
       }
     } on TimeoutException catch (e) {

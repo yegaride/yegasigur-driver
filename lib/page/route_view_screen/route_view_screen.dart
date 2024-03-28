@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:cabme_driver/model/driver_location_update.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:cabme_driver/constant/constant.dart';
 import 'package:cabme_driver/constant/show_toast_dialog.dart';
@@ -24,7 +21,7 @@ import 'package:maps_launcher/maps_launcher.dart';
 import 'package:pinput/pinput.dart';
 
 class RouteViewScreen extends StatefulWidget {
-  const RouteViewScreen({Key? key}) : super(key: key);
+  const RouteViewScreen({super.key});
 
   @override
   State<RouteViewScreen> createState() => _RouteViewScreenState();
@@ -80,24 +77,29 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
 
           Dio dio = Dio();
           dynamic response = await dio.get(
-              "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${rideData!.latitudeDepart},${rideData!.longitudeDepart}&destinations=${double.parse(driverLocationUpdate.driverLatitude.toString())},${double.parse(driverLocationUpdate.driverLongitude.toString())}&key=${Constant.kGoogleApiKey}");
+            "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${rideData!.latitudeDepart},${rideData!.longitudeDepart}&destinations=${double.parse(driverLocationUpdate.driverLatitude.toString())},${double.parse(driverLocationUpdate.driverLongitude.toString())}&key=${Constant.kGoogleApiKey}",
+          );
 
           driverEstimateArrivalTime = response.data['rows'][0]['elements'][0]['duration']['text'].toString();
 
           setState(() {
-            departureLatLong = LatLng(double.parse(driverLocationUpdate.driverLatitude.toString()),
-                double.parse(driverLocationUpdate.driverLongitude.toString()));
+            departureLatLong = LatLng(
+              double.parse(driverLocationUpdate.driverLatitude.toString()),
+              double.parse(driverLocationUpdate.driverLongitude.toString()),
+            );
 
             _markers[rideData!.id.toString()] = Marker(
-                markerId: MarkerId(rideData!.id.toString()),
-                infoWindow: InfoWindow(title: rideData!.prenomConducteur.toString()),
-                position: departureLatLong,
-                icon: taxiIcon!,
-                rotation: double.parse(driverLocationUpdate.rotation.toString()));
+              markerId: MarkerId(rideData!.id.toString()),
+              infoWindow: InfoWindow(title: rideData!.prenomConducteur.toString()),
+              position: departureLatLong,
+              icon: taxiIcon!,
+              rotation: double.parse(driverLocationUpdate.rotation.toString()),
+            );
 
             getDirections(
-                dLat: double.parse(driverLocationUpdate.driverLatitude.toString()),
-                dLng: double.parse(driverLocationUpdate.driverLongitude.toString()));
+              dLat: double.parse(driverLocationUpdate.driverLatitude.toString()),
+              dLng: double.parse(driverLocationUpdate.driverLongitude.toString()),
+            );
           });
         });
       } else {
@@ -415,21 +417,28 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                           ? Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Text('${rideData!.userInfo!.name}',
-                                                    style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600)),
-                                                Text('${rideData!.userInfo!.email}',
-                                                    style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w400)),
+                                                Text(
+                                                  '${rideData!.userInfo!.name}',
+                                                  style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600),
+                                                ),
+                                                Text(
+                                                  '${rideData!.userInfo!.email}',
+                                                  style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w400),
+                                                ),
                                               ],
                                             )
                                           : Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Text('Cust. #${rideData!.custNumber.toString()}',
-                                                    style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600)),
+                                                Text(
+                                                  'Cust. #${rideData!.custNumber.toString()}',
+                                                  style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600),
+                                                ),
                                                 StarRating(
-                                                    size: 18,
-                                                    rating: double.parse(rideData!.moyenneDriver.toString()),
-                                                    color: ConstantColors.yellow),
+                                                  size: 18,
+                                                  rating: double.parse(rideData!.moyenneDriver.toString()),
+                                                  color: ConstantColors.yellow,
+                                                ),
                                               ],
                                             ),
                                     ),
@@ -446,45 +455,52 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                             //     ? true
                                             //     : false,
                                             child: InkWell(
-                                                onTap: () {
-                                                  Get.to(ConversationScreen(), arguments: {
+                                              onTap: () {
+                                                Get.to(
+                                                  ConversationScreen(),
+                                                  arguments: {
                                                     'receiverId': int.parse(rideData!.idUserApp.toString()),
                                                     'orderId': int.parse(rideData!.id.toString()),
                                                     'receiverName': '${rideData!.prenom} ${rideData!.nom}',
-                                                    'receiverPhoto': rideData!.photoPath
-                                                  });
-                                                },
-                                                child: Image.asset(
-                                                  'assets/icons/chat_icon.png',
-                                                  height: 36,
-                                                  width: 36,
-                                                )),
+                                                    'receiverPhoto': rideData!.photoPath,
+                                                  },
+                                                );
+                                              },
+                                              child: Image.asset(
+                                                'assets/icons/chat_icon.png',
+                                                height: 36,
+                                                width: 36,
+                                              ),
+                                            ),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(left: 10),
                                             child: InkWell(
-                                                onTap: () {
-                                                  if (rideData!.existingUserId.toString() != "null") {
-                                                    Constant.makePhoneCall(rideData!.phone.toString());
-                                                  } else {
-                                                    Constant.makePhoneCall(rideData!.userInfo!.phone.toString());
-                                                  }
-                                                },
-                                                child: Image.asset(
-                                                  'assets/icons/call_icon.png',
-                                                  height: 36,
-                                                  width: 36,
-                                                )),
+                                              onTap: () {
+                                                if (rideData!.existingUserId.toString() != "null") {
+                                                  Constant.makePhoneCall(rideData!.phone.toString());
+                                                } else {
+                                                  Constant.makePhoneCall(rideData!.userInfo!.phone.toString());
+                                                }
+                                              },
+                                              child: Image.asset(
+                                                'assets/icons/call_icon.png',
+                                                height: 36,
+                                                width: 36,
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top: 5.0),
-                                        child: Text(rideData!.dateRetour.toString(),
-                                            style: const TextStyle(color: Colors.black26, fontWeight: FontWeight.w600)),
+                                        child: Text(
+                                          rideData!.dateRetour.toString(),
+                                          style: const TextStyle(color: Colors.black26, fontWeight: FontWeight.w600),
+                                        ),
                                       ),
                                     ],
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -559,19 +575,20 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                               rideData!.statut = "confirmed";
                                               Get.back();
                                               showDialog(
-                                                  context: context,
-                                                  builder: (BuildContext context) {
-                                                    return CustomDialogBox(
-                                                      title: "Confirmed Successfully".tr,
-                                                      descriptions: "Ride Successfully confirmed.".tr,
-                                                      text: "Ok".tr,
-                                                      onPress: () {
-                                                        Get.back();
-                                                        Get.back();
-                                                      },
-                                                      img: Image.asset('assets/images/green_checked.png'),
-                                                    );
-                                                  });
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return CustomDialogBox(
+                                                    title: "Confirmed Successfully".tr,
+                                                    descriptions: "Ride Successfully confirmed.".tr,
+                                                    text: "Ok".tr,
+                                                    onPress: () {
+                                                      Get.back();
+                                                      Get.back();
+                                                    },
+                                                    img: Image.asset('assets/images/green_checked.png'),
+                                                  );
+                                                },
+                                              );
                                             }
                                           });
                                         },
@@ -621,19 +638,20 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                               if (value != null) {
                                                 Get.back();
                                                 showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext context) {
-                                                      return CustomDialogBox(
-                                                        title: "On ride Successfully".tr,
-                                                        descriptions: "Ride Successfully On ride.".tr,
-                                                        text: "Ok".tr,
-                                                        onPress: () {
-                                                          Get.back();
-                                                          Get.back();
-                                                        },
-                                                        img: Image.asset('assets/images/green_checked.png'),
-                                                      );
-                                                    });
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return CustomDialogBox(
+                                                      title: "On ride Successfully".tr,
+                                                      descriptions: "Ride Successfully On ride.".tr,
+                                                      text: "Ok".tr,
+                                                      onPress: () {
+                                                        Get.back();
+                                                        Get.back();
+                                                      },
+                                                      img: Image.asset('assets/images/green_checked.png'),
+                                                    );
+                                                  },
+                                                );
                                               }
                                             });
                                           } else {
@@ -652,12 +670,13 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                                     height: 200,
                                                     padding: const EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 20),
                                                     decoration: BoxDecoration(
-                                                        shape: BoxShape.rectangle,
-                                                        color: Colors.white,
-                                                        borderRadius: BorderRadius.circular(20),
-                                                        boxShadow: const [
-                                                          BoxShadow(color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
-                                                        ]),
+                                                      shape: BoxShape.rectangle,
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.circular(20),
+                                                      boxShadow: const [
+                                                        BoxShadow(color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
+                                                      ],
+                                                    ),
                                                     child: Column(
                                                       children: [
                                                         Text(
@@ -670,17 +689,20 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                                             height: 50,
                                                             width: 50,
                                                             textStyle: const TextStyle(
-                                                                letterSpacing: 0.60,
-                                                                fontSize: 16,
-                                                                color: Colors.black,
-                                                                fontWeight: FontWeight.w600),
+                                                              letterSpacing: 0.60,
+                                                              fontSize: 16,
+                                                              color: Colors.black,
+                                                              fontWeight: FontWeight.w600,
+                                                            ),
                                                             // margin: EdgeInsets.all(10),
                                                             decoration: BoxDecoration(
                                                               borderRadius: BorderRadius.circular(10),
                                                               shape: BoxShape.rectangle,
                                                               color: Colors.white,
                                                               border: Border.all(
-                                                                  color: ConstantColors.textFieldBoarderColor, width: 0.7),
+                                                                color: ConstantColors.textFieldBoarderColor,
+                                                                width: 0.7,
+                                                              ),
                                                             ),
                                                           ),
                                                           keyboardType: TextInputType.phone,
@@ -723,20 +745,22 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                                                           if (value != null) {
                                                                             Get.back();
                                                                             showDialog(
-                                                                                context: context,
-                                                                                builder: (BuildContext context) {
-                                                                                  return CustomDialogBox(
-                                                                                    title: "On ride Successfully".tr,
-                                                                                    descriptions: "Ride Successfully On ride.".tr,
-                                                                                    text: "Ok".tr,
-                                                                                    onPress: () {
-                                                                                      Get.back();
-                                                                                      Get.back();
-                                                                                    },
-                                                                                    img: Image.asset(
-                                                                                        'assets/images/green_checked.png'),
-                                                                                  );
-                                                                                });
+                                                                              context: context,
+                                                                              builder: (BuildContext context) {
+                                                                                return CustomDialogBox(
+                                                                                  title: "On ride Successfully".tr,
+                                                                                  descriptions: "Ride Successfully On ride.".tr,
+                                                                                  text: "Ok".tr,
+                                                                                  onPress: () {
+                                                                                    Get.back();
+                                                                                    Get.back();
+                                                                                  },
+                                                                                  img: Image.asset(
+                                                                                    'assets/images/green_checked.png',
+                                                                                  ),
+                                                                                );
+                                                                              },
+                                                                            );
                                                                           }
                                                                         });
                                                                       }
@@ -763,7 +787,7 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                                                   Get.back();
                                                                 },
                                                               ),
-                                                            )
+                                                            ),
                                                           ],
                                                         ),
                                                       ],
@@ -805,8 +829,10 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                 txtColor: Colors.black.withOpacity(0.60),
                                 btnBorderColor: Colors.black.withOpacity(0.20),
                                 onPress: () async {
-                                  MapsLauncher.launchCoordinates(double.parse(rideData!.latitudeArrivee.toString()),
-                                      double.parse(rideData!.longitudeArrivee.toString()));
+                                  MapsLauncher.launchCoordinates(
+                                    double.parse(rideData!.latitudeArrivee.toString()),
+                                    double.parse(rideData!.longitudeArrivee.toString()),
+                                  );
                                   // Constant.launchMapURl(
                                   //     rideData!.latitudeArrivee,
                                   //     rideData!.longitudeArrivee);
@@ -851,19 +877,20 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                             if (value != null) {
                                               Get.back();
                                               showDialog(
-                                                  context: context,
-                                                  builder: (BuildContext context) {
-                                                    return CustomDialogBox(
-                                                      title: "Completed Successfully".tr,
-                                                      descriptions: "Ride Successfully completed.".tr,
-                                                      text: "Ok".tr,
-                                                      onPress: () {
-                                                        Get.back();
-                                                        Get.back();
-                                                      },
-                                                      img: Image.asset('assets/images/green_checked.png'),
-                                                    );
-                                                  });
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return CustomDialogBox(
+                                                    title: "Completed Successfully".tr,
+                                                    descriptions: "Ride Successfully completed.".tr,
+                                                    text: "Ok".tr,
+                                                    onPress: () {
+                                                      Get.back();
+                                                      Get.back();
+                                                    },
+                                                    img: Image.asset('assets/images/green_checked.png'),
+                                                  );
+                                                },
+                                              );
                                             }
                                           });
                                         },
@@ -880,7 +907,7 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -891,13 +918,15 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
 
   buildShowBottomSheet(BuildContext context) {
     return showModalBottomSheet(
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15))),
-        context: context,
-        isDismissible: true,
-        isScrollControlled: true,
-        builder: (context) {
-          return StatefulBuilder(builder: (context, setState) {
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+      ),
+      context: context,
+      isDismissible: true,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
               child: Padding(
@@ -978,19 +1007,20 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                               Get.back();
                                               if (value != null) {
                                                 showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext context) {
-                                                      return CustomDialogBox(
-                                                        title: "Reject Successfully".tr,
-                                                        descriptions: "Ride Successfully rejected.".tr,
-                                                        text: "Ok".tr,
-                                                        onPress: () {
-                                                          Get.back();
-                                                          Get.back();
-                                                        },
-                                                        img: Image.asset('assets/images/green_checked.png'),
-                                                      );
-                                                    });
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return CustomDialogBox(
+                                                      title: "Reject Successfully".tr,
+                                                      descriptions: "Ride Successfully rejected.".tr,
+                                                      text: "Ok".tr,
+                                                      onPress: () {
+                                                        Get.back();
+                                                        Get.back();
+                                                      },
+                                                      img: Image.asset('assets/images/green_checked.png'),
+                                                    );
+                                                  },
+                                                );
                                               }
                                             });
                                           },
@@ -1023,13 +1053,15 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                           ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
             );
-          });
-        });
+          },
+        );
+      },
+    );
   }
 
   getDirections({required double dLat, required double dLng}) async {
@@ -1096,7 +1128,7 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       }
     }
-    print('===${polylineCoordinates}');
+    print('===$polylineCoordinates');
 
     addPolyLine(polylineCoordinates);
   }

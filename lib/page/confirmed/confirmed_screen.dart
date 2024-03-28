@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 class ConfirmedScreen extends StatelessWidget {
-  const ConfirmedScreen({Key? key}) : super(key: key);
+  const ConfirmedScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,23 +19,25 @@ class ConfirmedScreen extends StatelessWidget {
       init: ConfirmedController(),
       builder: (controller) {
         return Scaffold(
-            backgroundColor: ConstantColors.background,
-            body: RefreshIndicator(
-              onRefresh: () => controller.getConformRideList(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: controller.isLoading.value
-                    ? Constant.loader()
-                    : controller.rideList.isEmpty
-                        ? Constant.emptyView("Your don't have any ride booked.")
-                        : ListView.builder(
-                            itemCount: controller.rideList.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return confirmedRideWidgets(context, controller.rideList[index], controller);
-                            }),
-              ),
-            ));
+          backgroundColor: ConstantColors.background,
+          body: RefreshIndicator(
+            onRefresh: () => controller.getConformRideList(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: controller.isLoading.value
+                  ? Constant.loader()
+                  : controller.rideList.isEmpty
+                      ? Constant.emptyView("Your don't have any ride booked.")
+                      : ListView.builder(
+                          itemCount: controller.rideList.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return confirmedRideWidgets(context, controller.rideList[index], controller);
+                          },
+                        ),
+            ),
+          ),
+        );
       },
     );
   }
@@ -90,7 +92,7 @@ class ConfirmedScreen extends StatelessWidget {
                     Text(
                       'confirmed'.tr,
                       style: TextStyle(color: ConstantColors.blue),
-                    )
+                    ),
                   ],
                 ),
                 Padding(
@@ -105,10 +107,11 @@ class ConfirmedScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black12,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                border: Border.all(
+                                  color: Colors.black12,
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 18),
                                 child: Column(
@@ -121,7 +124,10 @@ class ConfirmedScreen extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text(" ${data.numberPoeple.toString()}", style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
+                                      child: Text(
+                                        " ${data.numberPoeple.toString()}",
+                                        style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -134,10 +140,11 @@ class ConfirmedScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black12,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                border: Border.all(
+                                  color: Colors.black12,
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 20),
                                 child: Column(
@@ -174,10 +181,11 @@ class ConfirmedScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black12,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                border: Border.all(
+                                  color: Colors.black12,
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 18),
                                 child: Column(
@@ -190,8 +198,10 @@ class ConfirmedScreen extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text("${double.parse(data.distance.toString()).toStringAsFixed(int.parse(Constant.decimal!))} ${Constant.distanceUnit}",
-                                          style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
+                                      child: Text(
+                                        "${double.parse(data.distance.toString()).toStringAsFixed(int.parse(Constant.decimal!))} ${Constant.distanceUnit}",
+                                        style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -204,10 +214,11 @@ class ConfirmedScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black12,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                border: Border.all(
+                                  color: Colors.black12,
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 18),
                                 child: Column(
@@ -220,8 +231,12 @@ class ConfirmedScreen extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
-                                      child: TextScroll(data.duree.toString(),
-                                          mode: TextScrollMode.bouncing, pauseBetween: const Duration(seconds: 2), style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
+                                      child: TextScroll(
+                                        data.duree.toString(),
+                                        mode: TextScrollMode.bouncing,
+                                        pauseBetween: const Duration(seconds: 2),
+                                        style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -254,8 +269,15 @@ class ConfirmedScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('${data.prenom} ${data.nom}', style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600)),
-                              StarRating(size: 18, rating: double.parse(data.moyenneDriver.toString()), color: ConstantColors.yellow),
+                              Text(
+                                '${data.prenom} ${data.nom}',
+                                style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600),
+                              ),
+                              StarRating(
+                                size: 18,
+                                rating: double.parse(data.moyenneDriver.toString()),
+                                color: ConstantColors.yellow,
+                              ),
                             ],
                           ),
                         ),
@@ -263,30 +285,35 @@ class ConfirmedScreen extends StatelessWidget {
                       Row(
                         children: [
                           InkWell(
-                              onTap: () {
-                                Get.to(ConversationScreen(), arguments: {
+                            onTap: () {
+                              Get.to(
+                                ConversationScreen(),
+                                arguments: {
                                   'receiverId': int.parse(data.idUserApp.toString()),
                                   'orderId': int.parse(data.id.toString()),
                                   'receiverName': '${data.prenom} ${data.nom}',
-                                  'receiverPhoto': data.photoPath
-                                });
-                              },
-                              child: Image.asset(
-                                'assets/icons/chat_icon.png',
-                                height: 36,
-                                width: 36,
-                              )),
+                                  'receiverPhoto': data.photoPath,
+                                },
+                              );
+                            },
+                            child: Image.asset(
+                              'assets/icons/chat_icon.png',
+                              height: 36,
+                              width: 36,
+                            ),
+                          ),
                           Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: InkWell(
-                                onTap: () {
-                                  Constant.makePhoneCall(data.phone.toString());
-                                },
-                                child: Image.asset(
-                                  'assets/icons/call_icon.png',
-                                  height: 36,
-                                  width: 36,
-                                )),
+                              onTap: () {
+                                Constant.makePhoneCall(data.phone.toString());
+                              },
+                              child: Image.asset(
+                                'assets/icons/call_icon.png',
+                                height: 36,
+                                width: 36,
+                              ),
+                            ),
                           ),
                         ],
                       ),

@@ -399,7 +399,8 @@ class MyProfileController extends GetxController {
   /// Vehicle profile API
   Future<dynamic> getVehicleDataAPI() async {
     try {
-      final response = await http.get(Uri.parse("${API.getVehicleData}${Preferences.getInt(Preferences.userId)}"), headers: API.header);
+      final response =
+          await http.get(Uri.parse("${API.getVehicleData}${Preferences.getInt(Preferences.userId)}"), headers: API.header);
 
       Map<String, dynamic> responseBody = json.decode(response.body);
       if (response.statusCode == 200 && responseBody['success'] == "success") {

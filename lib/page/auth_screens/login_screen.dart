@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
+  LoginScreen({super.key});
 
   final controller = Get.put(LoginController());
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -48,11 +48,12 @@ class LoginScreen extends StatelessWidget {
                     style: const TextStyle(letterSpacing: 0.60, fontSize: 22, color: Colors.black, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
-                      width: 80,
-                      child: Divider(
-                        color: ConstantColors.primary,
-                        thickness: 3,
-                      )),
+                    width: 80,
+                    child: Divider(
+                      color: ConstantColors.primary,
+                      thickness: 3,
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 30),
                     child: Form(
@@ -91,75 +92,84 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                              padding: const EdgeInsets.only(top: 50),
-                              child: ButtonThem.buildButton(
-                                context,
-                                title: 'log in'.tr,
-                                btnHeight: 50,
-                                btnColor: ConstantColors.primary,
-                                txtColor: Colors.white,
-                                onPress: () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    Map<String, String> bodyParams = {
-                                      'email': _emailController.text.trim(),
-                                      'mdp': _passwordController.text,
-                                      'user_cat': 'driver',
-                                    };
-                                    await controller.loginAPI(bodyParams).then((value) {
-                                      if (value != null) {
-                                        if (value.success == "success") {
-                                          Preferences.setString(Preferences.user, jsonEncode(value));
+                            padding: const EdgeInsets.only(top: 50),
+                            child: ButtonThem.buildButton(
+                              context,
+                              title: 'log in'.tr,
+                              btnHeight: 50,
+                              btnColor: ConstantColors.primary,
+                              txtColor: Colors.white,
+                              onPress: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  Map<String, String> bodyParams = {
+                                    'email': _emailController.text.trim(),
+                                    'mdp': _passwordController.text,
+                                    'user_cat': 'driver',
+                                  };
+                                  await controller.loginAPI(bodyParams).then((value) {
+                                    if (value != null) {
+                                      if (value.success == "success") {
+                                        Preferences.setString(Preferences.user, jsonEncode(value));
 
-                                          UserData? userData = value.userData;
-                                          Preferences.setInt(Preferences.userId, int.parse(userData!.id.toString()));
-                                          if (userData.statutVehicule != "yes" || userData.statutVehicule!.isEmpty) {
-                                            Get.to(() => VehicleInfoScreen(),
-                                                duration: const Duration(milliseconds: 400), transition: Transition.rightToLeft);
-                                          }
-                                          // else if (userData.photoPath == null) {
-                                          //   Get.to(AddProfilePhotoScreen(fromOtp: false));
-                                          // }
-                                          // else if (userData.photoLicencePath == null) {
-                                          //   Get.to(
-                                          //       () => DocumentVerifyScreen(
-                                          //             fromOtp: false,
-                                          //           ),
-                                          //       duration: const Duration(milliseconds: 400),
-                                          //       transition: Transition.rightToLeft);
-                                          // }
-                                          // else if (userData.photoRoadWorthyPath == null) {
-                                          //   Get.to(
-                                          //       () => const AddRoadWorthyDocScreen(
-                                          //             fromOtp: false,
-                                          //           ),
-                                          //       duration: const Duration(milliseconds: 400),
-                                          //       transition: Transition.rightToLeft);
-                                          // } else if (userData.photoCarServiceBookPath == null) {
-                                          //   Get.to(
-                                          //       () => AddCarServiceBookScreen(
-                                          //             fromOtp: false,
-                                          //           ),
-                                          //       duration: const Duration(milliseconds: 400),
-                                          //       transition: Transition.rightToLeft);
-                                          // }
-                                          else {
-                                            Preferences.setBoolean(Preferences.isLogin, true);
-                                            Get.offAll(DashBoard(),
-                                                duration: const Duration(milliseconds: 400), transition: Transition.rightToLeft);
-                                          }
-                                        } else {
-                                          ShowToastDialog.showToast(value.error);
+                                        UserData? userData = value.userData;
+                                        Preferences.setInt(Preferences.userId, int.parse(userData!.id.toString()));
+                                        if (userData.statutVehicule != "yes" || userData.statutVehicule!.isEmpty) {
+                                          Get.to(
+                                            () => VehicleInfoScreen(),
+                                            duration: const Duration(milliseconds: 400),
+                                            transition: Transition.rightToLeft,
+                                          );
                                         }
+                                        // else if (userData.photoPath == null) {
+                                        //   Get.to(AddProfilePhotoScreen(fromOtp: false));
+                                        // }
+                                        // else if (userData.photoLicencePath == null) {
+                                        //   Get.to(
+                                        //       () => DocumentVerifyScreen(
+                                        //             fromOtp: false,
+                                        //           ),
+                                        //       duration: const Duration(milliseconds: 400),
+                                        //       transition: Transition.rightToLeft);
+                                        // }
+                                        // else if (userData.photoRoadWorthyPath == null) {
+                                        //   Get.to(
+                                        //       () => const AddRoadWorthyDocScreen(
+                                        //             fromOtp: false,
+                                        //           ),
+                                        //       duration: const Duration(milliseconds: 400),
+                                        //       transition: Transition.rightToLeft);
+                                        // } else if (userData.photoCarServiceBookPath == null) {
+                                        //   Get.to(
+                                        //       () => AddCarServiceBookScreen(
+                                        //             fromOtp: false,
+                                        //           ),
+                                        //       duration: const Duration(milliseconds: 400),
+                                        //       transition: Transition.rightToLeft);
+                                        // }
+                                        else {
+                                          Preferences.setBoolean(Preferences.isLogin, true);
+                                          Get.offAll(
+                                            DashBoard(),
+                                            duration: const Duration(milliseconds: 400),
+                                            transition: Transition.rightToLeft,
+                                          );
+                                        }
+                                      } else {
+                                        ShowToastDialog.showToast(value.error);
                                       }
-                                    });
-                                  }
-                                },
-                              )),
+                                    }
+                                  });
+                                }
+                              },
+                            ),
+                          ),
                           GestureDetector(
                             onTap: () {
-                              Get.to(ForgotPasswordScreen(),
-                                  duration: const Duration(milliseconds: 400), //duration of transitions, default 1 sec
-                                  transition: Transition.rightToLeft);
+                              Get.to(
+                                ForgotPasswordScreen(),
+                                duration: const Duration(milliseconds: 400), //duration of transitions, default 1 sec
+                                transition: Transition.rightToLeft,
+                              );
                             },
                             child: Padding(
                               padding: const EdgeInsets.only(top: 20),
@@ -172,21 +182,24 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                              padding: const EdgeInsets.only(top: 40),
-                              child: ButtonThem.buildBorderButton(
-                                context,
-                                title: 'Login With Phone Number'.tr,
-                                btnHeight: 50,
-                                btnColor: Colors.white,
-                                txtColor: ConstantColors.primary,
-                                onPress: () {
-                                  FocusScope.of(context).unfocus();
-                                  Get.to(MobileNumberScreen(isLogin: true),
-                                      duration: const Duration(milliseconds: 400), //duration of transitions, default 1 sec
-                                      transition: Transition.rightToLeft);
-                                },
-                                btnBorderColor: ConstantColors.primary,
-                              )),
+                            padding: const EdgeInsets.only(top: 40),
+                            child: ButtonThem.buildBorderButton(
+                              context,
+                              title: 'Login With Phone Number'.tr,
+                              btnHeight: 50,
+                              btnColor: Colors.white,
+                              txtColor: ConstantColors.primary,
+                              onPress: () {
+                                FocusScope.of(context).unfocus();
+                                Get.to(
+                                  MobileNumberScreen(isLogin: true),
+                                  duration: const Duration(milliseconds: 400), //duration of transitions, default 1 sec
+                                  transition: Transition.rightToLeft,
+                                );
+                              },
+                              btnBorderColor: ConstantColors.primary,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -205,37 +218,41 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
         child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text.rich(
-              textAlign: TextAlign.center,
-              TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'You don’t have an account yet? '.tr,
-                    style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        Get.to(MobileNumberScreen(isLogin: false),
-                            duration: const Duration(milliseconds: 400), //duration of transitions, default 1 sec
-                            transition: Transition.rightToLeft); //transition effect);
-                      },
-                  ),
-                  TextSpan(
-                    text: 'SIGNUP'.tr,
-                    style: TextStyle(fontWeight: FontWeight.bold, color: ConstantColors.primary),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        Get.to(
-                            MobileNumberScreen(
-                              isLogin: false,
-                            ),
-                            duration: const Duration(milliseconds: 400), //duration of transitions, default 1 sec
-                            transition: Transition.rightToLeft); //transition effect);
-                      },
-                  ),
-                ],
-              ),
-            )),
+          padding: const EdgeInsets.all(20.0),
+          child: Text.rich(
+            textAlign: TextAlign.center,
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: 'You don’t have an account yet? '.tr,
+                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      Get.to(
+                        MobileNumberScreen(isLogin: false),
+                        duration: const Duration(milliseconds: 400), //duration of transitions, default 1 sec
+                        transition: Transition.rightToLeft,
+                      ); //transition effect);
+                    },
+                ),
+                TextSpan(
+                  text: 'SIGNUP'.tr,
+                  style: TextStyle(fontWeight: FontWeight.bold, color: ConstantColors.primary),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      Get.to(
+                        MobileNumberScreen(
+                          isLogin: false,
+                        ),
+                        duration: const Duration(milliseconds: 400), //duration of transitions, default 1 sec
+                        transition: Transition.rightToLeft,
+                      ); //transition effect);
+                    },
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

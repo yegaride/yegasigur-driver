@@ -1,14 +1,9 @@
-import 'dart:convert';
-
 import 'package:cabme_driver/constant/constant.dart';
 import 'package:cabme_driver/constant/show_toast_dialog.dart';
 import 'package:cabme_driver/controller/dash_board_controller.dart';
 import 'package:cabme_driver/controller/new_ride_controller.dart';
 import 'package:cabme_driver/model/ride_model.dart';
-import 'package:cabme_driver/page/complaint/add_complaint_screen.dart';
 import 'package:cabme_driver/page/completed/trip_history_screen.dart';
-import 'package:cabme_driver/page/create_ride/create_ride_screen.dart';
-import 'package:cabme_driver/page/review_screens/add_review_screen.dart';
 import 'package:cabme_driver/page/route_view_screen/route_view_screen.dart';
 import 'package:cabme_driver/themes/button_them.dart';
 import 'package:cabme_driver/themes/constant_colors.dart';
@@ -24,7 +19,7 @@ import 'package:pinput/pinput.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 class NewRideScreen extends StatelessWidget {
-  NewRideScreen({Key? key}) : super(key: key);
+  NewRideScreen({super.key});
 
   final controllerDashBoard = Get.put(DashBoardController());
 
@@ -34,59 +29,61 @@ class NewRideScreen extends StatelessWidget {
       init: NewRideController(),
       builder: (controller) {
         return Scaffold(
-            backgroundColor: ConstantColors.background,
-            // floatingActionButton: FloatingActionButton(
-            //   backgroundColor: ConstantColors.primary,
-            //   onPressed: () {
-            //     Get.to(() => const CreateRideScreen());
-            //   },
-            //   child: const Icon(
-            //     Icons.add,
-            //     size: 35,
-            //   ),
-            // ),
-            body: RefreshIndicator(
-              onRefresh: () => controller.getNewRide(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  children: [
-                    if (double.parse(controller.totalEarn.value.toString()) < double.parse(Constant.minimumWalletBalance!))
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8,
-                          horizontal: 12,
-                        ),
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: ConstantColors.primary),
-                        child: Text(
-                          "Your wallet balance must be ".tr +
-                              Constant().amountShow(amount: Constant.minimumWalletBalance!.toString()) +
-                              " to get ride.".tr,
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
+          backgroundColor: ConstantColors.background,
+          // floatingActionButton: FloatingActionButton(
+          //   backgroundColor: ConstantColors.primary,
+          //   onPressed: () {
+          //     Get.to(() => const CreateRideScreen());
+          //   },
+          //   child: const Icon(
+          //     Icons.add,
+          //     size: 35,
+          //   ),
+          // ),
+          body: RefreshIndicator(
+            onRefresh: () => controller.getNewRide(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                children: [
+                  if (double.parse(controller.totalEarn.value.toString()) < double.parse(Constant.minimumWalletBalance!))
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 12,
+                      ),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: ConstantColors.primary),
+                      child: Text(
+                        "Your wallet balance must be ".tr +
+                            Constant().amountShow(amount: Constant.minimumWalletBalance!.toString()) +
+                            " to get ride.".tr,
+                        style: const TextStyle(
+                          color: Colors.white,
                         ),
                       ),
-                    Expanded(
-                      child: controller.isLoading.value
-                          ? Constant.loader()
-                          : controller.rideList.isEmpty
-                              ? Constant.emptyView("Your don't have any ride booked.".tr)
-                              : ListView.builder(
-                                  itemCount: controller.rideList.length,
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    if (controller.rideList[index].statut.toString() == 'new' &&
-                                        double.parse(controller.totalEarn.value.toString()) <
-                                            double.parse(Constant.minimumWalletBalance!)) return const SizedBox.shrink();
-
-                                    return newRideWidgets(context, controller.rideList[index], controller);
-                                  }),
                     ),
-                  ],
-                ),
+                  Expanded(
+                    child: controller.isLoading.value
+                        ? Constant.loader()
+                        : controller.rideList.isEmpty
+                            ? Constant.emptyView("Your don't have any ride booked.".tr)
+                            : ListView.builder(
+                                itemCount: controller.rideList.length,
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  if (controller.rideList[index].statut.toString() == 'new' &&
+                                      double.parse(controller.totalEarn.value.toString()) <
+                                          double.parse(Constant.minimumWalletBalance!)) return const SizedBox.shrink();
+
+                                  return newRideWidgets(context, controller.rideList[index], controller);
+                                },
+                              ),
+                  ),
+                ],
               ),
-            ));
+            ),
+          ),
+        );
       },
     );
   }
@@ -95,9 +92,12 @@ class NewRideScreen extends StatelessWidget {
     return InkWell(
       onTap: () async {
         if (data.statut == "completed") {
-          var isDone = await Get.to(const TripHistoryScreen(), arguments: {
-            "rideData": data,
-          });
+          var isDone = await Get.to(
+            const TripHistoryScreen(),
+            arguments: {
+              "rideData": data,
+            },
+          );
           if (isDone != null) {
             controller.getNewRide();
           }
@@ -159,47 +159,48 @@ class NewRideScreen extends StatelessWidget {
                       ],
                     ),
                     ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: data.stops!.length,
-                        itemBuilder: (context, int index) {
-                          return Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Column(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: data.stops!.length,
+                      itemBuilder: (context, int index) {
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              children: [
+                                Text(
+                                  String.fromCharCode(index + 65),
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                Image.asset(
+                                  "assets/icons/line.png",
+                                  height: 30,
+                                  color: ConstantColors.hintTextColor,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    String.fromCharCode(index + 65),
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                    ),
+                                    data.stops![index].location.toString(),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  Image.asset(
-                                    "assets/icons/line.png",
-                                    height: 30,
-                                    color: ConstantColors.hintTextColor,
-                                  ),
+                                  const Divider(),
                                 ],
                               ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      data.stops![index].location.toString(),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const Divider(),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          );
-                        }),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -292,10 +293,11 @@ class NewRideScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(left: 5.0),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.black12,
-                                      ),
-                                      borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                    border: Border.all(
+                                      color: Colors.black12,
+                                    ),
+                                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                  ),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 20),
                                     child: Column(
@@ -332,10 +334,11 @@ class NewRideScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(left: 5.0),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.black12,
-                                      ),
-                                      borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                    border: Border.all(
+                                      color: Colors.black12,
+                                    ),
+                                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                  ),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 18),
                                     child: Column(
@@ -349,8 +352,9 @@ class NewRideScreen extends StatelessWidget {
                                         Padding(
                                           padding: const EdgeInsets.only(top: 8.0),
                                           child: Text(
-                                              "${double.parse(data.distance.toString()).toStringAsFixed(int.parse(Constant.decimal!))} ${Constant.distanceUnit}",
-                                              style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
+                                            "${double.parse(data.distance.toString()).toStringAsFixed(int.parse(Constant.decimal!))} ${Constant.distanceUnit}",
+                                            style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -363,10 +367,11 @@ class NewRideScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(left: 5.0),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.black12,
-                                      ),
-                                      borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                    border: Border.all(
+                                      color: Colors.black12,
+                                    ),
+                                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                  ),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 18),
                                     child: Column(
@@ -379,10 +384,12 @@ class NewRideScreen extends StatelessWidget {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(top: 8.0),
-                                          child: TextScroll(data.duree.toString(),
-                                              mode: TextScrollMode.bouncing,
-                                              pauseBetween: const Duration(seconds: 2),
-                                              style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
+                                          child: TextScroll(
+                                            data.duree.toString(),
+                                            mode: TextScrollMode.bouncing,
+                                            pauseBetween: const Duration(seconds: 2),
+                                            style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -425,21 +432,28 @@ class NewRideScreen extends StatelessWidget {
                                   ? Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text('${data.userInfo!.name}',
-                                            style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600)),
-                                        Text('${data.userInfo!.email}',
-                                            style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w400)),
+                                        Text(
+                                          '${data.userInfo!.name}',
+                                          style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600),
+                                        ),
+                                        Text(
+                                          '${data.userInfo!.email}',
+                                          style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w400),
+                                        ),
                                       ],
                                     )
                                   : Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text('Cust. #${data.custNumber.toString()}',
-                                            style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600)),
+                                        Text(
+                                          'Cust. #${data.custNumber.toString()}',
+                                          style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600),
+                                        ),
                                         StarRating(
-                                            size: 18,
-                                            rating: double.parse(data.moyenneDriver.toString()),
-                                            color: ConstantColors.yellow),
+                                          size: 18,
+                                          rating: double.parse(data.moyenneDriver.toString()),
+                                          color: ConstantColors.yellow,
+                                        ),
                                       ],
                                     ),
                             ),
@@ -467,10 +481,12 @@ class NewRideScreen extends StatelessWidget {
                                   size: 18,
                                 ),
                               ),
-                              Text(data.dateRetour.toString(),
-                                  style: const TextStyle(color: Colors.black26, fontWeight: FontWeight.w600)),
+                              Text(
+                                data.dateRetour.toString(),
+                                style: const TextStyle(color: Colors.black26, fontWeight: FontWeight.w600),
+                              ),
                             ],
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -481,32 +497,36 @@ class NewRideScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             Expanded(
-                                child: ButtonThem.buildButton(context,
-                                    btnHeight: 40,
-                                    title: data.statutPaiement == "yes" ? "paid".tr : "Not paid".tr,
-                                    btnColor: data.statutPaiement == "yes" ? Colors.green : ConstantColors.primary,
-                                    txtColor: Colors.white, onPress: () {
-                              // if (data.payment == "Cash") {
-                              //   controller.conformPaymentByCache(data.id.toString()).then((value) {
-                              //     if (value != null) {
-                              //       showDialog(
-                              //           context: context,
-                              //           builder: (BuildContext context) {
-                              //             return CustomDialogBox(
-                              //               title: "Payment by cash",
-                              //               descriptions: "Payment collected successfully",
-                              //               text: "Ok",
-                              //               onPress: () {
-                              //                 Get.back();
-                              //                 controller.getCompletedRide();
-                              //               },
-                              //               img: Image.asset('assets/images/green_checked.png'),
-                              //             );
-                              //           });
-                              //     }
-                              //   });
-                              // } else {}
-                            })),
+                              child: ButtonThem.buildButton(
+                                context,
+                                btnHeight: 40,
+                                title: data.statutPaiement == "yes" ? "paid".tr : "Not paid".tr,
+                                btnColor: data.statutPaiement == "yes" ? Colors.green : ConstantColors.primary,
+                                txtColor: Colors.white,
+                                onPress: () {
+                                  // if (data.payment == "Cash") {
+                                  //   controller.conformPaymentByCache(data.id.toString()).then((value) {
+                                  //     if (value != null) {
+                                  //       showDialog(
+                                  //           context: context,
+                                  //           builder: (BuildContext context) {
+                                  //             return CustomDialogBox(
+                                  //               title: "Payment by cash",
+                                  //               descriptions: "Payment collected successfully",
+                                  //               text: "Ok",
+                                  //               onPress: () {
+                                  //                 Get.back();
+                                  //                 controller.getCompletedRide();
+                                  //               },
+                                  //               img: Image.asset('assets/images/green_checked.png'),
+                                  //             );
+                                  //           });
+                                  //     }
+                                  //   });
+                                  // } else {}
+                                },
+                              ),
+                            ),
                             // if (data.existingUserId.toString() != "null")
                             //   Expanded(
                             //     child: Padding(
@@ -615,19 +635,20 @@ class NewRideScreen extends StatelessWidget {
                                                 data.statut = "confirmed";
                                                 Get.back();
                                                 showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext context) {
-                                                      return CustomDialogBox(
-                                                        title: "Confirmed Successfully".tr,
-                                                        descriptions: "Ride Successfully confirmed.".tr,
-                                                        text: "Ok".tr,
-                                                        onPress: () {
-                                                          Get.back();
-                                                          controller.getNewRide();
-                                                        },
-                                                        img: Image.asset('assets/images/green_checked.png'),
-                                                      );
-                                                    });
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return CustomDialogBox(
+                                                      title: "Confirmed Successfully".tr,
+                                                      descriptions: "Ride Successfully confirmed.".tr,
+                                                      text: "Ok".tr,
+                                                      onPress: () {
+                                                        Get.back();
+                                                        controller.getNewRide();
+                                                      },
+                                                      img: Image.asset('assets/images/green_checked.png'),
+                                                    );
+                                                  },
+                                                );
                                               }
                                             });
                                           },
@@ -678,18 +699,19 @@ class NewRideScreen extends StatelessWidget {
                                                 if (value != null) {
                                                   Get.back();
                                                   showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext context) {
-                                                        return CustomDialogBox(
-                                                          title: "On ride Successfully".tr,
-                                                          descriptions: "Ride Successfully On ride.".tr,
-                                                          text: "Ok".tr,
-                                                          onPress: () {
-                                                            controller.getNewRide();
-                                                          },
-                                                          img: Image.asset('assets/images/green_checked.png'),
-                                                        );
-                                                      });
+                                                    context: context,
+                                                    builder: (BuildContext context) {
+                                                      return CustomDialogBox(
+                                                        title: "On ride Successfully".tr,
+                                                        descriptions: "Ride Successfully On ride.".tr,
+                                                        text: "Ok".tr,
+                                                        onPress: () {
+                                                          controller.getNewRide();
+                                                        },
+                                                        img: Image.asset('assets/images/green_checked.png'),
+                                                      );
+                                                    },
+                                                  );
                                                 }
                                               });
                                             } else {
@@ -708,12 +730,13 @@ class NewRideScreen extends StatelessWidget {
                                                       height: 200,
                                                       padding: const EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 20),
                                                       decoration: BoxDecoration(
-                                                          shape: BoxShape.rectangle,
-                                                          color: Colors.white,
-                                                          borderRadius: BorderRadius.circular(20),
-                                                          boxShadow: const [
-                                                            BoxShadow(color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
-                                                          ]),
+                                                        shape: BoxShape.rectangle,
+                                                        color: Colors.white,
+                                                        borderRadius: BorderRadius.circular(20),
+                                                        boxShadow: const [
+                                                          BoxShadow(color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
+                                                        ],
+                                                      ),
                                                       child: Column(
                                                         children: [
                                                           Text(
@@ -726,17 +749,20 @@ class NewRideScreen extends StatelessWidget {
                                                               height: 50,
                                                               width: 50,
                                                               textStyle: const TextStyle(
-                                                                  letterSpacing: 0.60,
-                                                                  fontSize: 16,
-                                                                  color: Colors.black,
-                                                                  fontWeight: FontWeight.w600),
+                                                                letterSpacing: 0.60,
+                                                                fontSize: 16,
+                                                                color: Colors.black,
+                                                                fontWeight: FontWeight.w600,
+                                                              ),
                                                               // margin: EdgeInsets.all(10),
                                                               decoration: BoxDecoration(
                                                                 borderRadius: BorderRadius.circular(10),
                                                                 shape: BoxShape.rectangle,
                                                                 color: Colors.white,
                                                                 border: Border.all(
-                                                                    color: ConstantColors.textFieldBoarderColor, width: 0.7),
+                                                                  color: ConstantColors.textFieldBoarderColor,
+                                                                  width: 0.7,
+                                                                ),
                                                               ),
                                                             ),
                                                             keyboardType: TextInputType.phone,
@@ -774,21 +800,22 @@ class NewRideScreen extends StatelessWidget {
                                                                             if (value != null) {
                                                                               Get.back();
                                                                               showDialog(
-                                                                                  context: context,
-                                                                                  builder: (BuildContext context) {
-                                                                                    return CustomDialogBox(
-                                                                                      title: "On ride Successfully".tr,
-                                                                                      descriptions:
-                                                                                          "Ride Successfully On ride.".tr,
-                                                                                      text: "Ok".tr,
-                                                                                      onPress: () {
-                                                                                        Get.back();
-                                                                                        controller.getNewRide();
-                                                                                      },
-                                                                                      img: Image.asset(
-                                                                                          'assets/images/green_checked.png'),
-                                                                                    );
-                                                                                  });
+                                                                                context: context,
+                                                                                builder: (BuildContext context) {
+                                                                                  return CustomDialogBox(
+                                                                                    title: "On ride Successfully".tr,
+                                                                                    descriptions: "Ride Successfully On ride.".tr,
+                                                                                    text: "Ok".tr,
+                                                                                    onPress: () {
+                                                                                      Get.back();
+                                                                                      controller.getNewRide();
+                                                                                    },
+                                                                                    img: Image.asset(
+                                                                                      'assets/images/green_checked.png',
+                                                                                    ),
+                                                                                  );
+                                                                                },
+                                                                              );
                                                                             }
                                                                           });
                                                                         }
@@ -815,7 +842,7 @@ class NewRideScreen extends StatelessWidget {
                                                                     Get.back();
                                                                   },
                                                                 ),
-                                                              )
+                                                              ),
                                                             ],
                                                           ),
                                                         ],
@@ -857,8 +884,10 @@ class NewRideScreen extends StatelessWidget {
                                   txtColor: Colors.black.withOpacity(0.60),
                                   btnBorderColor: Colors.black.withOpacity(0.20),
                                   onPress: () async {
-                                    MapsLauncher.launchCoordinates(double.parse(data.latitudeArrivee.toString()),
-                                        double.parse(data.longitudeArrivee.toString()));
+                                    MapsLauncher.launchCoordinates(
+                                      double.parse(data.latitudeArrivee.toString()),
+                                      double.parse(data.longitudeArrivee.toString()),
+                                    );
                                     // Constant.launchMapURl(data.latitudeArrivee,
                                     //     data.longitudeArrivee);
                                   },
@@ -902,19 +931,20 @@ class NewRideScreen extends StatelessWidget {
                                               if (value != null) {
                                                 Get.back();
                                                 showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext context) {
-                                                      return CustomDialogBox(
-                                                        title: "Completed Successfully".tr,
-                                                        descriptions: "Ride Successfully completed.".tr,
-                                                        text: "Ok".tr,
-                                                        onPress: () {
-                                                          Get.back();
-                                                          controller.getNewRide();
-                                                        },
-                                                        img: Image.asset('assets/images/green_checked.png'),
-                                                      );
-                                                    });
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return CustomDialogBox(
+                                                      title: "Completed Successfully".tr,
+                                                      descriptions: "Ride Successfully completed.".tr,
+                                                      text: "Ok".tr,
+                                                      onPress: () {
+                                                        Get.back();
+                                                        controller.getNewRide();
+                                                      },
+                                                      img: Image.asset('assets/images/green_checked.png'),
+                                                    );
+                                                  },
+                                                );
                                               }
                                             });
                                           },
@@ -928,27 +958,28 @@ class NewRideScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
             ),
           ),
           Positioned(
-              right: 0,
-              child: Image.asset(
-                data.statut == "new"
-                    ? 'assets/images/new.png'
-                    : data.statut == "confirmed"
-                        ? 'assets/images/conformed.png'
-                        : data.statut == "on ride"
-                            ? 'assets/images/onride.png'
-                            : data.statut == "completed"
-                                ? 'assets/images/completed.png'
-                                : 'assets/images/rejected.png',
-                height: 120,
-                width: 120,
-              )),
+            right: 0,
+            child: Image.asset(
+              data.statut == "new"
+                  ? 'assets/images/new.png'
+                  : data.statut == "confirmed"
+                      ? 'assets/images/conformed.png'
+                      : data.statut == "on ride"
+                          ? 'assets/images/onride.png'
+                          : data.statut == "completed"
+                              ? 'assets/images/completed.png'
+                              : 'assets/images/rejected.png',
+              height: 120,
+              width: 120,
+            ),
+          ),
         ],
       ),
     );
@@ -958,13 +989,15 @@ class NewRideScreen extends StatelessWidget {
 
   buildShowBottomSheet(BuildContext context, RideData data, NewRideController controller) {
     return showModalBottomSheet(
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15))),
-        context: context,
-        isDismissible: true,
-        isScrollControlled: true,
-        builder: (context) {
-          return StatefulBuilder(builder: (context, setState) {
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+      ),
+      context: context,
+      isDismissible: true,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
               child: Padding(
@@ -1044,19 +1077,20 @@ class NewRideScreen extends StatelessWidget {
                                               Get.back();
                                               if (value != null) {
                                                 showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext context) {
-                                                      return CustomDialogBox(
-                                                        title: "Reject Successfully".tr,
-                                                        descriptions: "Ride Successfully rejected.".tr,
-                                                        text: "Ok".tr,
-                                                        onPress: () {
-                                                          Get.back();
-                                                          controller.getNewRide();
-                                                        },
-                                                        img: Image.asset('assets/images/green_checked.png'),
-                                                      );
-                                                    });
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return CustomDialogBox(
+                                                      title: "Reject Successfully".tr,
+                                                      descriptions: "Ride Successfully rejected.".tr,
+                                                      text: "Ok".tr,
+                                                      onPress: () {
+                                                        Get.back();
+                                                        controller.getNewRide();
+                                                      },
+                                                      img: Image.asset('assets/images/green_checked.png'),
+                                                    );
+                                                  },
+                                                );
                                               }
                                             });
                                           },
@@ -1089,12 +1123,14 @@ class NewRideScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
             );
-          });
-        });
+          },
+        );
+      },
+    );
   }
 }

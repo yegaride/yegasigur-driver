@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 class LocalizationScreens extends StatelessWidget {
   final String intentType;
 
-  const LocalizationScreens({Key? key, required this.intentType}) : super(key: key);
+  const LocalizationScreens({super.key, required this.intentType});
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +47,9 @@ class LocalizationScreens extends StatelessWidget {
                               decoration: controller.languageList[index].code == controller.selectedLanguage.value
                                   ? BoxDecoration(
                                       border: Border.all(color: ConstantColors.primary),
-                                      borderRadius:
-                                          const BorderRadius.all(Radius.circular(5.0) //                 <--- border radius here
-                                              ),
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(5.0), //                 <--- border radius here
+                                      ),
                                     )
                                   : null,
                               child: Padding(
@@ -68,7 +68,7 @@ class LocalizationScreens extends StatelessWidget {
                                           controller.languageList[index].language.toString(),
                                         ),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -78,7 +78,7 @@ class LocalizationScreens extends StatelessWidget {
                       );
                     },
                   ),
-                )
+                ),
               ],
             ),
           ),

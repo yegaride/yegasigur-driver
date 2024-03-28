@@ -24,7 +24,10 @@ class LoginController extends GetxController {
 
         Preferences.setString(Preferences.admincommission, responseBody['data']['admin_commission'].toString());
         Preferences.setString(Preferences.walletBalance, responseBody['data']['amount'].toString());
-        Preferences.setBoolean(Preferences.documentVerified, responseBody['data']['is_verified'].toString() == "1" ? true : false);
+        Preferences.setBoolean(
+          Preferences.documentVerified,
+          responseBody['data']['is_verified'].toString() == "1" ? true : false,
+        );
 
         API.header['accesstoken'] = Preferences.getString(Preferences.accesstoken);
         return UserModel.fromJson(responseBody);

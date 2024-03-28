@@ -22,7 +22,10 @@ class WithdrawalsController extends GetxController {
 
   Future<dynamic> getWithdrawals() async {
     try {
-      final response = await http.get(Uri.parse("${API.withdrawalsList}?driver_id=${Preferences.getInt(Preferences.userId)}"), headers: API.header);
+      final response = await http.get(
+        Uri.parse("${API.withdrawalsList}?driver_id=${Preferences.getInt(Preferences.userId)}"),
+        headers: API.header,
+      );
       log(response.body);
       Map<String, dynamic> responseBody = json.decode(response.body);
 

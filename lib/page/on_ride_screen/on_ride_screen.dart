@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 class OnRideScreen extends StatelessWidget {
-  const OnRideScreen({Key? key}) : super(key: key);
+  const OnRideScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,23 +18,25 @@ class OnRideScreen extends StatelessWidget {
       init: OnRideController(),
       builder: (controller) {
         return Scaffold(
-            backgroundColor: ConstantColors.background,
-            body: RefreshIndicator(
-              onRefresh: () => controller.getOnRideList(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: controller.isLoading.value
-                    ? Constant.loader()
-                    : controller.rideList.isEmpty
-                        ? Constant.emptyView("Your don't have any ride booked.")
-                        : ListView.builder(
-                            itemCount: controller.rideList.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return onRideWidgets(context, controller.rideList[index], controller);
-                            }),
-              ),
-            ));
+          backgroundColor: ConstantColors.background,
+          body: RefreshIndicator(
+            onRefresh: () => controller.getOnRideList(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: controller.isLoading.value
+                  ? Constant.loader()
+                  : controller.rideList.isEmpty
+                      ? Constant.emptyView("Your don't have any ride booked.")
+                      : ListView.builder(
+                          itemCount: controller.rideList.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return onRideWidgets(context, controller.rideList[index], controller);
+                          },
+                        ),
+            ),
+          ),
+        );
       },
     );
   }
@@ -88,47 +90,48 @@ class OnRideScreen extends StatelessWidget {
                   ],
                 ),
                 ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: data.stops!.length,
-                    itemBuilder: (context, int index) {
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: data.stops!.length,
+                  itemBuilder: (context, int index) {
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              String.fromCharCode(index + 65),
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            Image.asset(
+                              "assets/icons/line.png",
+                              height: 30,
+                              color: ConstantColors.hintTextColor,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                String.fromCharCode(index + 65),
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                ),
+                                data.stops![index].location.toString(),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              Image.asset(
-                                "assets/icons/line.png",
-                                height: 30,
-                                color: ConstantColors.hintTextColor,
-                              ),
+                              const Divider(),
                             ],
                           ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  data.stops![index].location.toString(),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const Divider(),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    }),
+                        ),
+                      ],
+                    );
+                  },
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -195,10 +198,11 @@ class OnRideScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black12,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                border: Border.all(
+                                  color: Colors.black12,
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 18),
                                 child: Column(
@@ -211,7 +215,10 @@ class OnRideScreen extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text(" ${data.numberPoeple.toString()}", style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
+                                      child: Text(
+                                        " ${data.numberPoeple.toString()}",
+                                        style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -224,10 +231,11 @@ class OnRideScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black12,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                border: Border.all(
+                                  color: Colors.black12,
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 20),
                                 child: Column(
@@ -264,10 +272,11 @@ class OnRideScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black12,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                border: Border.all(
+                                  color: Colors.black12,
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 18),
                                 child: Column(
@@ -280,8 +289,10 @@ class OnRideScreen extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text("${double.parse(data.distance.toString()).toStringAsFixed(int.parse(Constant.decimal!))} ${Constant.distanceUnit}",
-                                          style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
+                                      child: Text(
+                                        "${double.parse(data.distance.toString()).toStringAsFixed(int.parse(Constant.decimal!))} ${Constant.distanceUnit}",
+                                        style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -294,10 +305,11 @@ class OnRideScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black12,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                border: Border.all(
+                                  color: Colors.black12,
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 18),
                                 child: Column(
@@ -310,8 +322,12 @@ class OnRideScreen extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
-                                      child: TextScroll(data.duree.toString(),
-                                          mode: TextScrollMode.bouncing, pauseBetween: const Duration(seconds: 2), style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
+                                      child: TextScroll(
+                                        data.duree.toString(),
+                                        mode: TextScrollMode.bouncing,
+                                        pauseBetween: const Duration(seconds: 2),
+                                        style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -344,8 +360,15 @@ class OnRideScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('${data.prenom.toString()} ${data.nom.toString()}', style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600)),
-                              StarRating(size: 18, rating: double.parse(data.moyenneDriver.toString()), color: ConstantColors.yellow),
+                              Text(
+                                '${data.prenom.toString()} ${data.nom.toString()}',
+                                style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600),
+                              ),
+                              StarRating(
+                                size: 18,
+                                rating: double.parse(data.moyenneDriver.toString()),
+                                color: ConstantColors.yellow,
+                              ),
                             ],
                           ),
                         ),
@@ -369,9 +392,12 @@ class OnRideScreen extends StatelessWidget {
                               size: 18,
                             ),
                           ),
-                          Text(data.dateRetour.toString(), style: const TextStyle(color: Colors.black26, fontWeight: FontWeight.w600)),
+                          Text(
+                            data.dateRetour.toString(),
+                            style: const TextStyle(color: Colors.black26, fontWeight: FontWeight.w600),
+                          ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),

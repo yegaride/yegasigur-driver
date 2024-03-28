@@ -64,5 +64,5 @@ const Map<String, String> zhCH = {
   'message': "信息",
   'submit_query_message': "提交您的查询",
   'term_service': "服务条款",
-  'privacy_policy': "隐私政策"
+  'privacy_policy': "隐私政策",
 };

@@ -7,13 +7,17 @@ import 'package:http/http.dart' as http;
 class PayStackURLGen {
   static Future payStackURLGen({required String amount, required String secretKey, required String currency}) async {
     const url = "https://api.paystack.co/transaction/initialize";
-    final response = await http.post(Uri.parse(url), body: {
-      "email": "email@deom.com",
-      "amount": amount,
-      "currency": currency,
-    }, headers: {
-      "Authorization": "Bearer $secretKey",
-    });
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        "email": "email@deom.com",
+        "amount": amount,
+        "currency": currency,
+      },
+      headers: {
+        "Authorization": "Bearer $secretKey",
+      },
+    );
     final data = jsonDecode(response.body);
     if (!data["status"]) {
       return null;
@@ -28,9 +32,12 @@ class PayStackURLGen {
   }) async {
     final url = "https://api.paystack.co/transaction/verify/$reference";
 
-    var response = await http.get(Uri.parse(url), headers: {
-      "Authorization": "Bearer $secretKey",
-    });
+    var response = await http.get(
+      Uri.parse(url),
+      headers: {
+        "Authorization": "Bearer $secretKey",
+      },
+    );
 
     final data = jsonDecode(response.body);
     if (data["status"] == true) {
@@ -42,7 +49,11 @@ class PayStackURLGen {
     //PayPalClientSettleModel.fromJson(data);
   }
 
-  static Future<String> getPayHTML({required String amount, required PayFast payFastSettingData, String itemName = "wallet Topup"}) async {
+  static Future<String> getPayHTML({
+    required String amount,
+    required PayFast payFastSettingData,
+    String itemName = "wallet Topup",
+  }) async {
     String newUrl = 'https://${payFastSettingData.isSandboxEnabled == "true" ? "sandbox" : "www"}.payfast.co.za/eng/process';
     Map body = {
       'merchant_id': payFastSettingData.merchantId,

@@ -49,24 +49,25 @@ class VehicleData {
   String? commissionPerc;
   String? typePerc;
 
-  VehicleData(
-      {this.id,
-      this.libelle,
-      this.prix,
-      this.image,
-      this.selectedImage,
-      this.creer,
-      this.modifier,
-      this.updatedAt,
-      this.deletedAt,
-      this.imagePath,
-      this.selectedImagePath,
-      this.statutCommission,
-      this.commission,
-      this.type,
-      this.statutCommissionPerc,
-      this.commissionPerc,
-      this.typePerc});
+  VehicleData({
+    this.id,
+    this.libelle,
+    this.prix,
+    this.image,
+    this.selectedImage,
+    this.creer,
+    this.modifier,
+    this.updatedAt,
+    this.deletedAt,
+    this.imagePath,
+    this.selectedImagePath,
+    this.statutCommission,
+    this.commission,
+    this.type,
+    this.statutCommissionPerc,
+    this.commissionPerc,
+    this.typePerc,
+  });
 
   VehicleData.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();

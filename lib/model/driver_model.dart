@@ -51,26 +51,27 @@ class DriverData {
   String? moyenne;
   String? totalCompletedRide;
 
-  DriverData(
-      {this.id,
-      this.nom,
-      this.prenom,
-      this.phone,
-      this.email,
-      this.online,
-      this.photo,
-      this.latitude,
-      this.longitude,
-      this.idVehicule,
-      this.brand,
-      this.model,
-      this.color,
-      this.numberplate,
-      this.passenger,
-      this.typeVehicule,
-      this.distance,
-      this.moyenne,
-      this.totalCompletedRide});
+  DriverData({
+    this.id,
+    this.nom,
+    this.prenom,
+    this.phone,
+    this.email,
+    this.online,
+    this.photo,
+    this.latitude,
+    this.longitude,
+    this.idVehicule,
+    this.brand,
+    this.model,
+    this.color,
+    this.numberplate,
+    this.passenger,
+    this.typeVehicule,
+    this.distance,
+    this.moyenne,
+    this.totalCompletedRide,
+  });
 
   DriverData.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();

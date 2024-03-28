@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:cabme_driver/constant/constant.dart';
 import 'package:cabme_driver/constant/show_toast_dialog.dart';
 import 'package:cabme_driver/controller/vehicle_info_controller.dart';
 import 'package:cabme_driver/model/brand_model.dart';
@@ -8,14 +7,12 @@ import 'package:cabme_driver/model/model.dart';
 import 'package:cabme_driver/page/auth_screens/add_profile_photo_screen.dart';
 import 'package:cabme_driver/page/auth_screens/login_screen.dart';
 import 'package:cabme_driver/themes/constant_colors.dart';
-import 'package:cabme_driver/themes/responsive.dart';
 import 'package:cabme_driver/themes/text_field_them.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class VehicleInfoScreen extends StatelessWidget {
-  VehicleInfoScreen({Key? key}) : super(key: key);
+  VehicleInfoScreen({super.key});
 
   static final GlobalKey<FormState> _formKey = GlobalKey();
 
@@ -374,9 +371,11 @@ class VehicleInfoScreen extends StatelessWidget {
                               await vehicleInfoController.vehicleRegister(bodyParams1).then((value) {
                                 if (value != null) {
                                   if (value.success == "Success" || value.success == "success") {
-                                    Get.to(() => AddProfilePhotoScreen(
-                                          fromOtp: false,
-                                        ));
+                                    Get.to(
+                                      () => AddProfilePhotoScreen(
+                                        fromOtp: false,
+                                      ),
+                                    );
                                   } else {
                                     ShowToastDialog.showToast(value.error);
                                   }
@@ -402,64 +401,68 @@ class VehicleInfoScreen extends StatelessWidget {
 
   brandDialog(BuildContext context, List<BrandData>? brandList) {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Brand list'),
-            content: SizedBox(
-              height: 300.0, // Change as per your requirement
-              width: 300.0, // Change as per your requirement
-              child: brandList!.isEmpty
-                  ? Container()
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: brandList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          title: InkWell(
-                              onTap: () {
-                                brandController.text = brandList[index].name.toString();
-                                vehicleInfoController.selectedBrandID.value = brandList[index].id.toString();
-                                Get.back();
-                              },
-                              child: Text(brandList[index].name.toString())),
-                        );
-                      },
-                    ),
-            ),
-          );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Brand list'),
+          content: SizedBox(
+            height: 300.0, // Change as per your requirement
+            width: 300.0, // Change as per your requirement
+            child: brandList!.isEmpty
+                ? Container()
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: brandList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        title: InkWell(
+                          onTap: () {
+                            brandController.text = brandList[index].name.toString();
+                            vehicleInfoController.selectedBrandID.value = brandList[index].id.toString();
+                            Get.back();
+                          },
+                          child: Text(brandList[index].name.toString()),
+                        ),
+                      );
+                    },
+                  ),
+          ),
+        );
+      },
+    );
   }
 
   modelDialog(BuildContext context, List<ModelData>? brandList) {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Model list'),
-            content: SizedBox(
-              height: 300.0, // Change as per your requirement
-              width: 300.0, // Change as per your requirement
-              child: brandList!.isEmpty
-                  ? Container()
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: brandList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          title: InkWell(
-                              onTap: () {
-                                modelController.text = brandList[index].name.toString();
-                                vehicleInfoController.selectedModelID.value = brandList[index].id.toString();
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Model list'),
+          content: SizedBox(
+            height: 300.0, // Change as per your requirement
+            width: 300.0, // Change as per your requirement
+            child: brandList!.isEmpty
+                ? Container()
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: brandList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        title: InkWell(
+                          onTap: () {
+                            modelController.text = brandList[index].name.toString();
+                            vehicleInfoController.selectedModelID.value = brandList[index].id.toString();
 
-                                Get.back();
-                              },
-                              child: Text(brandList[index].name.toString())),
-                        );
-                      },
-                    ),
-            ),
-          );
-        });
+                            Get.back();
+                          },
+                          child: Text(brandList[index].name.toString()),
+                        ),
+                      );
+                    },
+                  ),
+          ),
+        );
+      },
+    );
   }
 }

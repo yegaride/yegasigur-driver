@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ShowBankDetails extends StatelessWidget {
-  const ShowBankDetails({Key? key}) : super(key: key);
+  const ShowBankDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,39 +32,48 @@ class ShowBankDetails extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 40),
                             child: Image.asset(
-                                'assets/images/add_bank_placeholder.png'),
+                              'assets/images/add_bank_placeholder.png',
+                            ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 16, top: 100),
                             child: Text(
-                              'You have not  added bank account \n please add bank account'
-                                  .tr,
+                              'You have not  added bank account \n please add bank account'.tr,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  color: Colors.black.withOpacity(0.50),
-                                  fontWeight: FontWeight.w500),
+                                color: Colors.black.withOpacity(0.50),
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
-                                top: 40, left: 25, right: 25),
-                            child: ButtonThem.buildButton(context,
-                                btnHeight: 44,
-                                title: "Add Bank".tr,
-                                btnColor: ConstantColors.primary,
-                                txtColor: Colors.white, onPress: () {
-                              Get.to(AddBankAccount(
-                                isEdit: false,
-                              ))!
-                                  .then((value) {
-                                if (value != null) {
-                                  if (value == true) {
-                                    controller.getBankDetails();
+                              top: 40,
+                              left: 25,
+                              right: 25,
+                            ),
+                            child: ButtonThem.buildButton(
+                              context,
+                              btnHeight: 44,
+                              title: "Add Bank".tr,
+                              btnColor: ConstantColors.primary,
+                              txtColor: Colors.white,
+                              onPress: () {
+                                Get.to(
+                                  AddBankAccount(
+                                    isEdit: false,
+                                  ),
+                                )!
+                                    .then((value) {
+                                  if (value != null) {
+                                    if (value == true) {
+                                      controller.getBankDetails();
+                                    }
                                   }
-                                }
-                              });
-                            }),
-                          )
+                                });
+                              },
+                            ),
+                          ),
                         ],
                       )
                     : Card(
@@ -73,7 +82,9 @@ class ShowBankDetails extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 14, vertical: 30),
+                            horizontal: 14,
+                            vertical: 30,
+                          ),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -90,36 +101,36 @@ class ShowBankDetails extends StatelessWidget {
                                           width: 20,
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 16),
+                                          padding: const EdgeInsets.only(left: 16),
                                           child: Text(
                                             'Bank Name'.tr,
                                             style: TextStyle(
-                                                color: Colors.black
-                                                    .withOpacity(0.50),
-                                                fontWeight: FontWeight.w500),
+                                              color: Colors.black.withOpacity(0.50),
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          top: 2.0, left: 38),
-                                      child: Text(
-                                        controller.bankDetails.value.bankName
-                                            .toString(),
-                                        style: const TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                        top: 2.0,
+                                        left: 38,
                                       ),
-                                    )
+                                      child: Text(
+                                        controller.bankDetails.value.bankName.toString(),
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 10, top: 20),
+                                padding: const EdgeInsets.only(left: 10, top: 20),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -131,36 +142,36 @@ class ShowBankDetails extends StatelessWidget {
                                           width: 20,
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 16),
+                                          padding: const EdgeInsets.only(left: 16),
                                           child: Text(
                                             'Branch Name'.tr,
                                             style: TextStyle(
-                                                color: Colors.black
-                                                    .withOpacity(0.50),
-                                                fontWeight: FontWeight.w500),
+                                              color: Colors.black.withOpacity(0.50),
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          top: 2.0, left: 38),
-                                      child: Text(
-                                        controller.bankDetails.value.branchName
-                                            .toString(),
-                                        style: const TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                        top: 2.0,
+                                        left: 38,
                                       ),
-                                    )
+                                      child: Text(
+                                        controller.bankDetails.value.branchName.toString(),
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 10, top: 20),
+                                padding: const EdgeInsets.only(left: 10, top: 20),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -172,36 +183,36 @@ class ShowBankDetails extends StatelessWidget {
                                           width: 20,
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 16),
+                                          padding: const EdgeInsets.only(left: 16),
                                           child: Text(
                                             'Holder Name'.tr,
                                             style: TextStyle(
-                                                color: Colors.black
-                                                    .withOpacity(0.50),
-                                                fontWeight: FontWeight.w500),
+                                              color: Colors.black.withOpacity(0.50),
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          top: 2.0, left: 38),
-                                      child: Text(
-                                        controller.bankDetails.value.holderName
-                                            .toString(),
-                                        style: const TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                        top: 2.0,
+                                        left: 38,
                                       ),
-                                    )
+                                      child: Text(
+                                        controller.bankDetails.value.holderName.toString(),
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 10, top: 20),
+                                padding: const EdgeInsets.only(left: 10, top: 20),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -213,36 +224,36 @@ class ShowBankDetails extends StatelessWidget {
                                           width: 20,
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 16),
+                                          padding: const EdgeInsets.only(left: 16),
                                           child: Text(
                                             'Account Number'.tr,
                                             style: TextStyle(
-                                                color: Colors.black
-                                                    .withOpacity(0.50),
-                                                fontWeight: FontWeight.w500),
+                                              color: Colors.black.withOpacity(0.50),
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          top: 2.0, left: 38),
-                                      child: Text(
-                                        controller.bankDetails.value.accountNo
-                                            .toString(),
-                                        style: const TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                        top: 2.0,
+                                        left: 38,
                                       ),
-                                    )
+                                      child: Text(
+                                        controller.bankDetails.value.accountNo.toString(),
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 10, top: 20),
+                                padding: const EdgeInsets.only(left: 10, top: 20),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -254,36 +265,36 @@ class ShowBankDetails extends StatelessWidget {
                                           width: 20,
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 16),
+                                          padding: const EdgeInsets.only(left: 16),
                                           child: Text(
                                             'IFSC Code'.tr,
                                             style: TextStyle(
-                                                color: Colors.black
-                                                    .withOpacity(0.50),
-                                                fontWeight: FontWeight.w500),
+                                              color: Colors.black.withOpacity(0.50),
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          top: 2.0, left: 38),
-                                      child: Text(
-                                        controller.bankDetails.value.ifscCode
-                                            .toString(),
-                                        style: const TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                        top: 2.0,
+                                        left: 38,
                                       ),
-                                    )
+                                      child: Text(
+                                        controller.bankDetails.value.ifscCode.toString(),
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 10, top: 20),
+                                padding: const EdgeInsets.only(left: 10, top: 20),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -295,53 +306,62 @@ class ShowBankDetails extends StatelessWidget {
                                           width: 20,
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 16),
+                                          padding: const EdgeInsets.only(left: 16),
                                           child: Text(
                                             'Other Information'.tr,
                                             style: TextStyle(
-                                                color: Colors.black
-                                                    .withOpacity(0.50),
-                                                fontWeight: FontWeight.w500),
+                                              color: Colors.black.withOpacity(0.50),
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          top: 2.0, left: 38),
-                                      child: Text(
-                                        controller.bankDetails.value.otherInfo
-                                            .toString(),
-                                        style: const TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                        top: 2.0,
+                                        left: 38,
                                       ),
-                                    )
+                                      child: Text(
+                                        controller.bankDetails.value.otherInfo.toString(),
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 20, left: 25, right: 25),
-                                child: ButtonThem.buildButton(context,
-                                    btnHeight: 40,
-                                    title: "Edit bank".tr,
-                                    btnColor: ConstantColors.primary,
-                                    txtColor: Colors.black, onPress: () {
-                                  Get.to(AddBankAccount(
-                                    isEdit: true,
-                                  ))!
-                                      .then((value) {
-                                    if (value != null) {
-                                      if (value == true) {
-                                        controller.getBankDetails();
+                                  top: 20,
+                                  left: 25,
+                                  right: 25,
+                                ),
+                                child: ButtonThem.buildButton(
+                                  context,
+                                  btnHeight: 40,
+                                  title: "Edit bank".tr,
+                                  btnColor: ConstantColors.primary,
+                                  txtColor: Colors.black,
+                                  onPress: () {
+                                    Get.to(
+                                      AddBankAccount(
+                                        isEdit: true,
+                                      ),
+                                    )!
+                                        .then((value) {
+                                      if (value != null) {
+                                        if (value == true) {
+                                          controller.getBankDetails();
+                                        }
                                       }
-                                    }
-                                  });
-                                }),
-                              )
+                                    });
+                                  },
+                                ),
+                              ),
                             ],
                           ),
                         ),

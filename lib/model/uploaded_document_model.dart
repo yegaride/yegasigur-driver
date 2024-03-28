@@ -41,7 +41,17 @@ class UploadedDocumentData {
   String? comment;
   String? documentName;
 
-  UploadedDocumentData({this.id, this.title, this.isEnabled, this.createdAt, this.updatedAt, this.documentPath, this.documentStatus, this.comment, this.documentName});
+  UploadedDocumentData({
+    this.id,
+    this.title,
+    this.isEnabled,
+    this.createdAt,
+    this.updatedAt,
+    this.documentPath,
+    this.documentStatus,
+    this.comment,
+    this.documentName,
+  });
 
   UploadedDocumentData.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();

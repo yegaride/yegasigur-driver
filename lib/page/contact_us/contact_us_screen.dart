@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactUsScreen extends StatefulWidget {
-  const ContactUsScreen({Key? key}) : super(key: key);
+  const ContactUsScreen({super.key});
 
   @override
   State<ContactUsScreen> createState() => _ContactUsScreenState();
@@ -29,53 +29,63 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           color: Colors.white,
         ),
       ),
-      body: Column(children: <Widget>[
-        Material(
+      body: Column(
+        children: <Widget>[
+          Material(
             elevation: 2,
             color: Colors.white,
             child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(right: 16.0, left: 16, top: 16),
-                    child: Text(
-                      'Our Address'.tr,
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(right: 16.0, left: 16, top: 16),
+                  child: Text(
+                    'Our Address'.tr,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        right: 16.0, left: 16, top: 16, bottom: 16),
-                    child: Text(
-                        Constant.contactUsAddress!.replaceAll(r'\n', '\n')),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    right: 16.0,
+                    left: 16,
+                    top: 16,
+                    bottom: 16,
                   ),
-                  ListTile(
-                    title: Text(
-                      'Email Us'.tr,
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
+                  child: Text(
+                    Constant.contactUsAddress!.replaceAll(r'\n', '\n'),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Email Us'.tr,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
                     ),
-                    subtitle: Text(Constant.contactUsEmail.toString()),
-                    trailing: InkWell(
-                      onTap: () {
-                        String url = 'mailto: ${Constant.contactUsEmail}';
-                        launchUrl(Uri.parse(url));
-                      },
-                      child: const Icon(
-                        CupertinoIcons.chevron_forward,
-                        color: Colors.black54,
-                      ),
+                  ),
+                  subtitle: Text(Constant.contactUsEmail.toString()),
+                  trailing: InkWell(
+                    onTap: () {
+                      String url = 'mailto: ${Constant.contactUsEmail}';
+                      launchUrl(Uri.parse(url));
+                    },
+                    child: const Icon(
+                      CupertinoIcons.chevron_forward,
+                      color: Colors.black54,
                     ),
-                  )
-                ]))
-      ]),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

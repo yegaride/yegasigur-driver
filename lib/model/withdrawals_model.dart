@@ -46,21 +46,22 @@ class WithdrawalsData {
   String? otherInfo;
   String? ifscCode;
 
-  WithdrawalsData(
-      {this.id,
-      this.idConducteur,
-      this.amount,
-      this.note,
-      this.statut,
-      this.creer,
-      this.createdAt,
-      this.modifier,
-      this.updatedAt,
-      this.bankName,
-      this.branchName,
-      this.accountNo,
-      this.otherInfo,
-      this.ifscCode});
+  WithdrawalsData({
+    this.id,
+    this.idConducteur,
+    this.amount,
+    this.note,
+    this.statut,
+    this.creer,
+    this.createdAt,
+    this.modifier,
+    this.updatedAt,
+    this.bankName,
+    this.branchName,
+    this.accountNo,
+    this.otherInfo,
+    this.ifscCode,
+  });
 
   WithdrawalsData.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();

@@ -15,7 +15,7 @@ class API {
   static Map<String, String> header = {
     HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
     'apikey': apiKey,
-    'accesstoken': Preferences.getString(Preferences.accesstoken)
+    'accesstoken': Preferences.getString(Preferences.accesstoken),
   };
 
   static const userSignUP = "${baseUrl}user";

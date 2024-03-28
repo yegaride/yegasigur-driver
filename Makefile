@@ -58,3 +58,9 @@ build-apk: ## Build apk
 	@flutter clean
 	@flutter pub get
 	@flutter build apk --build-name=1.0 --build-number=1 $(OUTPUT)
+
+format:
+	@dart format --line-length 130 lib/
+
+fix:
+	@dart fix lib/ --apply

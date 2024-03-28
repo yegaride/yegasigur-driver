@@ -76,12 +76,15 @@ class MyApp extends StatelessWidget {
       print('=====${message.data}======');
       if (message.notification != null) {
         if (message.data['status'] == "done") {
-          await Get.to(ConversationScreen(), arguments: {
-            'receiverId': int.parse(json.decode(message.data['message'])['senderId'].toString()),
-            'orderId': int.parse(json.decode(message.data['message'])['orderId'].toString()),
-            'receiverName': json.decode(message.data['message'])['senderName'].toString(),
-            'receiverPhoto': json.decode(message.data['message'])['senderPhoto'].toString(),
-          });
+          await Get.to(
+            ConversationScreen(),
+            arguments: {
+              'receiverId': int.parse(json.decode(message.data['message'])['senderId'].toString()),
+              'orderId': int.parse(json.decode(message.data['message'])['orderId'].toString()),
+              'receiverName': json.decode(message.data['message'])['senderName'].toString(),
+              'receiverPhoto': json.decode(message.data['message'])['senderPhoto'].toString(),
+            },
+          );
         } else if (message.data['statut'] == "new" && message.data['statut'] == "rejected") {
           await Get.to(DashBoard());
         } else if (message.data['type'] == "payment received") {
@@ -117,12 +120,13 @@ class MyApp extends StatelessWidget {
     try {
       final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
       const NotificationDetails notificationDetails = NotificationDetails(
-          android: AndroidNotificationDetails(
-        "01",
-        "cabme-driver",
-        importance: Importance.max,
-        priority: Priority.high,
-      ));
+        android: AndroidNotificationDetails(
+          "01",
+          "cabme-driver",
+          importance: Importance.max,
+          priority: Priority.high,
+        ),
+      );
       print('===Data===${message.data}');
       await FlutterLocalNotificationsPlugin().show(
         id,
@@ -168,15 +172,17 @@ class MyApp extends StatelessWidget {
         home: GetBuilder(
           init: SettingsController(),
           builder: (controller) {
-            content = Obx(() => controller.splashScreen.value
-                ? Container(color: ConstantColors.primary)
-                : Preferences.getString(Preferences.languageCodeKey).toString().isEmpty
-                    ? const LocalizationScreens(intentType: "main")
-                    : Preferences.getBoolean(Preferences.isFinishOnBoardingKey)
-                        ? Preferences.getBoolean(Preferences.isLogin)
-                            ? DashBoard()
-                            : LoginScreen()
-                        : const OnBoardingScreen());
+            content = Obx(
+              () => controller.splashScreen.value
+                  ? Container(color: ConstantColors.primary)
+                  : Preferences.getString(Preferences.languageCodeKey).toString().isEmpty
+                      ? const LocalizationScreens(intentType: "main")
+                      : Preferences.getBoolean(Preferences.isFinishOnBoardingKey)
+                          ? Preferences.getBoolean(Preferences.isLogin)
+                              ? DashBoard()
+                              : LoginScreen()
+                          : const OnBoardingScreen(),
+            );
             return content;
             // return ;
           },

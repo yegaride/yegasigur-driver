@@ -17,14 +17,14 @@ class PayStackScreen extends StatefulWidget {
   final String callBackUrl;
 
   const PayStackScreen({
-    Key? key,
+    super.key,
     required this.initialURl,
     required this.reference,
     required this.amount,
     required this.secretKey,
     required this.walletController,
     required this.callBackUrl,
-  }) : super(key: key);
+  });
 
   @override
   State<PayStackScreen> createState() => _PayStackScreenState();
@@ -53,11 +53,13 @@ class _PayStackScreenState extends State<PayStackScreen> {
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest navigation) async {
             if (navigation.url == '${widget.callBackUrl}?trxref=${widget.reference}&reference=${widget.reference}') {
-              final isDone = await widget.walletController.payStackVerifyTransaction(secretKey: widget.secretKey, reference: widget.reference, amount: widget.amount);
+              final isDone = await widget.walletController
+                  .payStackVerifyTransaction(secretKey: widget.secretKey, reference: widget.reference, amount: widget.amount);
               Get.back(result: isDone);
             }
             if (navigation.url == '${widget.callBackUrl}?trxref=${widget.reference}&reference=${widget.reference}') {
-              final isDone = await widget.walletController.payStackVerifyTransaction(secretKey: widget.secretKey, reference: widget.reference, amount: widget.amount);
+              final isDone = await widget.walletController
+                  .payStackVerifyTransaction(secretKey: widget.secretKey, reference: widget.reference, amount: widget.amount);
               Get.back(result: isDone);
               //close webview
             }
@@ -77,18 +79,19 @@ class _PayStackScreenState extends State<PayStackScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-            backgroundColor: ConstantColors.primary,
-            title: const Text("Payment"),
-            centerTitle: false,
-            leading: GestureDetector(
-              onTap: () {
-                _showMyDialog(context);
-              },
-              child: const Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-              ),
-            )),
+          backgroundColor: ConstantColors.primary,
+          title: const Text("Payment"),
+          centerTitle: false,
+          leading: GestureDetector(
+            onTap: () {
+              _showMyDialog(context);
+            },
+            child: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+          ),
+        ),
 
         body: WebViewWidget(controller: controller),
         // body: WebView(
