@@ -22,16 +22,11 @@ class VehicleInfoScreen extends StatelessWidget {
   static final TextEditingController brandController = TextEditingController();
   static final TextEditingController modelController = TextEditingController();
   static final TextEditingController colorController = TextEditingController();
-  static final TextEditingController carMakeController =
-      TextEditingController();
-  static final TextEditingController millageController =
-      TextEditingController();
-  static final TextEditingController kmDrivenController =
-      TextEditingController();
-  static final TextEditingController numberPlateController =
-      TextEditingController();
-  static final TextEditingController numberOfPassengersController =
-      TextEditingController();
+  static final TextEditingController carMakeController = TextEditingController();
+  static final TextEditingController millageController = TextEditingController();
+  static final TextEditingController kmDrivenController = TextEditingController();
+  static final TextEditingController numberPlateController = TextEditingController();
+  static final TextEditingController numberOfPassengersController = TextEditingController();
 
   final vehicleInfoController = Get.put(VehicleInfoController());
 
@@ -71,85 +66,62 @@ class VehicleInfoScreen extends StatelessWidget {
                       },
                       child: Text(
                         'Enter your vehicle information'.tr,
-                        style: const TextStyle(
-                            fontSize: 22,
-                            color: Colors.black,
-                            letterSpacing: 1.5,
-                            fontWeight: FontWeight.w500),
+                        style:
+                            const TextStyle(fontSize: 22, color: Colors.black, letterSpacing: 1.5, fontWeight: FontWeight.w500),
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: SizedBox(
-                      height: Responsive.height(18, context),
-                      child: ListView.builder(
-                          itemCount:
-                              vehicleInfoController.vehicleCategoryList.length,
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return Obx(
-                              () => Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    vehicleInfoController
-                                            .selectedCategoryID.value =
-                                        vehicleInfoController
-                                            .vehicleCategoryList[index].id
-                                            .toString();
-                                  },
-                                  child: Container(
-                                    width: 120,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 8),
-                                    decoration: BoxDecoration(
-                                        color: vehicleInfoController
-                                                    .selectedCategoryID.value ==
-                                                vehicleInfoController
-                                                    .vehicleCategoryList[index]
-                                                    .id
-                                                    .toString()
-                                            ? ConstantColors.primary
-                                            : Colors.black.withOpacity(0.08),
-                                        borderRadius: BorderRadius.circular(6)),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        CachedNetworkImage(
-                                          imageUrl: vehicleInfoController
-                                              .vehicleCategoryList[index].image
-                                              .toString(),
-                                          fit: BoxFit.fill,
-                                          width: 100,
-                                          height:
-                                              Responsive.height(10, context),
-                                          placeholder: (context, url) =>
-                                              Constant.loader(),
-                                          errorWidget: (context, url, error) =>
-                                              const Icon(Icons.error),
-                                        ),
-                                        Text(
-                                          vehicleInfoController
-                                              .vehicleCategoryList[index]
-                                              .libelle
-                                              .toString(),
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(top: 10.0),
+                  //   child: SizedBox(
+                  //     height: Responsive.height(18, context),
+                  //     child: ListView.builder(
+                  //         itemCount: vehicleInfoController.vehicleCategoryList.length,
+                  //         scrollDirection: Axis.horizontal,
+                  //         shrinkWrap: true,
+                  //         itemBuilder: (context, index) {
+                  //           return Obx(
+                  //             () => Padding(
+                  //               padding: const EdgeInsets.all(8.0),
+                  //               child: GestureDetector(
+                  //                 onTap: () {
+                  //                   vehicleInfoController.selectedCategoryID.value =
+                  //                       vehicleInfoController.vehicleCategoryList[index].id.toString();
+                  //                 },
+                  //                 child: Container(
+                  //                   width: 120,
+                  //                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  //                   decoration: BoxDecoration(
+                  //                       color: vehicleInfoController.selectedCategoryID.value ==
+                  //                               vehicleInfoController.vehicleCategoryList[index].id.toString()
+                  //                           ? ConstantColors.primary
+                  //                           : Colors.black.withOpacity(0.08),
+                  //                       borderRadius: BorderRadius.circular(6)),
+                  //                   child: Column(
+                  //                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //                     children: [
+                  //                       CachedNetworkImage(
+                  //                         imageUrl: vehicleInfoController.vehicleCategoryList[index].image.toString(),
+                  //                         fit: BoxFit.fill,
+                  //                         width: 100,
+                  //                         height: Responsive.height(10, context),
+                  //                         placeholder: (context, url) => Constant.loader(),
+                  //                         errorWidget: (context, url, error) => const Icon(Icons.error),
+                  //                       ),
+                  //                       Text(
+                  //                         vehicleInfoController.vehicleCategoryList[index].libelle.toString(),
+                  //                         overflow: TextOverflow.ellipsis,
+                  //                         style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                  //                       ),
+                  //                     ],
+                  //                   ),
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           );
+                  //         }),
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Form(
@@ -167,8 +139,7 @@ class VehicleInfoScreen extends StatelessWidget {
                                 if (value!.isNotEmpty) {
                                   brandDialog(context, value);
                                 } else {
-                                  ShowToastDialog.showToast(
-                                      "Please contact administrator".tr);
+                                  ShowToastDialog.showToast("Please contact administrator".tr);
                                 }
                               });
                             },
@@ -193,31 +164,25 @@ class VehicleInfoScreen extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () {
-                              if (vehicleInfoController
-                                  .selectedCategoryID.value.isNotEmpty) {
+                              print(vehicleInfoController.selectedCategoryID.value);
+                              if (vehicleInfoController.selectedCategoryID.value.isNotEmpty) {
                                 if (brandController.text.isNotEmpty) {
                                   Map<String, String> bodyParams = {
                                     'brand': brandController.text,
-                                    'vehicle_type': vehicleInfoController
-                                        .selectedCategoryID.value,
+                                    'vehicle_type': vehicleInfoController.selectedCategoryID.value,
                                   };
-                                  vehicleInfoController
-                                      .getModel(bodyParams)
-                                      .then((value) {
+                                  vehicleInfoController.getModel(bodyParams).then((value) {
                                     if (value != null && value.isNotEmpty) {
                                       modelDialog(context, value);
                                     } else {
-                                      ShowToastDialog.showToast(
-                                          "Car Model not Found.".tr);
+                                      ShowToastDialog.showToast("Car Model not Found.".tr);
                                     }
                                   });
                                 } else {
-                                  ShowToastDialog.showToast(
-                                      "Please select brand".tr);
+                                  ShowToastDialog.showToast("Please select brand".tr);
                                 }
                               } else {
-                                ShowToastDialog.showToast(
-                                    'Please select Vehicle Type'.tr);
+                                ShowToastDialog.showToast('Please select Vehicle Type'.tr);
                               }
                             },
                             child: TextFieldThem.boxBuildTextField(
@@ -268,18 +233,13 @@ class VehicleInfoScreen extends StatelessWidget {
                                       width: 300,
                                       height: 300,
                                       child: YearPicker(
-                                        firstDate: DateTime(
-                                            DateTime.now().year - 30, 1),
-                                        lastDate:
-                                            DateTime(DateTime.now().year, 1),
-                                        initialDate:
-                                            DateTime(DateTime.now().year, 1),
-                                        selectedDate:
-                                            DateTime(DateTime.now().year, 1),
+                                        firstDate: DateTime(DateTime.now().year - 30, 1),
+                                        lastDate: DateTime(DateTime.now().year, 1),
+                                        initialDate: DateTime(DateTime.now().year, 1),
+                                        selectedDate: DateTime(DateTime.now().year, 1),
                                         onChanged: (DateTime dateTime) {
                                           // close the dialog when year is selected.
-                                          carMakeController.text =
-                                              dateTime.year.toString();
+                                          carMakeController.text = dateTime.year.toString();
                                           Get.back();
                                         },
                                       ),
@@ -397,33 +357,23 @@ class VehicleInfoScreen extends StatelessWidget {
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            if (vehicleInfoController
-                                .selectedCategoryID.value.isNotEmpty) {
+                            if (vehicleInfoController.selectedCategoryID.value.isNotEmpty) {
                               Map<String, String> bodyParams1 = {
-                                "brand":
-                                    vehicleInfoController.selectedBrandID.value,
-                                "model":
-                                    vehicleInfoController.selectedModelID.value,
+                                "brand": vehicleInfoController.selectedBrandID.value,
+                                "model": vehicleInfoController.selectedModelID.value,
                                 "color": colorController.text,
-                                "carregistration":
-                                    numberPlateController.text.toUpperCase(),
+                                "carregistration": numberPlateController.text.toUpperCase(),
                                 "passenger": numberOfPassengersController.text,
-                                "id_driver": vehicleInfoController
-                                    .userModel!.userData!.id
-                                    .toString(),
-                                "id_categorie_vehicle": vehicleInfoController
-                                    .selectedCategoryID.value,
+                                "id_driver": vehicleInfoController.userModel!.userData!.id.toString(),
+                                "id_categorie_vehicle": vehicleInfoController.selectedCategoryID.value,
                                 "car_make": carMakeController.text,
                                 "milage": millageController.text,
                                 "km_driven": kmDrivenController.text,
                               };
                               log(bodyParams1.toString());
-                              await vehicleInfoController
-                                  .vehicleRegister(bodyParams1)
-                                  .then((value) {
+                              await vehicleInfoController.vehicleRegister(bodyParams1).then((value) {
                                 if (value != null) {
-                                  if (value.success == "Success" ||
-                                      value.success == "success") {
+                                  if (value.success == "Success" || value.success == "success") {
                                     Get.to(() => AddProfilePhotoScreen(
                                           fromOtp: false,
                                         ));
@@ -434,8 +384,7 @@ class VehicleInfoScreen extends StatelessWidget {
                               });
                               //Get.to(AddProfilePhotoScreen());
                             } else {
-                              ShowToastDialog.showToast(
-                                  "Please select vehicle type".tr);
+                              ShowToastDialog.showToast("Please select vehicle type".tr);
                             }
                           }
                         },
@@ -469,10 +418,8 @@ class VehicleInfoScreen extends StatelessWidget {
                         return ListTile(
                           title: InkWell(
                               onTap: () {
-                                brandController.text =
-                                    brandList[index].name.toString();
-                                vehicleInfoController.selectedBrandID.value =
-                                    brandList[index].id.toString();
+                                brandController.text = brandList[index].name.toString();
+                                vehicleInfoController.selectedBrandID.value = brandList[index].id.toString();
                                 Get.back();
                               },
                               child: Text(brandList[index].name.toString())),
@@ -502,10 +449,8 @@ class VehicleInfoScreen extends StatelessWidget {
                         return ListTile(
                           title: InkWell(
                               onTap: () {
-                                modelController.text =
-                                    brandList[index].name.toString();
-                                vehicleInfoController.selectedModelID.value =
-                                    brandList[index].id.toString();
+                                modelController.text = brandList[index].name.toString();
+                                vehicleInfoController.selectedModelID.value = brandList[index].id.toString();
 
                                 Get.back();
                               },
