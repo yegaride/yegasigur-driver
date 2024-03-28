@@ -1,8 +1,10 @@
 import 'package:cabme_driver/lang/app_de.dart';
 import 'package:cabme_driver/lang/app_en.dart';
+import 'package:cabme_driver/lang/app_es.dart';
 import 'package:cabme_driver/lang/app_fr.dart';
 import 'package:cabme_driver/lang/app_hi.dart';
 import 'package:cabme_driver/lang/app_ja.dart';
+import 'package:cabme_driver/lang/app_nl.dart';
 import 'package:cabme_driver/lang/app_pt.dart';
 import 'package:cabme_driver/lang/app_ru.dart';
 import 'package:cabme_driver/lang/app_zh.dart';
@@ -22,6 +24,8 @@ class LocalizationService extends Translations {
     const Locale('de'),
     const Locale('pt'),
     const Locale('ru'),
+    const Locale('nl'),
+    const Locale('es'),
   ];
 
   // Keys and their translations
@@ -36,6 +40,8 @@ class LocalizationService extends Translations {
         'de': deGR,
         'pt': ptPO,
         'ru': ruRU,
+        'nl': nlNL,
+        'es': esES,
       };
 
   // Gets locale from language, and updates the locale

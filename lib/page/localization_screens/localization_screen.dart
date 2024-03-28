@@ -10,8 +10,7 @@ import 'package:get/get.dart';
 class LocalizationScreens extends StatelessWidget {
   final String intentType;
 
-  const LocalizationScreens({Key? key, required this.intentType})
-      : super(key: key);
+  const LocalizationScreens({Key? key, required this.intentType}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +25,10 @@ class LocalizationScreens extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: intentType == "dashBoard"
-                      ? EdgeInsets.zero
-                      : const EdgeInsets.only(top: 30),
+                  padding: intentType == "dashBoard" ? EdgeInsets.zero : const EdgeInsets.only(top: 30),
                   child: Text(
                     'select_language'.tr,
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600),
+                    style: const TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.w600),
                   ),
                 ),
                 Expanded(
@@ -45,40 +39,35 @@ class LocalizationScreens extends StatelessWidget {
                       return Obx(
                         () => InkWell(
                           onTap: () {
-                            controller.selectedLanguage.value =
-                                controller.languageList[index].code.toString();
+                            controller.selectedLanguage.value = controller.languageList[index].code.toString();
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Container(
-                              decoration: controller.languageList[index].code ==
-                                      controller.selectedLanguage.value
+                              decoration: controller.languageList[index].code == controller.selectedLanguage.value
                                   ? BoxDecoration(
-                                      border: Border.all(
-                                          color: ConstantColors.primary),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(
-                                              5.0) //                 <--- border radius here
-                                          ),
+                                      border: Border.all(color: ConstantColors.primary),
+                                      borderRadius:
+                                          const BorderRadius.all(Radius.circular(5.0) //                 <--- border radius here
+                                              ),
                                     )
                                   : null,
                               child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
                                 child: Row(
                                   children: [
                                     Image.network(
-                                      controller.languageList[index].flag
-                                          .toString(),
+                                      controller.languageList[index].flag.toString(),
                                       height: 60,
                                       width: 60,
                                     ),
                                     Expanded(
                                       child: Align(
-                                          alignment: Alignment.bottomRight,
-                                          child: Text(controller
-                                              .languageList[index].language
-                                              .toString())),
+                                        alignment: Alignment.bottomRight,
+                                        child: Text(
+                                          controller.languageList[index].language.toString(),
+                                        ),
+                                      ),
                                     )
                                   ],
                                 ),
@@ -97,10 +86,8 @@ class LocalizationScreens extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: ElevatedButton(
               onPressed: () {
-                LocalizationService()
-                    .changeLocale(controller.selectedLanguage.value);
-                Preferences.setString(Preferences.languageCodeKey,
-                    controller.selectedLanguage.toString());
+                LocalizationService().changeLocale(controller.selectedLanguage.value);
+                Preferences.setString(Preferences.languageCodeKey, controller.selectedLanguage.toString());
                 if (intentType == "dashBoard") {
                   ShowToastDialog.showToast("Language change successfully".tr);
                 } else {
