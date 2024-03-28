@@ -1,3 +1,4 @@
+import 'package:cabme_driver/constant/constant.dart';
 import 'package:cabme_driver/constant/show_toast_dialog.dart';
 import 'package:cabme_driver/controller/document_status_contoller.dart';
 import 'package:cabme_driver/themes/button_them.dart';
@@ -23,133 +24,112 @@ class DocumentStatusScreen extends StatelessWidget {
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
-              : ListView.builder(
-                  itemCount: controller.documentList.length,
-                  shrinkWrap: true,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        ),
-                        child: Padding(
+              : controller.documentList.isNotEmpty
+                  ? ListView.builder(
+                      itemCount: controller.documentList.length,
+                      shrinkWrap: true,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Row(
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
                                 children: [
-                                  Expanded(
-                                    child: Text(
-                                      controller
-                                          .documentList[index].documentName
-                                          .toString(),
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                  controller.documentList[index]
-                                              .documentStatus ==
-                                          "Disapprove"
-                                      ? InkWell(
-                                          onTap: () {
-                                            showDialog(
-                                              barrierColor: Colors.black26,
-                                              context: context,
-                                              builder: (context) {
-                                                return CustomAlertDialog(
-                                                  title:
-                                                      "Reason : ${controller.documentList[index].comment!.isEmpty ? "Under Verification".tr : controller.documentList[index].comment.toString()}",
-                                                  negativeButtonText: 'Ok'.tr,
-                                                  positiveButtonText: 'Ok'.tr,
-                                                  onPressPositive: () {
-                                                    Get.back();
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          controller.documentList[index].documentName.toString(),
+                                          style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                      controller.documentList[index].documentStatus == "Disapprove"
+                                          ? InkWell(
+                                              onTap: () {
+                                                showDialog(
+                                                  barrierColor: Colors.black26,
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return CustomAlertDialog(
+                                                      title:
+                                                          "Reason : ${controller.documentList[index].comment!.isEmpty ? "Under Verification".tr : controller.documentList[index].comment.toString()}",
+                                                      negativeButtonText: 'Ok'.tr,
+                                                      positiveButtonText: 'Ok'.tr,
+                                                      onPressPositive: () {
+                                                        Get.back();
+                                                      },
+                                                    );
                                                   },
                                                 );
                                               },
-                                            );
-                                          },
-                                          child:
-                                              const Icon(Icons.remove_red_eye))
-                                      : Container(),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    controller
-                                        .documentList[index].documentStatus
-                                        .toString(),
-                                    style: TextStyle(
-                                        color: controller.documentList[index]
-                                                        .documentStatus ==
-                                                    "Disapprove" ||
-                                                controller.documentList[index]
-                                                        .documentStatus ==
-                                                    "Pending"
-                                            ? Colors.red
-                                            : Colors.green),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              controller
-                                      .documentList[index].documentPath!.isEmpty
-                                  ? Container()
-                                  : ClipRRect(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(10)),
-                                      child: Image.network(
-                                        controller
-                                            .documentList[index].documentPath!,
-                                        height: Responsive.height(25, context),
-                                        width: Responsive.width(90, context),
-                                        fit: BoxFit.cover,
+                                              child: const Icon(Icons.remove_red_eye))
+                                          : Container(),
+                                      const SizedBox(
+                                        width: 10,
                                       ),
-                                    ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  ButtonThem.buildButton(
-                                    context,
-                                    title: 'upload'.tr,
-                                    btnHeight: 32,
-                                    btnWidthRatio: 0.25,
-                                    btnColor: ConstantColors.blue,
-                                    txtColor: Colors.white,
-                                    onPress: () {
-                                      buildBottomSheet(
-                                          context,
-                                          controller,
-                                          index,
-                                          controller.documentList[index].id
-                                              .toString());
-                                    },
+                                      Text(
+                                        controller.documentList[index].documentStatus.toString(),
+                                        style: TextStyle(
+                                            color: controller.documentList[index].documentStatus == "Disapprove" ||
+                                                    controller.documentList[index].documentStatus == "Pending"
+                                                ? Colors.red
+                                                : Colors.green),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  controller.documentList[index].documentPath!.isEmpty
+                                      ? Container()
+                                      : ClipRRect(
+                                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                          child: Image.network(
+                                            controller.documentList[index].documentPath!,
+                                            height: Responsive.height(25, context),
+                                            width: Responsive.width(90, context),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      ButtonThem.buildButton(
+                                        context,
+                                        title: 'upload'.tr,
+                                        btnHeight: 32,
+                                        btnWidthRatio: 0.25,
+                                        btnColor: ConstantColors.blue,
+                                        txtColor: Colors.white,
+                                        onPress: () {
+                                          buildBottomSheet(
+                                              context, controller, index, controller.documentList[index].id.toString());
+                                        },
+                                      )
+                                    ],
                                   )
                                 ],
-                              )
-                            ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
+                        );
+                      },
+                    )
+                  : Constant.emptyView("No documents found"),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         );
       },
     );
   }
 
-  buildBottomSheet(BuildContext context, DocumentStatusController controller,
-      int index, String documentId) {
+  buildBottomSheet(BuildContext context, DocumentStatusController controller, int index, String documentId) {
     return showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -181,10 +161,8 @@ class DocumentStatusScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             IconButton(
-                                onPressed: () => pickFile(controller,
-                                    source: ImageSource.camera,
-                                    index: index,
-                                    documentId: documentId),
+                                onPressed: () =>
+                                    pickFile(controller, source: ImageSource.camera, index: index, documentId: documentId),
                                 icon: const Icon(
                                   Icons.camera_alt,
                                   size: 32,
@@ -203,10 +181,8 @@ class DocumentStatusScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             IconButton(
-                                onPressed: () => pickFile(controller,
-                                    source: ImageSource.gallery,
-                                    index: index,
-                                    documentId: documentId),
+                                onPressed: () =>
+                                    pickFile(controller, source: ImageSource.gallery, index: index, documentId: documentId),
                                 icon: const Icon(
                                   Icons.photo_library_sharp,
                                   size: 32,
@@ -230,9 +206,7 @@ class DocumentStatusScreen extends StatelessWidget {
   final ImagePicker _imagePicker = ImagePicker();
 
   Future pickFile(DocumentStatusController controller,
-      {required ImageSource source,
-      required int index,
-      required String documentId}) async {
+      {required ImageSource source, required int index, required String documentId}) async {
     try {
       XFile? image = await _imagePicker.pickImage(source: source);
       if (image == null) return;
