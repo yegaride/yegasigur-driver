@@ -35,16 +35,16 @@ class NewRideScreen extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
             backgroundColor: ConstantColors.background,
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: ConstantColors.primary,
-              onPressed: () {
-                Get.to(() => const CreateRideScreen());
-              },
-              child: const Icon(
-                Icons.add,
-                size: 35,
-              ),
-            ),
+            // floatingActionButton: FloatingActionButton(
+            //   backgroundColor: ConstantColors.primary,
+            //   onPressed: () {
+            //     Get.to(() => const CreateRideScreen());
+            //   },
+            //   child: const Icon(
+            //     Icons.add,
+            //     size: 35,
+            //   ),
+            // ),
             body: RefreshIndicator(
               onRefresh: () => controller.getNewRide(),
               child: Padding(
@@ -53,10 +53,18 @@ class NewRideScreen extends StatelessWidget {
                   children: [
                     if (double.parse(controller.totalEarn.value.toString()) < double.parse(Constant.minimumWalletBalance!))
                       Container(
-                        padding: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 12,
+                        ),
                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: ConstantColors.primary),
                         child: Text(
-                          "Your wallet balance must be".tr + Constant().amountShow(amount: Constant.minimumWalletBalance!.toString()) + "to get ride.".tr,
+                          "Your wallet balance must be ".tr +
+                              Constant().amountShow(amount: Constant.minimumWalletBalance!.toString()) +
+                              " to get ride.".tr,
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     Expanded(
@@ -68,6 +76,10 @@ class NewRideScreen extends StatelessWidget {
                                   itemCount: controller.rideList.length,
                                   shrinkWrap: true,
                                   itemBuilder: (context, index) {
+                                    if (controller.rideList[index].statut.toString() == 'new' &&
+                                        double.parse(controller.totalEarn.value.toString()) <
+                                            double.parse(Constant.minimumWalletBalance!)) return const SizedBox.shrink();
+
                                     return newRideWidgets(context, controller.rideList[index], controller);
                                   }),
                     ),
@@ -245,35 +257,36 @@ class NewRideScreen extends StatelessWidget {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 5.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.black12,
-                                      ),
-                                      borderRadius: const BorderRadius.all(Radius.circular(10))),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 18),
-                                    child: Column(
-                                      children: [
-                                        Image.asset(
-                                          'assets/icons/passenger.png',
-                                          height: 22,
-                                          width: 22,
-                                          color: ConstantColors.yellow,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 8.0),
-                                          child: Text(" ${data.numberPoeple.toString()}", style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // Expanded(
+                            //   child: Padding(
+                            //     padding: const EdgeInsets.only(left: 5.0),
+                            //     child: Container(
+                            //       decoration: BoxDecoration(
+                            //           border: Border.all(
+                            //             color: Colors.black12,
+                            //           ),
+                            //           borderRadius: const BorderRadius.all(Radius.circular(10))),
+                            //       child: Padding(
+                            //         padding: const EdgeInsets.symmetric(vertical: 18),
+                            //         child: Column(
+                            //           children: [
+                            //             Image.asset(
+                            //               'assets/icons/passenger.png',
+                            //               height: 22,
+                            //               width: 22,
+                            //               color: ConstantColors.yellow,
+                            //             ),
+                            //             Padding(
+                            //               padding: const EdgeInsets.only(top: 8.0),
+                            //               child: Text(" ${data.numberPoeple.toString()}",
+                            //                   style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
+                            //             ),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 5.0),
@@ -335,7 +348,8 @@ class NewRideScreen extends StatelessWidget {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(top: 8.0),
-                                          child: Text("${double.parse(data.distance.toString()).toStringAsFixed(int.parse(Constant.decimal!))} ${Constant.distanceUnit}",
+                                          child: Text(
+                                              "${double.parse(data.distance.toString()).toStringAsFixed(int.parse(Constant.decimal!))} ${Constant.distanceUnit}",
                                               style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
                                         ),
                                       ],
@@ -366,7 +380,9 @@ class NewRideScreen extends StatelessWidget {
                                         Padding(
                                           padding: const EdgeInsets.only(top: 8.0),
                                           child: TextScroll(data.duree.toString(),
-                                              mode: TextScrollMode.bouncing, pauseBetween: const Duration(seconds: 2), style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
+                                              mode: TextScrollMode.bouncing,
+                                              pauseBetween: const Duration(seconds: 2),
+                                              style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.black54)),
                                         ),
                                       ],
                                     ),
@@ -385,13 +401,20 @@ class NewRideScreen extends StatelessWidget {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: CachedNetworkImage(
-                              imageUrl: data.photoPath.toString(),
+                              // imageUrl: data.photoPath.toString(),
+                              imageUrl: data.photoPath.toString() == '' || data.photoPath == 'null'
+                                  ? data.gender?.toString() == 'male'
+                                      ? 'https://admin.dev.yegasigur.com/assets/images/placeholder_image.jpg'
+                                      : "https://admin.dev.yegasigur.com/assets/images/placeholder_image_female.jpg"
+                                  : data.photoPath.toString(),
                               height: 80,
                               width: 80,
                               fit: BoxFit.cover,
                               placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                              errorWidget: (context, url, error) => Image.asset(
-                                "assets/images/appIcon.png",
+                              errorWidget: (context, url, error) => Image.network(
+                                data.gender?.toString() == 'male'
+                                    ? 'https://admin.dev.yegasigur.com/assets/images/placeholder_image.jpg'
+                                    : "https://admin.dev.yegasigur.com/assets/images/placeholder_image_female.jpg",
                               ),
                             ),
                           ),
@@ -402,15 +425,21 @@ class NewRideScreen extends StatelessWidget {
                                   ? Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text('${data.userInfo!.name}', style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600)),
-                                        Text('${data.userInfo!.email}', style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w400)),
+                                        Text('${data.userInfo!.name}',
+                                            style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600)),
+                                        Text('${data.userInfo!.email}',
+                                            style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w400)),
                                       ],
                                     )
                                   : Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text('${data.prenom.toString()} ${data.nom.toString()}', style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600)),
-                                        StarRating(size: 18, rating: double.parse(data.moyenneDriver.toString()), color: ConstantColors.yellow),
+                                        Text('Cust. #${data.custNumber.toString()}',
+                                            style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600)),
+                                        StarRating(
+                                            size: 18,
+                                            rating: double.parse(data.moyenneDriver.toString()),
+                                            color: ConstantColors.yellow),
                                       ],
                                     ),
                             ),
@@ -438,7 +467,8 @@ class NewRideScreen extends StatelessWidget {
                                   size: 18,
                                 ),
                               ),
-                              Text(data.dateRetour.toString(), style: const TextStyle(color: Colors.black26, fontWeight: FontWeight.w600)),
+                              Text(data.dateRetour.toString(),
+                                  style: const TextStyle(color: Colors.black26, fontWeight: FontWeight.w600)),
                             ],
                           )
                         ],
@@ -477,25 +507,25 @@ class NewRideScreen extends StatelessWidget {
                               //   });
                               // } else {}
                             })),
-                            if (data.existingUserId.toString() != "null")
-                              Expanded(
-                                child: Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: ButtonThem.buildBorderButton(
-                                      context,
-                                      title: 'add_review'.tr,
-                                      btnWidthRatio: 0.8,
-                                      btnHeight: 40,
-                                      btnColor: Colors.white,
-                                      txtColor: ConstantColors.primary,
-                                      btnBorderColor: ConstantColors.primary,
-                                      onPress: () async {
-                                        Get.to(const AddReviewScreen(), arguments: {
-                                          'rideData': data,
-                                        });
-                                      },
-                                    )),
-                              ),
+                            // if (data.existingUserId.toString() != "null")
+                            //   Expanded(
+                            //     child: Padding(
+                            //         padding: const EdgeInsets.only(left: 10),
+                            //         child: ButtonThem.buildBorderButton(
+                            //           context,
+                            //           title: 'add_review'.tr,
+                            //           btnWidthRatio: 0.8,
+                            //           btnHeight: 40,
+                            //           btnColor: Colors.white,
+                            //           txtColor: ConstantColors.primary,
+                            //           btnBorderColor: ConstantColors.primary,
+                            //           onPress: () async {
+                            //             Get.to(const AddReviewScreen(), arguments: {
+                            //               'rideData': data,
+                            //             });
+                            //           },
+                            //         )),
+                            //   ),
                           ],
                         ),
                       ),
@@ -503,28 +533,28 @@ class NewRideScreen extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    Visibility(
-                      visible: data.statut == "completed" && data.existingUserId.toString() != "null",
-                      child: ButtonThem.buildBorderButton(
-                        context,
-                        title: 'Add Complaint'.tr,
-                        btnHeight: 40,
-                        btnColor: Colors.white,
-                        txtColor: ConstantColors.primary,
-                        btnBorderColor: ConstantColors.primary,
-                        onPress: () async {
-                          Get.to(AddComplaintScreen(), arguments: {
-                            'rideData': data,
-                          });
-                        },
-                      ),
-                    ),
+                    // Visibility(
+                    //   visible: data.statut == "completed" && data.existingUserId.toString() != "null",
+                    //   child: ButtonThem.buildBorderButton(
+                    //     context,
+                    //     title: 'Add Complaint'.tr,
+                    //     btnHeight: 40,
+                    //     btnColor: Colors.white,
+                    //     txtColor: ConstantColors.primary,
+                    //     btnBorderColor: ConstantColors.primary,
+                    //     onPress: () async {
+                    //       Get.to(AddComplaintScreen(), arguments: {
+                    //         'rideData': data,
+                    //       });
+                    //     },
+                    //   ),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
                         children: [
                           Visibility(
-                            visible: data.statut == "new" || data.statut == "confirmed" ? true : false,
+                            visible: data.statut == "confirmed" ? true : false,
                             child: Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(bottom: 5),
@@ -554,7 +584,7 @@ class NewRideScreen extends StatelessWidget {
                                   btnHeight: 45,
                                   btnWidthRatio: 0.8,
                                   btnColor: ConstantColors.primary,
-                                  txtColor: Colors.black,
+                                  txtColor: Colors.white,
                                   onPress: () async {
                                     showDialog(
                                       barrierColor: Colors.black26,
@@ -571,7 +601,8 @@ class NewRideScreen extends StatelessWidget {
                                             Map<String, String> bodyParams = {
                                               'id_ride': data.id.toString(),
                                               'id_user': data.idUserApp.toString(),
-                                              'driver_name': '${data.prenomConducteur.toString()} ${data.nomConducteur.toString()}',
+                                              'driver_name':
+                                                  '${data.prenomConducteur.toString()} ${data.nomConducteur.toString()}',
                                               'lat_conducteur': data.latitudeDepart.toString(),
                                               'lng_conducteur': data.longitudeDepart.toString(),
                                               'lat_client': data.latitudeArrivee.toString(),
@@ -619,7 +650,7 @@ class NewRideScreen extends StatelessWidget {
                                   btnHeight: 45,
                                   btnWidthRatio: 0.8,
                                   btnColor: ConstantColors.primary,
-                                  txtColor: Colors.black,
+                                  txtColor: Colors.white,
                                   onPress: () async {
                                     showDialog(
                                       barrierColor: const Color.fromARGB(66, 20, 14, 14),
@@ -639,7 +670,8 @@ class NewRideScreen extends StatelessWidget {
                                               Map<String, String> bodyParams = {
                                                 'id_ride': data.id.toString(),
                                                 'id_user': data.idUserApp.toString(),
-                                                'use_name': '${data.prenomConducteur.toString()} ${data.nomConducteur.toString()}',
+                                                'use_name':
+                                                    '${data.prenomConducteur.toString()} ${data.nomConducteur.toString()}',
                                                 'from_id': Preferences.getInt(Preferences.userId).toString(),
                                               };
                                               controller.setOnRideRequest(bodyParams).then((value) {
@@ -675,9 +707,13 @@ class NewRideScreen extends StatelessWidget {
                                                     child: Container(
                                                       height: 200,
                                                       padding: const EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 20),
-                                                      decoration: BoxDecoration(shape: BoxShape.rectangle, color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: const [
-                                                        BoxShadow(color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
-                                                      ]),
+                                                      decoration: BoxDecoration(
+                                                          shape: BoxShape.rectangle,
+                                                          color: Colors.white,
+                                                          borderRadius: BorderRadius.circular(20),
+                                                          boxShadow: const [
+                                                            BoxShadow(color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
+                                                          ]),
                                                       child: Column(
                                                         children: [
                                                           Text(
@@ -689,13 +725,18 @@ class NewRideScreen extends StatelessWidget {
                                                             defaultPinTheme: PinTheme(
                                                               height: 50,
                                                               width: 50,
-                                                              textStyle: const TextStyle(letterSpacing: 0.60, fontSize: 16, color: Colors.black, fontWeight: FontWeight.w600),
+                                                              textStyle: const TextStyle(
+                                                                  letterSpacing: 0.60,
+                                                                  fontSize: 16,
+                                                                  color: Colors.black,
+                                                                  fontWeight: FontWeight.w600),
                                                               // margin: EdgeInsets.all(10),
                                                               decoration: BoxDecoration(
                                                                 borderRadius: BorderRadius.circular(10),
                                                                 shape: BoxShape.rectangle,
                                                                 color: Colors.white,
-                                                                border: Border.all(color: ConstantColors.textFieldBoarderColor, width: 0.7),
+                                                                border: Border.all(
+                                                                    color: ConstantColors.textFieldBoarderColor, width: 0.7),
                                                               ),
                                                             ),
                                                             keyboardType: TextInputType.phone,
@@ -724,8 +765,10 @@ class NewRideScreen extends StatelessWidget {
                                                                           Map<String, String> bodyParams = {
                                                                             'id_ride': data.id.toString(),
                                                                             'id_user': data.idUserApp.toString(),
-                                                                            'use_name': '${data.prenomConducteur.toString()} ${data.nomConducteur.toString()}',
-                                                                            'from_id': Preferences.getInt(Preferences.userId).toString(),
+                                                                            'use_name':
+                                                                                '${data.prenomConducteur.toString()} ${data.nomConducteur.toString()}',
+                                                                            'from_id':
+                                                                                Preferences.getInt(Preferences.userId).toString(),
                                                                           };
                                                                           controller.setOnRideRequest(bodyParams).then((value) {
                                                                             if (value != null) {
@@ -735,13 +778,15 @@ class NewRideScreen extends StatelessWidget {
                                                                                   builder: (BuildContext context) {
                                                                                     return CustomDialogBox(
                                                                                       title: "On ride Successfully".tr,
-                                                                                      descriptions: "Ride Successfully On ride.".tr,
+                                                                                      descriptions:
+                                                                                          "Ride Successfully On ride.".tr,
                                                                                       text: "Ok".tr,
                                                                                       onPress: () {
                                                                                         Get.back();
                                                                                         controller.getNewRide();
                                                                                       },
-                                                                                      img: Image.asset('assets/images/green_checked.png'),
+                                                                                      img: Image.asset(
+                                                                                          'assets/images/green_checked.png'),
                                                                                     );
                                                                                   });
                                                                             }
@@ -812,7 +857,8 @@ class NewRideScreen extends StatelessWidget {
                                   txtColor: Colors.black.withOpacity(0.60),
                                   btnBorderColor: Colors.black.withOpacity(0.20),
                                   onPress: () async {
-                                    MapsLauncher.launchCoordinates(double.parse(data.latitudeArrivee.toString()), double.parse(data.longitudeArrivee.toString()));
+                                    MapsLauncher.launchCoordinates(double.parse(data.latitudeArrivee.toString()),
+                                        double.parse(data.longitudeArrivee.toString()));
                                     // Constant.launchMapURl(data.latitudeArrivee,
                                     //     data.longitudeArrivee);
                                   },
@@ -831,7 +877,7 @@ class NewRideScreen extends StatelessWidget {
                                   btnHeight: 45,
                                   btnWidthRatio: 0.8,
                                   btnColor: ConstantColors.primary,
-                                  txtColor: Colors.black,
+                                  txtColor: Colors.white,
                                   onPress: () async {
                                     showDialog(
                                       barrierColor: Colors.black26,
@@ -848,7 +894,8 @@ class NewRideScreen extends StatelessWidget {
                                             Map<String, String> bodyParams = {
                                               'id_ride': data.id.toString(),
                                               'id_user': data.idUserApp.toString(),
-                                              'driver_name': '${data.prenomConducteur.toString()} ${data.nomConducteur.toString()}',
+                                              'driver_name':
+                                                  '${data.prenomConducteur.toString()} ${data.nomConducteur.toString()}',
                                               'from_id': Preferences.getInt(Preferences.userId).toString(),
                                             };
                                             controller.setCompletedRequest(bodyParams, data).then((value) {
@@ -911,7 +958,8 @@ class NewRideScreen extends StatelessWidget {
 
   buildShowBottomSheet(BuildContext context, RideData data, NewRideController controller) {
     return showModalBottomSheet(
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15))),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15))),
         context: context,
         isDismissible: true,
         isScrollControlled: true,
