@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyAU2sUcWO4zl6zUs_chaJejmB3y-nuGkvQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>404881212090</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.cabme.driver.ios</string>
+	<key>PROJECT_ID</key>
+	<string>cabme-demo-driver</string>
+	<key>STORAGE_BUCKET</key>
+	<string>cabme-demo-driver.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:404881212090:ios:6e3f5636b6c6438f61f883</string>
+</dict>
+</plist>

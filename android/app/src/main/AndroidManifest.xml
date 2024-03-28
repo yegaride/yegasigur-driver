@@ -34,7 +34,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="cabme_driver"
+        android:label="Yegasigur Driver"
         tools:replace="android:label">
         <activity
             android:name="com.cabme.driver.MainActivity"
@@ -75,7 +75,7 @@
             android:value="2" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="base64:4CGWBlDsMFiCkyEavKMUTP7JBwBQj7xVoelRB+jOZF4=" />
+            android:value="AIzaSyDR2F7eZUkyouuoMde79PYtf8KodduvwTk" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
