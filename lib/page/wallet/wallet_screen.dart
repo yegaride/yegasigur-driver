@@ -38,13 +38,12 @@ import 'package:get/get.dart';
 import 'package:mercadopago_sdk/mercadopago_sdk.dart';
 import 'package:paytm_allinonesdk/paytm_allinonesdk.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:text_scroll/text_scroll.dart';
 import 'package:flutter_stripe/flutter_stripe.dart' as stripe1;
 import 'withdrawals_screen.dart';
 import 'package:http/http.dart' as http;
 
 class WalletScreen extends StatelessWidget {
-  WalletScreen({Key? key}) : super(key: key);
+  WalletScreen({super.key});
 
   final Razorpay razorPayController = Razorpay();
 
@@ -66,8 +65,7 @@ class WalletScreen extends StatelessWidget {
             body: RefreshIndicator(
               onRefresh: () => walletController.getTrancation(),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -90,20 +88,14 @@ class WalletScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       'Total Earnings'.tr,
-                                      style: const TextStyle(
-                                          fontSize: 15, color: Colors.white),
+                                      style: const TextStyle(fontSize: 15, color: Colors.white),
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
                                     Text(
-                                      Constant().amountShow(
-                                          amount: walletController.totalEarn
-                                              .toString()),
-                                      style: const TextStyle(
-                                          fontSize: 21,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.white),
+                                      Constant().amountShow(amount: walletController.totalEarn.toString()),
+                                      style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w700, color: Colors.white),
                                     ),
                                   ],
                                 ),
@@ -114,13 +106,11 @@ class WalletScreen extends StatelessWidget {
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
-                                    addToWalletAmount(
-                                        context, walletController);
+                                    addToWalletAmount(context, walletController);
                                   },
                                   child: Container(
                                     height: 40,
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(32),
@@ -128,10 +118,8 @@ class WalletScreen extends StatelessWidget {
                                     child: Center(
                                       child: Text(
                                         "TOPUP WALLET".tr,
-                                        style: TextStyle(
-                                            color: ConstantColors.primary,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 16),
+                                        style:
+                                            TextStyle(color: ConstantColors.primary, fontWeight: FontWeight.w700, fontSize: 16),
                                       ),
                                     ),
                                   ),
@@ -152,12 +140,9 @@ class WalletScreen extends StatelessWidget {
                                 : ListView.builder(
                                     physics: const BouncingScrollPhysics(),
                                     shrinkWrap: true,
-                                    itemCount:
-                                        walletController.transactionList.length,
+                                    itemCount: walletController.transactionList.length,
                                     itemBuilder: (context, index) {
-                                      return showRideTransaction(
-                                          walletController
-                                              .transactionList[index]);
+                                      return showRideTransaction(walletController.transactionList[index]);
                                     },
                                   ),
                       ),
@@ -181,8 +166,7 @@ class WalletScreen extends StatelessWidget {
                       onPress: () async {
                         walletController.getBankDetails().then((value) {
                           if (value == null) {
-                            ShowToastDialog.showToast(
-                                'Please Update bank Details'.tr);
+                            ShowToastDialog.showToast('Please Update bank Details'.tr);
                           } else {
                             buildShowBottomSheet(context, walletController);
                           }
@@ -232,8 +216,7 @@ class WalletScreen extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -259,17 +242,14 @@ class WalletScreen extends StatelessWidget {
                                 : "",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: data.amount!.toString().contains('-')
-                                ? Colors.red
-                                : ConstantColors.primary),
+                            color: data.amount!.toString().contains('-') ? Colors.red : ConstantColors.primary),
                       ),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
                 child: data.departName!.isNotEmpty
                     ? Row(
                         children: [
@@ -279,42 +259,39 @@ class WalletScreen extends StatelessWidget {
                           ),
                           Expanded(
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  TextScroll(data.departName.toString(),
-                                      mode: TextScrollMode.bouncing,
-                                      pauseBetween: const Duration(seconds: 2)),
+                                  Text(
+                                    data.departName.toString(),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
                                   const Padding(
                                     padding: EdgeInsets.symmetric(vertical: 10),
                                   ),
-                                  TextScroll(data.destinationName.toString(),
-                                      mode: TextScrollMode.bouncing,
-                                      pauseBetween: const Duration(seconds: 2))
+                                  Text(
+                                    data.destinationName.toString(),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  )
                                   // Text(data.destinationName.toString(),maxLines: 1,),
                                 ],
                               ),
                             ),
                           ),
-                          Text(
-                            data.amount!.toString().contains('-')
-                                ? "Admin Commission".tr
-                                : data.payment.toString(),
-                            style: TextStyle(
-                                color: ConstantColors.yellow,
-                                fontWeight: FontWeight.bold),
-                          )
+                          // Text(
+                          //   data.amount!.toString().contains('-') ? "Admin Commission".tr : data.payment.toString(),
+                          //   style: TextStyle(color: ConstantColors.yellow, fontWeight: FontWeight.bold),
+                          // )
                         ],
                       )
                     : Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "${"Wallet Topup Via".tr} ${data.libelle}",
-                          style: TextStyle(
-                              color: ConstantColors.yellow,
-                              fontWeight: FontWeight.bold),
+                          style: TextStyle(color: ConstantColors.yellow, fontWeight: FontWeight.bold),
                         ),
                       ),
               )
@@ -331,16 +308,14 @@ class WalletScreen extends StatelessWidget {
   buildShowBottomSheet(BuildContext context, WalletController controller) {
     return showModalBottomSheet(
         shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(15), topLeft: Radius.circular(15))),
+            borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15))),
         context: context,
         isDismissible: true,
         isScrollControlled: true,
         builder: (context) {
           return StatefulBuilder(builder: (context, setState) {
             return Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
               child: Padding(
                 padding: MediaQuery.of(context).viewInsets,
                 child: Column(
@@ -355,10 +330,7 @@ class WalletScreen extends StatelessWidget {
                         children: [
                           Text(
                             "Withdraw".tr,
-                            style: const TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -368,11 +340,8 @@ class WalletScreen extends StatelessWidget {
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                            border: Border.all(
-                                color: ConstantColors.primary.withOpacity(0.40),
-                                width: 4),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(20))),
+                            border: Border.all(color: ConstantColors.primary.withOpacity(0.40), width: 4),
+                            borderRadius: const BorderRadius.all(Radius.circular(20))),
                         child: Padding(
                           padding: const EdgeInsets.all(10),
                           child: Column(
@@ -384,28 +353,19 @@ class WalletScreen extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          controller.bankDetails.bankName
-                                              .toString(),
-                                          style: TextStyle(
-                                              color: ConstantColors.primary,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w800),
+                                          controller.bankDetails.bankName.toString(),
+                                          style:
+                                              TextStyle(color: ConstantColors.primary, fontSize: 18, fontWeight: FontWeight.w800),
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 4),
+                                          padding: const EdgeInsets.only(top: 4),
                                           child: Text(
-                                            controller.bankDetails.accountNo
-                                                .toString(),
+                                            controller.bankDetails.accountNo.toString(),
                                             style: TextStyle(
-                                                color: Colors.black
-                                                    .withOpacity(0.80),
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w800),
+                                                color: Colors.black.withOpacity(0.80), fontSize: 18, fontWeight: FontWeight.w800),
                                           ),
                                         )
                                       ],
@@ -415,8 +375,7 @@ class WalletScreen extends StatelessWidget {
                                     'assets/icons/bank_name.png',
                                     height: 40,
                                     width: 40,
-                                    color: ConstantColors.primary
-                                        .withOpacity(0.40),
+                                    color: ConstantColors.primary.withOpacity(0.40),
                                   ),
                                 ],
                               ),
@@ -424,10 +383,8 @@ class WalletScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(top: 22),
                                 child: Text(
                                   controller.bankDetails.holderName.toString(),
-                                  style: TextStyle(
-                                      color: Colors.black.withOpacity(0.40),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w800),
+                                  style:
+                                      TextStyle(color: Colors.black.withOpacity(0.40), fontSize: 16, fontWeight: FontWeight.w800),
                                 ),
                               ),
                               Padding(
@@ -437,22 +394,15 @@ class WalletScreen extends StatelessWidget {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        controller.bankDetails.otherInfo
-                                            .toString(),
+                                        controller.bankDetails.otherInfo.toString(),
                                         style: TextStyle(
-                                            color:
-                                                Colors.black.withOpacity(0.60),
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500),
+                                            color: Colors.black.withOpacity(0.60), fontSize: 18, fontWeight: FontWeight.w500),
                                       ),
                                     ),
                                     Text(
-                                      controller.bankDetails.branchName
-                                          .toString(),
+                                      controller.bankDetails.branchName.toString(),
                                       style: TextStyle(
-                                          color: Colors.black.withOpacity(0.60),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
+                                          color: Colors.black.withOpacity(0.60), fontSize: 16, fontWeight: FontWeight.w500),
                                     ),
                                   ],
                                 ),
@@ -480,12 +430,10 @@ class WalletScreen extends StatelessWidget {
                         textInputAction: TextInputAction.done,
                         decoration: InputDecoration(
                           focusedBorder: const OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 1.0),
+                            borderSide: BorderSide(color: Colors.grey, width: 1.0),
                           ),
                           enabledBorder: const OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 1.0),
+                            borderSide: BorderSide(color: Colors.grey, width: 1.0),
                           ),
                           contentPadding: const EdgeInsets.all(8),
                           prefix: Text(Constant.currency.toString()),
@@ -509,12 +457,10 @@ class WalletScreen extends StatelessWidget {
                         textInputAction: TextInputAction.done,
                         decoration: const InputDecoration(
                           focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 1.0),
+                            borderSide: BorderSide(color: Colors.grey, width: 1.0),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 1.0),
+                            borderSide: BorderSide(color: Colors.grey, width: 1.0),
                           ),
                           contentPadding: EdgeInsets.all(8),
                         ),
@@ -533,40 +479,30 @@ class WalletScreen extends StatelessWidget {
                             btnColor: ConstantColors.primary,
                             txtColor: Colors.white,
                             onPress: () async {
-                              if (controller.bankDetails.bankName.toString() !=
-                                  'null') {
+                              if (controller.bankDetails.bankName.toString() != 'null') {
                                 if (amountController.text.isNotEmpty) {
-                                  if (double.parse(Constant
-                                          .minimumWithdrawalAmount
-                                          .toString()) >
+                                  if (double.parse(Constant.minimumWithdrawalAmount.toString()) >
                                       double.parse(amountController.text)) {
                                     ShowToastDialog.showToast(
                                         '${'Withdraw amount must be greater or equal to'.tr}${Constant().amountShow(amount: Constant.minimumWithdrawalAmount.toString())}');
                                   } else {
                                     Map<String, dynamic> bodyParams = {
-                                      'driver_id': Preferences.getInt(
-                                          Preferences.userId),
+                                      'driver_id': Preferences.getInt(Preferences.userId),
                                       'amount': amountController.text,
                                       'note': noteController.text,
                                     };
-                                    controller
-                                        .setWithdrawals(bodyParams)
-                                        .then((value) {
+                                    controller.setWithdrawals(bodyParams).then((value) {
                                       if (value != null && value) {
-                                        ShowToastDialog.showToast(
-                                            'Amount Withdrawals request successfully'
-                                                .tr);
+                                        ShowToastDialog.showToast('Amount Withdrawals request successfully'.tr);
                                       }
                                     });
                                     Get.back();
                                   }
                                 } else {
-                                  ShowToastDialog.showToast(
-                                      'Please enter amount'.tr);
+                                  ShowToastDialog.showToast('Please enter amount'.tr);
                                 }
                               } else {
-                                ShowToastDialog.showToast(
-                                    'Please add bank details'.tr);
+                                ShowToastDialog.showToast('Please add bank details'.tr);
                               }
                             },
                           ),
@@ -587,20 +523,16 @@ class WalletScreen extends StatelessWidget {
         useRootNavigator: true,
         isScrollControlled: true,
         shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
         context: context,
         backgroundColor: ConstantColors.background,
         builder: (context) {
           return GetX<WalletController>(
               init: WalletController(),
               initState: (controller) {
-                razorPayController.on(
-                    Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-                razorPayController.on(
-                    Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWaller);
-                razorPayController.on(
-                    Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+                razorPayController.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+                razorPayController.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWaller);
+                razorPayController.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
               },
               builder: (controller) {
                 return SizedBox(
@@ -617,15 +549,11 @@ class WalletScreen extends StatelessWidget {
                             child: Row(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15.0, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
                                   child: RichText(
                                     text: TextSpan(
                                       text: "Topup Wallet".tr,
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w800),
+                                      style: const TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w800),
                                     ),
                                   ),
                                 ),
@@ -639,17 +567,14 @@ class WalletScreen extends StatelessWidget {
                                   horizontal: 15.0,
                                 ),
                                 child: Text("Add Topup Amount".tr,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.grey)),
+                                    style: const TextStyle(fontWeight: FontWeight.w700, color: Colors.grey)),
                               ),
                             ],
                           ),
                           Form(
                             key: _walletFormKey,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15.0, vertical: 10),
+                              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
                               child: TextFormField(
                                 validator: (String? value) {
                                   if (value!.isNotEmpty) {
@@ -659,8 +584,7 @@ class WalletScreen extends StatelessWidget {
                                   }
                                 },
                                 keyboardType: TextInputType.number,
-                                textCapitalization:
-                                    TextCapitalization.sentences,
+                                textCapitalization: TextCapitalization.sentences,
                                 controller: amountController,
                                 maxLength: 13,
                                 decoration: InputDecoration(
@@ -669,8 +593,7 @@ class WalletScreen extends StatelessWidget {
                                   ),
                                   counterText: "",
                                   hintText: "enter_amount".tr,
-                                  contentPadding:
-                                      const EdgeInsets.only(top: 20, left: 10),
+                                  contentPadding: const EdgeInsets.only(top: 20, left: 10),
                                   prefix: Text(Constant.currency.toString()),
                                 ),
                               ),
@@ -697,32 +620,22 @@ class WalletScreen extends StatelessWidget {
                           ),
 
                           Visibility(
-                            visible: walletController.paymentSettingModel.value
-                                        .strip!.isEnabled ==
-                                    "true"
-                                ? true
-                                : false,
+                            visible: walletController.paymentSettingModel.value.strip!.isEnabled == "true" ? true : false,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 3.0, horizontal: 20),
+                              padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                elevation:
-                                    walletController.stripe.value ? 0 : 2,
+                                elevation: walletController.stripe.value ? 0 : 2,
                                 child: RadioListTile(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
                                       side: BorderSide(
-                                          color: walletController.stripe.value
-                                              ? ConstantColors.primary
-                                              : Colors.transparent)),
-                                  controlAffinity:
-                                      ListTileControlAffinity.trailing,
+                                          color: walletController.stripe.value ? ConstantColors.primary : Colors.transparent)),
+                                  controlAffinity: ListTileControlAffinity.trailing,
                                   value: "Stripe",
-                                  groupValue:
-                                      walletController.selectedRadioTile!.value,
+                                  groupValue: walletController.selectedRadioTile!.value,
                                   onChanged: (String? value) {
                                     walletController.stripe = true.obs;
                                     walletController.razorPay = false.obs;
@@ -732,8 +645,7 @@ class WalletScreen extends StatelessWidget {
                                     walletController.flutterWave = false.obs;
                                     walletController.mercadoPago = false.obs;
                                     walletController.payFast = false.obs;
-                                    walletController.selectedRadioTile!.value =
-                                        value!;
+                                    walletController.selectedRadioTile!.value = value!;
                                   },
                                   selected: walletController.stripe.value,
                                   //selectedRadioTile == "strip" ? true : false,
@@ -746,19 +658,15 @@ class WalletScreen extends StatelessWidget {
                                       Container(
                                           decoration: BoxDecoration(
                                             color: Colors.blueGrey.shade50,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                            borderRadius: BorderRadius.circular(8),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 4.0, horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10),
                                             child: SizedBox(
                                               width: 80,
                                               height: 35,
                                               child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 6.0),
+                                                padding: const EdgeInsets.symmetric(vertical: 6.0),
                                                 child: Image.asset(
                                                   "assets/images/stripe.png",
                                                 ),
@@ -777,32 +685,22 @@ class WalletScreen extends StatelessWidget {
                             ),
                           ),
                           Visibility(
-                            visible: walletController.paymentSettingModel.value
-                                        .payStack!.isEnabled ==
-                                    "true"
-                                ? true
-                                : false,
+                            visible: walletController.paymentSettingModel.value.payStack!.isEnabled == "true" ? true : false,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 3.0, horizontal: 20),
+                              padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                elevation:
-                                    walletController.payStack.value ? 0 : 2,
+                                elevation: walletController.payStack.value ? 0 : 2,
                                 child: RadioListTile(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
                                       side: BorderSide(
-                                          color: walletController.payStack.value
-                                              ? ConstantColors.primary
-                                              : Colors.transparent)),
-                                  controlAffinity:
-                                      ListTileControlAffinity.trailing,
+                                          color: walletController.payStack.value ? ConstantColors.primary : Colors.transparent)),
+                                  controlAffinity: ListTileControlAffinity.trailing,
                                   value: "PayStack",
-                                  groupValue:
-                                      walletController.selectedRadioTile!.value,
+                                  groupValue: walletController.selectedRadioTile!.value,
                                   onChanged: (String? value) {
                                     walletController.stripe = false.obs;
                                     walletController.razorPay = false.obs;
@@ -812,8 +710,7 @@ class WalletScreen extends StatelessWidget {
                                     walletController.flutterWave = false.obs;
                                     walletController.mercadoPago = false.obs;
                                     walletController.payFast = false.obs;
-                                    walletController.selectedRadioTile!.value =
-                                        value!;
+                                    walletController.selectedRadioTile!.value = value!;
                                   },
                                   selected: walletController.payStack.value,
                                   //selectedRadioTile == "strip" ? true : false,
@@ -826,19 +723,15 @@ class WalletScreen extends StatelessWidget {
                                       Container(
                                           decoration: BoxDecoration(
                                             color: Colors.blueGrey.shade50,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                            borderRadius: BorderRadius.circular(8),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 4.0, horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10),
                                             child: SizedBox(
                                               width: 80,
                                               height: 35,
                                               child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 6.0),
+                                                padding: const EdgeInsets.symmetric(vertical: 6.0),
                                                 child: Image.asset(
                                                   "assets/images/paystack.png",
                                                 ),
@@ -857,33 +750,23 @@ class WalletScreen extends StatelessWidget {
                             ),
                           ),
                           Visibility(
-                            visible: walletController.paymentSettingModel.value
-                                        .flutterWave!.isEnabled ==
-                                    "true"
-                                ? true
-                                : false,
+                            visible: walletController.paymentSettingModel.value.flutterWave!.isEnabled == "true" ? true : false,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 3.0, horizontal: 20),
+                              padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                elevation:
-                                    walletController.flutterWave.value ? 0 : 2,
+                                elevation: walletController.flutterWave.value ? 0 : 2,
                                 child: RadioListTile(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
                                       side: BorderSide(
                                           color:
-                                              walletController.flutterWave.value
-                                                  ? ConstantColors.primary
-                                                  : Colors.transparent)),
-                                  controlAffinity:
-                                      ListTileControlAffinity.trailing,
+                                              walletController.flutterWave.value ? ConstantColors.primary : Colors.transparent)),
+                                  controlAffinity: ListTileControlAffinity.trailing,
                                   value: "FlutterWave",
-                                  groupValue:
-                                      walletController.selectedRadioTile!.value,
+                                  groupValue: walletController.selectedRadioTile!.value,
                                   onChanged: (String? value) {
                                     walletController.stripe = false.obs;
                                     walletController.razorPay = false.obs;
@@ -893,8 +776,7 @@ class WalletScreen extends StatelessWidget {
                                     walletController.flutterWave = true.obs;
                                     walletController.mercadoPago = false.obs;
                                     walletController.payFast = false.obs;
-                                    walletController.selectedRadioTile!.value =
-                                        value!;
+                                    walletController.selectedRadioTile!.value = value!;
                                   },
                                   selected: walletController.flutterWave.value,
                                   contentPadding: const EdgeInsets.symmetric(
@@ -906,19 +788,15 @@ class WalletScreen extends StatelessWidget {
                                       Container(
                                           decoration: BoxDecoration(
                                             color: Colors.blueGrey.shade50,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                            borderRadius: BorderRadius.circular(8),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 4.0, horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10),
                                             child: SizedBox(
                                               width: 80,
                                               height: 35,
                                               child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 6.0),
+                                                padding: const EdgeInsets.symmetric(vertical: 6.0),
                                                 child: Image.asset(
                                                   "assets/images/flutterwave.png",
                                                 ),
@@ -937,35 +815,25 @@ class WalletScreen extends StatelessWidget {
                             ),
                           ),
                           Visibility(
-                            visible: walletController.paymentSettingModel.value
-                                        .razorpay!.isEnabled ==
-                                    "true"
-                                ? true
-                                : false,
+                            visible: walletController.paymentSettingModel.value.razorpay!.isEnabled == "true" ? true : false,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 3.0, horizontal: 20),
+                              padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                elevation:
-                                    walletController.razorPay.value ? 0 : 2,
+                                elevation: walletController.razorPay.value ? 0 : 2,
                                 child: RadioListTile(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
                                       side: BorderSide(
-                                          color: walletController.razorPay.value
-                                              ? ConstantColors.primary
-                                              : Colors.transparent)),
+                                          color: walletController.razorPay.value ? ConstantColors.primary : Colors.transparent)),
                                   contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 6,
                                   ),
-                                  controlAffinity:
-                                      ListTileControlAffinity.trailing,
+                                  controlAffinity: ListTileControlAffinity.trailing,
                                   value: "RazorPay",
-                                  groupValue:
-                                      walletController.selectedRadioTile!.value,
+                                  groupValue: walletController.selectedRadioTile!.value,
                                   onChanged: (String? value) {
                                     walletController.stripe = false.obs;
                                     walletController.razorPay = true.obs;
@@ -975,8 +843,7 @@ class WalletScreen extends StatelessWidget {
                                     walletController.flutterWave = false.obs;
                                     walletController.mercadoPago = false.obs;
                                     walletController.payFast = false.obs;
-                                    walletController.selectedRadioTile!.value =
-                                        value!;
+                                    walletController.selectedRadioTile!.value = value!;
                                   },
                                   selected: walletController.razorPay.value,
                                   //selectedRadioTile == "strip" ? true : false,
@@ -986,17 +853,12 @@ class WalletScreen extends StatelessWidget {
                                       Container(
                                           decoration: BoxDecoration(
                                             color: Colors.blueGrey.shade50,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                            borderRadius: BorderRadius.circular(8),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 3.0, horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 10),
                                             child: SizedBox(
-                                                width: 80,
-                                                height: 35,
-                                                child: Image.asset(
-                                                    "assets/images/razorpay_@3x.png")),
+                                                width: 80, height: 35, child: Image.asset("assets/images/razorpay_@3x.png")),
                                           )),
                                       const SizedBox(
                                         width: 20,
@@ -1010,32 +872,22 @@ class WalletScreen extends StatelessWidget {
                             ),
                           ),
                           Visibility(
-                            visible: walletController.paymentSettingModel.value
-                                        .payFast!.isEnabled ==
-                                    "true"
-                                ? true
-                                : false,
+                            visible: walletController.paymentSettingModel.value.payFast!.isEnabled == "true" ? true : false,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 4.0, horizontal: 20),
+                              padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 20),
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                elevation:
-                                    walletController.payFast.value ? 0 : 2,
+                                elevation: walletController.payFast.value ? 0 : 2,
                                 child: RadioListTile(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
                                       side: BorderSide(
-                                          color: walletController.payFast.value
-                                              ? ConstantColors.primary
-                                              : Colors.transparent)),
-                                  controlAffinity:
-                                      ListTileControlAffinity.trailing,
+                                          color: walletController.payFast.value ? ConstantColors.primary : Colors.transparent)),
+                                  controlAffinity: ListTileControlAffinity.trailing,
                                   value: "PayFast",
-                                  groupValue:
-                                      walletController.selectedRadioTile!.value,
+                                  groupValue: walletController.selectedRadioTile!.value,
                                   onChanged: (String? value) {
                                     walletController.stripe = false.obs;
                                     walletController.razorPay = false.obs;
@@ -1045,8 +897,7 @@ class WalletScreen extends StatelessWidget {
                                     walletController.flutterWave = false.obs;
                                     walletController.mercadoPago = false.obs;
                                     walletController.payFast = true.obs;
-                                    walletController.selectedRadioTile!.value =
-                                        value!;
+                                    walletController.selectedRadioTile!.value = value!;
                                   },
                                   selected: walletController.payFast.value,
                                   //selectedRadioTile == "strip" ? true : false,
@@ -1059,19 +910,15 @@ class WalletScreen extends StatelessWidget {
                                       Container(
                                           decoration: BoxDecoration(
                                             color: Colors.blueGrey.shade50,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                            borderRadius: BorderRadius.circular(8),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 4.0, horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10),
                                             child: SizedBox(
                                               width: 80,
                                               height: 35,
                                               child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 6.0),
+                                                padding: const EdgeInsets.symmetric(vertical: 6.0),
                                                 child: Image.asset(
                                                   "assets/images/payfast.png",
                                                 ),
@@ -1090,14 +937,9 @@ class WalletScreen extends StatelessWidget {
                             ),
                           ),
                           Visibility(
-                            visible: walletController.paymentSettingModel.value
-                                        .paytm!.isEnabled ==
-                                    "true"
-                                ? true
-                                : false,
+                            visible: walletController.paymentSettingModel.value.paytm!.isEnabled == "true" ? true : false,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 3.0, horizontal: 20),
+                              padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
@@ -1107,17 +949,13 @@ class WalletScreen extends StatelessWidget {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
                                       side: BorderSide(
-                                          color: walletController.payTm.value
-                                              ? ConstantColors.primary
-                                              : Colors.transparent)),
+                                          color: walletController.payTm.value ? ConstantColors.primary : Colors.transparent)),
                                   contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 6,
                                   ),
-                                  controlAffinity:
-                                      ListTileControlAffinity.trailing,
+                                  controlAffinity: ListTileControlAffinity.trailing,
                                   value: "PayTm",
-                                  groupValue:
-                                      walletController.selectedRadioTile!.value,
+                                  groupValue: walletController.selectedRadioTile!.value,
                                   onChanged: (String? value) {
                                     walletController.stripe = false.obs;
                                     walletController.razorPay = false.obs;
@@ -1127,8 +965,7 @@ class WalletScreen extends StatelessWidget {
                                     walletController.flutterWave = false.obs;
                                     walletController.mercadoPago = false.obs;
                                     walletController.payFast = false.obs;
-                                    walletController.selectedRadioTile!.value =
-                                        value!;
+                                    walletController.selectedRadioTile!.value = value!;
                                   },
                                   selected: walletController.payTm.value,
                                   //selectedRadioTile == "strip" ? true : false,
@@ -1138,18 +975,15 @@ class WalletScreen extends StatelessWidget {
                                       Container(
                                           decoration: BoxDecoration(
                                             color: Colors.blueGrey.shade50,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                            borderRadius: BorderRadius.circular(8),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 3.0, horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 10),
                                             child: SizedBox(
                                                 width: 80,
                                                 height: 35,
                                                 child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 3.0),
+                                                  padding: const EdgeInsets.symmetric(vertical: 3.0),
                                                   child: Image.asset(
                                                     "assets/images/paytm_@3x.png",
                                                   ),
@@ -1167,33 +1001,23 @@ class WalletScreen extends StatelessWidget {
                             ),
                           ),
                           Visibility(
-                            visible: walletController.paymentSettingModel.value
-                                        .mercadopago!.isEnabled ==
-                                    "true"
-                                ? true
-                                : false,
+                            visible: walletController.paymentSettingModel.value.mercadopago!.isEnabled == "true" ? true : false,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 4.0, horizontal: 20),
+                              padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 20),
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                elevation:
-                                    walletController.mercadoPago.value ? 0 : 2,
+                                elevation: walletController.mercadoPago.value ? 0 : 2,
                                 child: RadioListTile(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
                                       side: BorderSide(
                                           color:
-                                              walletController.mercadoPago.value
-                                                  ? ConstantColors.primary
-                                                  : Colors.transparent)),
-                                  controlAffinity:
-                                      ListTileControlAffinity.trailing,
+                                              walletController.mercadoPago.value ? ConstantColors.primary : Colors.transparent)),
+                                  controlAffinity: ListTileControlAffinity.trailing,
                                   value: "MercadoPago",
-                                  groupValue:
-                                      walletController.selectedRadioTile!.value,
+                                  groupValue: walletController.selectedRadioTile!.value,
                                   onChanged: (String? value) {
                                     walletController.stripe = false.obs;
                                     walletController.razorPay = false.obs;
@@ -1203,8 +1027,7 @@ class WalletScreen extends StatelessWidget {
                                     walletController.flutterWave = false.obs;
                                     walletController.mercadoPago = true.obs;
                                     walletController.payFast = false.obs;
-                                    walletController.selectedRadioTile!.value =
-                                        value!;
+                                    walletController.selectedRadioTile!.value = value!;
                                   },
                                   selected: walletController.mercadoPago.value,
                                   contentPadding: const EdgeInsets.symmetric(
@@ -1216,19 +1039,15 @@ class WalletScreen extends StatelessWidget {
                                       Container(
                                           decoration: BoxDecoration(
                                             color: Colors.blueGrey.shade50,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                            borderRadius: BorderRadius.circular(8),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 4.0, horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10),
                                             child: SizedBox(
                                               width: 80,
                                               height: 35,
                                               child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 6.0),
+                                                padding: const EdgeInsets.symmetric(vertical: 6.0),
                                                 child: Image.asset(
                                                   "assets/images/mercadopago.png",
                                                 ),
@@ -1247,35 +1066,25 @@ class WalletScreen extends StatelessWidget {
                             ),
                           ),
                           Visibility(
-                            visible: walletController.paymentSettingModel.value
-                                        .payPal!.isEnabled ==
-                                    "true"
-                                ? true
-                                : false,
+                            visible: walletController.paymentSettingModel.value.payPal!.isEnabled == "true" ? true : false,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 3.0, horizontal: 20),
+                              padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                elevation:
-                                    walletController.paypal.value ? 0 : 2,
+                                elevation: walletController.paypal.value ? 0 : 2,
                                 child: RadioListTile(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
                                       side: BorderSide(
-                                          color: walletController.paypal.value
-                                              ? ConstantColors.primary
-                                              : Colors.transparent)),
+                                          color: walletController.paypal.value ? ConstantColors.primary : Colors.transparent)),
                                   contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 6,
                                   ),
-                                  controlAffinity:
-                                      ListTileControlAffinity.trailing,
+                                  controlAffinity: ListTileControlAffinity.trailing,
                                   value: "PayPal",
-                                  groupValue:
-                                      walletController.selectedRadioTile!.value,
+                                  groupValue: walletController.selectedRadioTile!.value,
                                   onChanged: (String? value) {
                                     walletController.stripe = false.obs;
                                     walletController.razorPay = false.obs;
@@ -1285,8 +1094,7 @@ class WalletScreen extends StatelessWidget {
                                     walletController.flutterWave = false.obs;
                                     walletController.mercadoPago = false.obs;
                                     walletController.payFast = false.obs;
-                                    walletController.selectedRadioTile!.value =
-                                        value!;
+                                    walletController.selectedRadioTile!.value = value!;
                                   },
                                   selected: walletController.paypal.value,
                                   title: Row(
@@ -1295,20 +1103,16 @@ class WalletScreen extends StatelessWidget {
                                       Container(
                                           decoration: BoxDecoration(
                                             color: Colors.blueGrey.shade50,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                            borderRadius: BorderRadius.circular(8),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 3.0, horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 10),
                                             child: SizedBox(
                                                 width: 80,
                                                 height: 35,
                                                 child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 3.0),
-                                                  child: Image.asset(
-                                                      "assets/images/paypal_@3x.png"),
+                                                  padding: const EdgeInsets.symmetric(vertical: 3.0),
+                                                  child: Image.asset("assets/images/paypal_@3x.png"),
                                                 )),
                                           )),
                                       const SizedBox(
@@ -1404,55 +1208,33 @@ class WalletScreen extends StatelessWidget {
                           //               );
                           //             }),
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 12.0, horizontal: 15),
+                            padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15),
                             child: GestureDetector(
                               onTap: () async {
                                 if (_walletFormKey.currentState!.validate()) {
                                   Get.back();
                                   showLoadingAlert(context);
-                                  if (walletController
-                                          .selectedRadioTile!.value ==
-                                      "Stripe") {
-                                    stripeMakePayment(
-                                        amount: amountController.text);
-                                  } else if (walletController
-                                          .selectedRadioTile!.value ==
-                                      "RazorPay") {
+                                  if (walletController.selectedRadioTile!.value == "Stripe") {
+                                    stripeMakePayment(amount: amountController.text);
+                                  } else if (walletController.selectedRadioTile!.value == "RazorPay") {
                                     startRazorpayPayment();
-                                  } else if (walletController
-                                          .selectedRadioTile!.value ==
-                                      "PayTm") {
-                                    getPaytmCheckSum(context,
-                                        amount: double.parse(
-                                            amountController.text));
-                                  } else if (walletController
-                                          .selectedRadioTile!.value ==
-                                      "PayPal") {
-                                    print(
-                                        "====AMOUNT : ${amountController.text}");
+                                  } else if (walletController.selectedRadioTile!.value == "PayTm") {
+                                    getPaytmCheckSum(context, amount: double.parse(amountController.text));
+                                  } else if (walletController.selectedRadioTile!.value == "PayPal") {
+                                    print("====AMOUNT : ${amountController.text}");
                                     paypalPaymentSheet(amountController.text);
                                     // _paypalPayment();
-                                  } else if (walletController
-                                          .selectedRadioTile!.value ==
-                                      "PayStack") {
+                                  } else if (walletController.selectedRadioTile!.value == "PayStack") {
                                     payStackPayment(context);
-                                  } else if (walletController
-                                          .selectedRadioTile!.value ==
-                                      "FlutterWave") {
+                                  } else if (walletController.selectedRadioTile!.value == "FlutterWave") {
                                     flutterWaveInitiatePayment(context);
-                                  } else if (walletController
-                                          .selectedRadioTile!.value ==
-                                      "PayFast") {
+                                  } else if (walletController.selectedRadioTile!.value == "PayFast") {
                                     payFastPayment(context);
-                                  } else if (walletController
-                                          .selectedRadioTile!.value ==
-                                      "MercadoPago") {
+                                  } else if (walletController.selectedRadioTile!.value == "MercadoPago") {
                                     mercadoPagoMakePayment(context);
                                   } else {
                                     Get.back();
-                                    ShowToastDialog.showToast(
-                                        "Please select payment method".tr);
+                                    ShowToastDialog.showToast("Please select payment method".tr);
                                   }
                                 }
                               },
@@ -1517,8 +1299,7 @@ class WalletScreen extends StatelessWidget {
   void _handlePaymentError(PaymentFailureResponse response) {
     Get.back();
     showSnackBarAlert(
-      message:
-          "${"Payment Failed!!".tr}${jsonDecode(response.message!)['error']['description']}",
+      message: "${"Payment Failed!!".tr}${jsonDecode(response.message!)['error']['description']}",
       color: Colors.red.shade400,
     );
   }
@@ -1563,10 +1344,7 @@ class WalletScreen extends StatelessWidget {
   payFastPayment(context) {
     PayFast? payfast = walletController.paymentSettingModel.value.payFast;
     PayStackURLGen.getPayHTML(
-            payFastSettingData: payfast!,
-            amount: double.parse(amountController.text.toString())
-                .round()
-                .toString())
+            payFastSettingData: payfast!, amount: double.parse(amountController.text.toString()).round().toString())
         .then((String? value) async {
       bool isDone = await Get.to(PayFastScreen(
         htmlData: value!,
@@ -1598,11 +1376,9 @@ class WalletScreen extends StatelessWidget {
 
   Future<void> stripeMakePayment({required String amount}) async {
     try {
-      paymentIntentData =
-          await walletController.createStripeIntent(amount: amount);
+      paymentIntentData = await walletController.createStripeIntent(amount: amount);
 
-      if (paymentIntentData != null &&
-          paymentIntentData!.containsKey("error")) {
+      if (paymentIntentData != null && paymentIntentData!.containsKey("error")) {
         Get.back();
         showSnackBarAlert(
           message: "Something went wrong, please contact admin.".tr,
@@ -1616,11 +1392,7 @@ class WalletScreen extends StatelessWidget {
               allowsDelayedPaymentMethods: false,
               googlePay: stripe1.PaymentSheetGooglePay(
                 merchantCountryCode: 'US',
-                testEnv: walletController.paymentSettingModel.value.strip!
-                            .isSandboxEnabled ==
-                        'true'
-                    ? true
-                    : false,
+                testEnv: walletController.paymentSettingModel.value.strip!.isSandboxEnabled == 'true' ? true : false,
                 currencyCode: "USD",
               ),
               style: ThemeMode.system,
@@ -1677,10 +1449,7 @@ class WalletScreen extends StatelessWidget {
   /// RazorPay Payment Gateway
   startRazorpayPayment() {
     try {
-      walletController
-          .createOrderRazorPay(
-              amount: double.parse(amountController.text).round())
-          .then((value) {
+      walletController.createOrderRazorPay(amount: double.parse(amountController.text).round()).then((value) {
         if (value != null) {
           CreateRazorPayOrderModel result = value;
           openCheckout(
@@ -1749,27 +1518,19 @@ class WalletScreen extends StatelessWidget {
         body: {
           "mid": walletController.paymentSettingModel.value.paytm!.merchantId,
           "order_id": orderId,
-          "key_secret":
-              walletController.paymentSettingModel.value.paytm!.merchantKey,
+          "key_secret": walletController.paymentSettingModel.value.paytm!.merchantKey,
         });
 
     final data = jsonDecode(response.body);
 
-    await walletController
-        .verifyCheckSum(
-            checkSum: data["code"], amount: amount, orderId: orderId)
-        .then((value) {
+    await walletController.verifyCheckSum(checkSum: data["code"], amount: amount, orderId: orderId).then((value) {
       initiatePayment(context, amount: amount, orderId: orderId).then((value) {
         GetPaymentTxtTokenModel result = value;
         String callback = "";
-        if (walletController
-                .paymentSettingModel.value.paytm!.isSandboxEnabled ==
-            "true") {
-          callback =
-              "${callback}https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=$orderId";
+        if (walletController.paymentSettingModel.value.paytm!.isSandboxEnabled == "true") {
+          callback = "${callback}https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=$orderId";
         } else {
-          callback =
-              "${callback}https://securegw.paytm.in/theia/paytmCallback?ORDER_ID=$orderId";
+          callback = "${callback}https://securegw.paytm.in/theia/paytmCallback?ORDER_ID=$orderId";
         }
 
         _startTransaction(
@@ -1782,18 +1543,13 @@ class WalletScreen extends StatelessWidget {
     });
   }
 
-  Future<GetPaymentTxtTokenModel> initiatePayment(BuildContext context,
-      {required double amount, required orderId}) async {
+  Future<GetPaymentTxtTokenModel> initiatePayment(BuildContext context, {required double amount, required orderId}) async {
     String initiateURL = "${API.baseUrl}payments/initiatepaytmpayment";
     String callback = "";
-    if (walletController.paymentSettingModel.value.paytm!.isSandboxEnabled
-            .toString() ==
-        "true") {
-      callback =
-          "${callback}https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=$orderId";
+    if (walletController.paymentSettingModel.value.paytm!.isSandboxEnabled.toString() == "true") {
+      callback = "${callback}https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=$orderId";
     } else {
-      callback =
-          "${callback}https://securegw.paytm.in/theia/paytmCallback?ORDER_ID=$orderId";
+      callback = "${callback}https://securegw.paytm.in/theia/paytmCallback?ORDER_ID=$orderId";
     }
     final response = await http.post(
         Uri.parse(
@@ -1804,27 +1560,18 @@ class WalletScreen extends StatelessWidget {
           'accesstoken': Preferences.getString(Preferences.accesstoken),
         },
         body: {
-          "mid": walletController.paymentSettingModel.value.paytm!.merchantId!
-              .trim(),
+          "mid": walletController.paymentSettingModel.value.paytm!.merchantId!.trim(),
           "order_id": orderId,
-          "key_secret": walletController
-              .paymentSettingModel.value.paytm!.merchantKey!
-              .trim(),
+          "key_secret": walletController.paymentSettingModel.value.paytm!.merchantKey!.trim(),
           "amount": amount.toString(),
           "currency": "INR",
           "callback_url": callback,
           "custId": "30",
-          "issandbox": walletController
-                      .paymentSettingModel.value.paytm!.isSandboxEnabled
-                      .toString() ==
-                  "true"
-              ? "1"
-              : "2",
+          "issandbox": walletController.paymentSettingModel.value.paytm!.isSandboxEnabled.toString() == "true" ? "1" : "2",
         });
     final data = jsonDecode(response.body);
 
-    if (data["body"]["txnToken"] == null ||
-        data["body"]["txnToken"].toString().isEmpty) {
+    if (data["body"]["txnToken"] == null || data["body"]["txnToken"].toString().isEmpty) {
       Get.back();
       showSnackBarAlert(
         message: "Something went wrong, please contact admin.".tr,
@@ -1901,8 +1648,7 @@ class WalletScreen extends StatelessWidget {
         // var clientId = result['response']['client_id'];
         // var preferenceId = result['response']['id'];
         String initPoint = result['response']['init_point'];
-        final bool isDone =
-            await Get.to(MercadoPagoScreen(initialURl: initPoint));
+        final bool isDone = await Get.to(MercadoPagoScreen(initialURl: initPoint));
 
         if (isDone) {
           Get.back();
@@ -1933,15 +1679,10 @@ class WalletScreen extends StatelessWidget {
   }
 
   Future<Map<String, dynamic>> makePreference() async {
-    final mp = MP.fromAccessToken(
-        walletController.paymentSettingModel.value.mercadopago!.accesstoken);
+    final mp = MP.fromAccessToken(walletController.paymentSettingModel.value.mercadopago!.accesstoken);
     var pref = {
       "items": [
-        {
-          "title": "Wallet TopUp",
-          "quantity": 1,
-          "unit_price": double.parse(amountController.text)
-        }
+        {"title": "Wallet TopUp", "quantity": 1, "unit_price": double.parse(amountController.text)}
       ],
       "auto_return": "all",
       "back_urls": {
@@ -1962,10 +1703,7 @@ class WalletScreen extends StatelessWidget {
   void initPayPal() async {
     //set debugMode for error logging
     FlutterPaypalNative.isDebugMode =
-        walletController.paymentSettingModel.value.payPal!.isLive.toString() ==
-                "false"
-            ? true
-            : false;
+        walletController.paymentSettingModel.value.payPal!.isLive.toString() == "false" ? true : false;
 
     //initiate payPal plugin
     await _flutterPaypalNativePlugin.init(
@@ -1974,10 +1712,7 @@ class WalletScreen extends StatelessWidget {
       //client id from developer dashboard
       clientID: walletController.paymentSettingModel.value.payPal!.appId!,
       //sandbox, staging, live etc
-      payPalEnvironment: walletController
-                  .paymentSettingModel.value.payPal!.isLive
-                  .toString() ==
-              "true"
+      payPalEnvironment: walletController.paymentSettingModel.value.payPal!.isLive.toString() == "true"
           ? FPayPalEnvironment.live
           : FPayPalEnvironment.sandbox,
       //what currency do you plan to use? default is US dollars
@@ -2017,9 +1752,7 @@ class WalletScreen extends StatelessWidget {
           //remove all items from queue
           // _flutterPaypalNativePlugin.removeAllPurchaseItems();
 
-          walletController
-              .setAmount(amountController.text.toString())
-              .then((value) {
+          walletController.setAmount(amountController.text.toString()).then((value) {
             Get.back();
             if (value != null) {
               showSnackBarAlert(
@@ -2042,8 +1775,7 @@ class WalletScreen extends StatelessWidget {
         onShippingChange: (data) {
           //the user updated the shipping address
           Get.back();
-          ShowToastDialog.showToast(
-              "shipping change: ${data.shippingChangeAddress?.adminArea1 ?? ""}");
+          ShowToastDialog.showToast("shipping change: ${data.shippingChangeAddress?.adminArea1 ?? ""}");
         },
       ),
     );
@@ -2129,9 +1861,7 @@ class WalletScreen extends StatelessWidget {
 
   ///PayStack Payment Method
   payStackPayment(BuildContext context) async {
-    var secretKey = walletController
-        .paymentSettingModel.value.payStack!.secretKey
-        .toString();
+    var secretKey = walletController.paymentSettingModel.value.payStack!.secretKey.toString();
     await walletController
         .payStackURLGen(
       amount: amountController.text,
@@ -2147,9 +1877,7 @@ class WalletScreen extends StatelessWidget {
               initialURl: payStackModel.data.authorizationUrl,
               amount: amountController.text,
               reference: payStackModel.data.reference,
-              callBackUrl: walletController
-                  .paymentSettingModel.value.payStack!.callbackUrl
-                  .toString(),
+              callBackUrl: walletController.paymentSettingModel.value.payStack!.callbackUrl.toString(),
             ));
         Get.back();
 
@@ -2164,12 +1892,10 @@ class WalletScreen extends StatelessWidget {
             }
           });
         } else {
-          showSnackBarAlert(
-              message: "Payment UnSuccessful!! \n", color: Colors.red);
+          showSnackBarAlert(message: "Payment UnSuccessful!! \n", color: Colors.red);
         }
       } else {
-        showSnackBarAlert(
-            message: "Error while transaction! \n", color: Colors.red);
+        showSnackBarAlert(message: "Error while transaction! \n", color: Colors.red);
       }
     });
   }
@@ -2195,8 +1921,7 @@ class WalletScreen extends StatelessWidget {
         color: Color(0xff4774FF),
         fontSize: 18,
       ),
-      mainTextStyle:
-          const TextStyle(color: Colors.black, fontSize: 19, letterSpacing: 2),
+      mainTextStyle: const TextStyle(color: Colors.black, fontSize: 19, letterSpacing: 2),
       dialogBackgroundColor: Colors.white,
       appBarTitleTextStyle: const TextStyle(
         color: Colors.white,
@@ -2213,19 +1938,13 @@ class WalletScreen extends StatelessWidget {
         email: "demo@gamil.com",
       ),
       context: context,
-      publicKey: walletController
-          .paymentSettingModel.value.flutterWave!.publicKey
-          .toString(),
+      publicKey: walletController.paymentSettingModel.value.flutterWave!.publicKey.toString(),
       paymentOptions: "ussd, card, barter, payattitude",
       customization: Customization(
         title: "Cabme",
       ),
       txRef: walletController.ref.value,
-      isTestMode: walletController
-                  .paymentSettingModel.value.flutterWave!.isSandboxEnabled ==
-              'true'
-          ? true
-          : false,
+      isTestMode: walletController.paymentSettingModel.value.flutterWave!.isSandboxEnabled == 'true' ? true : false,
       redirectUrl: '${API.baseUrl}success',
     );
     try {
