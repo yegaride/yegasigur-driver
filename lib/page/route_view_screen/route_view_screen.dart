@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:cabme_driver/model/driver_location_update.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:cabme_driver/constant/constant.dart';
 import 'package:cabme_driver/constant/show_toast_dialog.dart';
@@ -64,12 +67,15 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
       type = argumentData['type'];
       rideData = argumentData['data'];
 
-      departureLatLong = LatLng(double.parse(rideData!.latitudeDepart.toString()), double.parse(rideData!.longitudeDepart.toString()));
-      destinationLatLong = LatLng(double.parse(rideData!.latitudeArrivee.toString()), double.parse(rideData!.longitudeArrivee.toString()));
+      departureLatLong =
+          LatLng(double.parse(rideData!.latitudeDepart.toString()), double.parse(rideData!.longitudeDepart.toString()));
+      destinationLatLong =
+          LatLng(double.parse(rideData!.latitudeArrivee.toString()), double.parse(rideData!.longitudeArrivee.toString()));
       // await getDriver();
 
       if (rideData!.statut == "on ride" || rideData!.statut == 'confirmed') {
         Constant.driverLocationUpdate.doc(rideData!.idConducteur).snapshots().listen((event) async {
+          print(event);
           DriverLocationUpdate driverLocationUpdate = DriverLocationUpdate.fromJson(event.data() as Map<String, dynamic>);
 
           Dio dio = Dio();
@@ -79,10 +85,19 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
           driverEstimateArrivalTime = response.data['rows'][0]['elements'][0]['duration']['text'].toString();
 
           setState(() {
-            departureLatLong = LatLng(double.parse(driverLocationUpdate.driverLatitude.toString()), double.parse(driverLocationUpdate.driverLongitude.toString()));
+            departureLatLong = LatLng(double.parse(driverLocationUpdate.driverLatitude.toString()),
+                double.parse(driverLocationUpdate.driverLongitude.toString()));
+
             _markers[rideData!.id.toString()] = Marker(
-                markerId: MarkerId(rideData!.id.toString()), infoWindow: InfoWindow(title: rideData!.prenomConducteur.toString()), position: departureLatLong, icon: taxiIcon!, rotation: double.parse(driverLocationUpdate.rotation.toString()));
-            getDirections(dLat: double.parse(driverLocationUpdate.driverLatitude.toString()), dLng: double.parse(driverLocationUpdate.driverLongitude.toString()));
+                markerId: MarkerId(rideData!.id.toString()),
+                infoWindow: InfoWindow(title: rideData!.prenomConducteur.toString()),
+                position: departureLatLong,
+                icon: taxiIcon!,
+                rotation: double.parse(driverLocationUpdate.rotation.toString()));
+
+            getDirections(
+                dLat: double.parse(driverLocationUpdate.driverLatitude.toString()),
+                dLng: double.parse(driverLocationUpdate.driverLongitude.toString()));
           });
         });
       } else {
@@ -382,7 +397,9 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
                                     child: CachedNetworkImage(
-                                      imageUrl: rideData!.photoPath.toString(),
+                                      imageUrl: rideData?.gender == "male"
+                                          ? 'https://admin.dev.yegasigur.com/assets/images/placeholder_image.jpg'
+                                          : 'https://admin.dev.yegasigur.com/assets/images/placeholder_image_female.jpg',
                                       height: 80,
                                       width: 80,
                                       fit: BoxFit.cover,
@@ -398,15 +415,21 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                           ? Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Text('${rideData!.userInfo!.name}', style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600)),
-                                                Text('${rideData!.userInfo!.email}', style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w400)),
+                                                Text('${rideData!.userInfo!.name}',
+                                                    style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600)),
+                                                Text('${rideData!.userInfo!.email}',
+                                                    style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w400)),
                                               ],
                                             )
                                           : Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Text('${rideData!.prenom.toString()} ${rideData!.nom.toString()}', style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600)),
-                                                StarRating(size: 18, rating: double.parse(rideData!.moyenneDriver.toString()), color: ConstantColors.yellow),
+                                                Text('Cust. #${rideData!.custNumber.toString()}',
+                                                    style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600)),
+                                                StarRating(
+                                                    size: 18,
+                                                    rating: double.parse(rideData!.moyenneDriver.toString()),
+                                                    color: ConstantColors.yellow),
                                               ],
                                             ),
                                     ),
@@ -417,7 +440,11 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                       Row(
                                         children: [
                                           Visibility(
-                                            visible: rideData!.statut == "confirmed" && rideData!.existingUserId.toString() != "null" ? true : false,
+                                            visible: false,
+
+                                            // rideData!.statut == "confirmed" && rideData!.existingUserId.toString() != "null"
+                                            //     ? true
+                                            //     : false,
                                             child: InkWell(
                                                 onTap: () {
                                                   Get.to(ConversationScreen(), arguments: {
@@ -453,7 +480,8 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top: 5.0),
-                                        child: Text(rideData!.dateRetour.toString(), style: const TextStyle(color: Colors.black26, fontWeight: FontWeight.w600)),
+                                        child: Text(rideData!.dateRetour.toString(),
+                                            style: const TextStyle(color: Colors.black26, fontWeight: FontWeight.w600)),
                                       ),
                                     ],
                                   )
@@ -500,7 +528,7 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                 btnHeight: 45,
                                 btnWidthRatio: 0.8,
                                 btnColor: ConstantColors.primary,
-                                txtColor: Colors.black,
+                                txtColor: Colors.white,
                                 onPress: () async {
                                   showDialog(
                                     barrierColor: Colors.black26,
@@ -517,7 +545,8 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                           Map<String, String> bodyParams = {
                                             'id_ride': rideData!.id.toString(),
                                             'id_user': rideData!.idUserApp.toString(),
-                                            'driver_name': '${rideData!.prenomConducteur.toString()} ${rideData!.nomConducteur.toString()}',
+                                            'driver_name':
+                                                '${rideData!.prenomConducteur.toString()} ${rideData!.nomConducteur.toString()}',
                                             'lat_conducteur': rideData!.latitudeDepart.toString(),
                                             'lng_conducteur': rideData!.longitudeDepart.toString(),
                                             'lat_client': rideData!.latitudeArrivee.toString(),
@@ -565,7 +594,7 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                 btnHeight: 45,
                                 btnWidthRatio: 0.8,
                                 btnColor: ConstantColors.primary,
-                                txtColor: Colors.black,
+                                txtColor: Colors.white,
                                 onPress: () async {
                                   showDialog(
                                     barrierColor: Colors.black26,
@@ -584,7 +613,8 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                             Map<String, String> bodyParams = {
                                               'id_ride': rideData!.id.toString(),
                                               'id_user': rideData!.idUserApp.toString(),
-                                              'use_name': '${rideData!.prenomConducteur.toString()} ${rideData!.nomConducteur.toString()}',
+                                              'use_name':
+                                                  '${rideData!.prenomConducteur.toString()} ${rideData!.nomConducteur.toString()}',
                                               'from_id': Preferences.getInt(Preferences.userId).toString(),
                                             };
                                             controllerRideDetails.setOnRideRequest(bodyParams).then((value) {
@@ -621,9 +651,13 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                                   child: Container(
                                                     height: 200,
                                                     padding: const EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 20),
-                                                    decoration: BoxDecoration(shape: BoxShape.rectangle, color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: const [
-                                                      BoxShadow(color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
-                                                    ]),
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.rectangle,
+                                                        color: Colors.white,
+                                                        borderRadius: BorderRadius.circular(20),
+                                                        boxShadow: const [
+                                                          BoxShadow(color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
+                                                        ]),
                                                     child: Column(
                                                       children: [
                                                         Text(
@@ -635,13 +669,18 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                                           defaultPinTheme: PinTheme(
                                                             height: 50,
                                                             width: 50,
-                                                            textStyle: const TextStyle(letterSpacing: 0.60, fontSize: 16, color: Colors.black, fontWeight: FontWeight.w600),
+                                                            textStyle: const TextStyle(
+                                                                letterSpacing: 0.60,
+                                                                fontSize: 16,
+                                                                color: Colors.black,
+                                                                fontWeight: FontWeight.w600),
                                                             // margin: EdgeInsets.all(10),
                                                             decoration: BoxDecoration(
                                                               borderRadius: BorderRadius.circular(10),
                                                               shape: BoxShape.rectangle,
                                                               color: Colors.white,
-                                                              border: Border.all(color: ConstantColors.textFieldBoarderColor, width: 0.7),
+                                                              border: Border.all(
+                                                                  color: ConstantColors.textFieldBoarderColor, width: 0.7),
                                                             ),
                                                           ),
                                                           keyboardType: TextInputType.phone,
@@ -659,7 +698,10 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                                                 btnColor: ConstantColors.primary,
                                                                 txtColor: Colors.white,
                                                                 onPress: () {
-                                                                  if (controllerRideDetails.otpController.text.toString().length == 6) {
+                                                                  if (controllerRideDetails.otpController.text
+                                                                          .toString()
+                                                                          .length ==
+                                                                      6) {
                                                                     controllerRideDetails
                                                                         .verifyOTP(
                                                                       userId: rideData!.idUserApp!.toString(),
@@ -670,10 +712,14 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                                                         Map<String, String> bodyParams = {
                                                                           'id_ride': rideData!.id.toString(),
                                                                           'id_user': rideData!.idUserApp.toString(),
-                                                                          'use_name': '${rideData!.prenomConducteur.toString()} ${rideData!.nomConducteur.toString()}',
-                                                                          'from_id': Preferences.getInt(Preferences.userId).toString(),
+                                                                          'use_name':
+                                                                              '${rideData!.prenomConducteur.toString()} ${rideData!.nomConducteur.toString()}',
+                                                                          'from_id':
+                                                                              Preferences.getInt(Preferences.userId).toString(),
                                                                         };
-                                                                        controllerRideDetails.setOnRideRequest(bodyParams).then((value) {
+                                                                        controllerRideDetails
+                                                                            .setOnRideRequest(bodyParams)
+                                                                            .then((value) {
                                                                           if (value != null) {
                                                                             Get.back();
                                                                             showDialog(
@@ -687,7 +733,8 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                                                                       Get.back();
                                                                                       Get.back();
                                                                                     },
-                                                                                    img: Image.asset('assets/images/green_checked.png'),
+                                                                                    img: Image.asset(
+                                                                                        'assets/images/green_checked.png'),
                                                                                   );
                                                                                 });
                                                                           }
@@ -758,7 +805,8 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                 txtColor: Colors.black.withOpacity(0.60),
                                 btnBorderColor: Colors.black.withOpacity(0.20),
                                 onPress: () async {
-                                  MapsLauncher.launchCoordinates(double.parse(rideData!.latitudeArrivee.toString()), double.parse(rideData!.longitudeArrivee.toString()));
+                                  MapsLauncher.launchCoordinates(double.parse(rideData!.latitudeArrivee.toString()),
+                                      double.parse(rideData!.longitudeArrivee.toString()));
                                   // Constant.launchMapURl(
                                   //     rideData!.latitudeArrivee,
                                   //     rideData!.longitudeArrivee);
@@ -778,7 +826,7 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                 btnHeight: 45,
                                 btnWidthRatio: 0.8,
                                 btnColor: ConstantColors.primary,
-                                txtColor: Colors.black,
+                                txtColor: Colors.white,
                                 onPress: () async {
                                   showDialog(
                                     barrierColor: Colors.black26,
@@ -795,7 +843,8 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                           Map<String, String> bodyParams = {
                                             'id_ride': rideData!.id.toString(),
                                             'id_user': rideData!.idUserApp.toString(),
-                                            'driver_name': '${rideData!.prenomConducteur.toString()} ${rideData!.nomConducteur.toString()}',
+                                            'driver_name':
+                                                '${rideData!.prenomConducteur.toString()} ${rideData!.nomConducteur.toString()}',
                                             'from_id': Preferences.getInt(Preferences.userId).toString(),
                                           };
                                           controllerRideDetails.setCompletedRequest(bodyParams, rideData!).then((value) {
@@ -842,7 +891,8 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
 
   buildShowBottomSheet(BuildContext context) {
     return showModalBottomSheet(
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15))),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15))),
         context: context,
         isDismissible: true,
         isScrollControlled: true,
@@ -918,7 +968,8 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
                                             Map<String, String> bodyParams = {
                                               'id_ride': rideData!.id.toString(),
                                               'id_user': rideData!.idUserApp.toString(),
-                                              'name': '${rideData!.prenomConducteur.toString()} ${rideData!.nomConducteur.toString()}',
+                                              'name':
+                                                  '${rideData!.prenomConducteur.toString()} ${rideData!.nomConducteur.toString()}',
                                               'from_id': Preferences.getInt(Preferences.userId).toString(),
                                               'user_cat': controllerRideDetails.userModel!.userData!.userCat.toString(),
                                               'reason': resonController.text.toString(),
@@ -1066,18 +1117,16 @@ class _RouteViewScreenState extends State<RouteViewScreen> {
   }
 
   Future<void> updateCameraLocation(
-      LatLng source,
-      GoogleMapController? mapController,
-      ) async {
+    LatLng source,
+    GoogleMapController? mapController,
+  ) async {
     mapController!.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
           target: source,
-          zoom:   rideData!.statut == "on ride" || rideData!.statut == "confirmed" ? 20 : 16,
+          zoom: rideData!.statut == "on ride" || rideData!.statut == "confirmed" ? 20 : 16,
         ),
       ),
     );
   }
-
-
 }
