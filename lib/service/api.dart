@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:cabme_driver/utils/Preferences.dart';
 
 class API {
-  static const baseUrl = "${'https://dev.yegaride.com/admin'}/api/v1/"; // live
+  // static const baseUrl = "${'http://10.0.2.2/admin'}/api/v1/"; // live
+  // static const baseUrl = "${'https://dev.yegaride.com/admin'}/api/v1/"; // live
+  static const baseUrl = "${'https://admin.dev.yegasigur.com'}/api/v1/"; // live
   static const apiKey = "base64:4CGWBlDsMFiCkyEavKMUTP7JBwBQj7xVoelRB+jOZF4=";
 
   static Map<String, String> authheader = {
