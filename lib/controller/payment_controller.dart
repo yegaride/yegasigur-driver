@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cabme_driver/constant/constant.dart';
 import 'package:cabme_driver/constant/show_toast_dialog.dart';
 import 'package:cabme_driver/model/ride_details_model.dart';
 import 'package:cabme_driver/model/ride_model.dart';
@@ -33,7 +34,9 @@ class PaymentController extends GetxController {
       data.value = argumentData["rideData"];
 
       subTotalAmount.value = double.parse(data.value.montant!);
-      tipAmount.value = data.value.tipAmount != "null" && data.value.tipAmount!.isNotEmpty ? double.parse(data.value.tipAmount.toString()) : 0.0;
+      tipAmount.value = data.value.tipAmount != "null" && data.value.tipAmount!.isNotEmpty
+          ? double.parse(data.value.tipAmount.toString())
+          : 0.0;
       // taxAmount.value = double.parse(data.value.tax!);
       discountAmount.value = data.value.discount != "null" ? double.parse(data.value.discount!) : 0.0;
       for (var i = 0; i < data.value.taxModel!.length; i++) {
@@ -41,7 +44,8 @@ class PaymentController extends GetxController {
           if (data.value.taxModel![i].type == "Fixed") {
             taxAmount.value += double.parse(data.value.taxModel![i].value.toString());
           } else {
-            taxAmount.value += ((subTotalAmount.value - discountAmount.value) * double.parse(data.value.taxModel![i].value!.toString())) / 100;
+            taxAmount.value +=
+                ((subTotalAmount.value - discountAmount.value) * double.parse(data.value.taxModel![i].value!.toString())) / 100;
           }
         }
       }
@@ -51,7 +55,9 @@ class PaymentController extends GetxController {
       adminCommission.value = double.parse(data.value.adminCommission.toString());
     } else {
       adminCommission.value = (Preferences.getString(Preferences.admincommissiontype).toString() == 'Percentage')
-          ? ((subTotalAmount.value - discountAmount.value) * double.parse(Preferences.getString(Preferences.admincommission).toString())) / 100
+          ? ((subTotalAmount.value - discountAmount.value) *
+                  double.parse(Preferences.getString(Preferences.admincommission).toString())) /
+              100
           : double.parse(Preferences.getString(Preferences.admincommission).toString());
     }
 
@@ -127,6 +133,18 @@ class PaymentController extends GetxController {
     //       : 0.0;
     // }
 
-    return (subTotalAmount.value - discountAmount.value) + tipAmount.value + taxAmount.value;
+    // return (subTotalAmount.value - discountAmount.value) + tipAmount.value + taxAmount.value;
+    return (subTotalAmount.value - discountAmount.value);
+  }
+
+  double getDriverTax() {
+    final double driverCommission = subTotalAmount.value - adminCommission.value;
+
+    final double tax = switch (Constant.taxList.first.type!) {
+      'Percentage' => driverCommission * double.parse(Constant.taxList.first.value!) / 100,
+      _ => double.parse(Constant.taxList.first.value!),
+    };
+
+    return tax;
   }
 }
