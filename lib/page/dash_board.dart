@@ -114,8 +114,7 @@ class DashBoard extends StatelessWidget {
     }).toList();
 
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
         children: [
           controller.userModel == null
               ? Center(
@@ -188,15 +187,15 @@ class DashBoard extends StatelessWidget {
                   ),
                 ),
           Column(children: drawerRoutes),
+          const Spacer(),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: Text(Routes.signOut.tr),
+            onTap: () => controller.onRouteSelected(Routes.signOut),
+          ),
+          const SizedBox(height: 10),
         ],
       ),
     );
   }
-}
-
-class DrawerItem {
-  String title;
-  IconData icon;
-
-  DrawerItem(this.title, this.icon);
 }

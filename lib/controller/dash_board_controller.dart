@@ -92,7 +92,6 @@ class DashBoardController extends GetxController {
     DrawerRoute(Routes.contactUs, Icons.rate_review_outlined),
     DrawerRoute(Routes.termService, Icons.design_services),
     DrawerRoute(Routes.privacyPolicy, Icons.privacy_tip),
-    DrawerRoute(Routes.signOut, Icons.logout),
   ];
 
   Widget buildSelectedRoute(String route) {
