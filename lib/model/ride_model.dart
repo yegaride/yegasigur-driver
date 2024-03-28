@@ -51,6 +51,8 @@ class RideData {
   String? feelSafeDriver;
   String? nom;
   String? prenom;
+  String? custNumber;
+  String? gender;
   List<Stops>? stops;
   String? distance;
   String? phone;
@@ -92,6 +94,7 @@ class RideData {
   List<TaxModel>? taxModel;
 
   RideData({
+    this.custNumber,
     this.id,
     this.idUserApp,
     this.distanceUnit,
@@ -188,6 +191,10 @@ class RideData {
     feelSafeDriver = json['feel_safe_driver'].toString();
     nom = json['nom'].toString();
     prenom = json['prenom'].toString();
+    gender = json['gender'].toString();
+    custNumber = json['customer_number'].toString().length < 4
+        ? json['customer_number'].toString().padLeft(4, '0')
+        : json['customer_number'].toString();
     distance = json['distance'].toString();
     phone = json['phone'].toString();
     photoPath = json['photo_path'].toString();
@@ -233,6 +240,7 @@ class RideData {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['id_user_app'] = idUserApp;
+    data['gender'] = gender;
     data['distance_unit'] = distanceUnit;
     data['depart_name'] = departName;
     data['destination_name'] = destinationName;
