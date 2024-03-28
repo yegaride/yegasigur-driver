@@ -28,7 +28,7 @@ class VehicleInfoController extends GetxController {
     userModel = Constant.getUserData();
   }
 
-  RxString selectedCategoryID = "".obs;
+  RxString selectedCategoryID = "1".obs;
   RxString selectedBrandID = "".obs;
   RxString selectedModelID = "".obs;
 
