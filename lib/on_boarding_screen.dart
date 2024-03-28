@@ -9,7 +9,7 @@ import 'page/auth_screens/login_screen.dart';
 import 'utils/Preferences.dart';
 
 class OnBoardingScreen extends StatelessWidget {
-  const OnBoardingScreen({Key? key}) : super(key: key);
+  const OnBoardingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,46 +40,48 @@ class OnBoardingScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: PageView.builder(
-                      controller: controller.pageController,
-                      onPageChanged: controller.selectedPageIndex,
-                      itemCount: controller.onBoardingList.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 40),
-                                child: Center(
-                                  child: Image.asset(
-                                    controller.onBoardingList[index].imageAsset.toString(),
-                                    width: 260,
-                                  ),
+                    controller: controller.pageController,
+                    onPageChanged: controller.selectedPageIndex,
+                    itemCount: controller.onBoardingList.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 40),
+                              child: Center(
+                                child: Image.asset(
+                                  controller.onBoardingList[index].imageAsset.toString(),
+                                  width: 260,
                                 ),
                               ),
                             ),
-                            Expanded(
-                                child: Padding(
-                              padding: const EdgeInsets.only(top: 50),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    controller.onBoardingList[index].title.toString(),
-                                    style: const TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w900, letterSpacing: 1.5),
+                          ),
+                          Expanded(
+                              child: Padding(
+                            padding: const EdgeInsets.only(top: 50),
+                            child: Column(
+                              children: [
+                                Text(
+                                  controller.onBoardingList[index].title.toString(),
+                                  style: const TextStyle(
+                                      fontSize: 20, color: Colors.black, fontWeight: FontWeight.w900, letterSpacing: 1.5),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20),
+                                  child: Text(
+                                    controller.onBoardingList[index].description.toString(),
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(fontSize: 16, color: Colors.black45, letterSpacing: 1.5),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20),
-                                    child: Text(
-                                      controller.onBoardingList[index].description.toString(),
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(fontSize: 16, color: Colors.black45, letterSpacing: 1.5),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ))
-                          ],
-                        );
-                      }),
+                                ),
+                              ],
+                            ),
+                          ))
+                        ],
+                      );
+                    },
+                  ),
                 ),
                 controller.selectedPageIndex.value == 2
                     ? ElevatedButton(
@@ -87,7 +89,11 @@ class OnBoardingScreen extends StatelessWidget {
                           Preferences.setBoolean(Preferences.isFinishOnBoardingKey, true);
                           Get.offAll(LoginScreen());
                         },
-                        style: ElevatedButton.styleFrom(shape: const StadiumBorder(), primary: ConstantColors.primary, onPrimary: Colors.white),
+                        style: ElevatedButton.styleFrom(
+                          shape: const StadiumBorder(),
+                          backgroundColor: ConstantColors.primary,
+                          foregroundColor: Colors.white,
+                        ),
                         child: const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
                           child: Text('Get started', style: TextStyle(fontWeight: FontWeight.w600)),
@@ -102,7 +108,8 @@ class OnBoardingScreen extends StatelessWidget {
                         },
                         child: Text(
                           'skip'.tr,
-                          style: const TextStyle(fontSize: 16, letterSpacing: 1.5, color: Color(0xff6F6F6F), fontWeight: FontWeight.w500),
+                          style: const TextStyle(
+                              fontSize: 16, letterSpacing: 1.5, color: Color(0xff6F6F6F), fontWeight: FontWeight.w500),
                         )),
 
                 Padding(
@@ -112,7 +119,9 @@ class OnBoardingScreen extends StatelessWidget {
                     children: List.generate(
                       controller.onBoardingList.length,
                       (index) => Container(
-                          margin: controller.selectedPageIndex.value == index ? const EdgeInsets.symmetric(horizontal: 10) : EdgeInsets.zero,
+                          margin: controller.selectedPageIndex.value == index
+                              ? const EdgeInsets.symmetric(horizontal: 10)
+                              : EdgeInsets.zero,
                           width: controller.selectedPageIndex.value == index ? 50 : 66,
                           height: 10,
                           decoration: BoxDecoration(
