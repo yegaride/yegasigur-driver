@@ -8,6 +8,7 @@ import 'package:cabme_driver/controller/settings_controller.dart';
 import 'package:cabme_driver/on_boarding_screen.dart';
 import 'package:cabme_driver/page/auth_screens/login_screen.dart';
 import 'package:cabme_driver/page/dash_board.dart';
+import 'package:cabme_driver/routes/routes.dart';
 import 'package:cabme_driver/service/api.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -39,7 +40,7 @@ void main() async {
     sound: true,
   );
 
-  var request = await FirebaseMessaging.instance.requestPermission(
+  await FirebaseMessaging.instance.requestPermission(
     alert: true,
     announcement: false,
     badge: true,
@@ -57,7 +58,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  MyApp({super.key});
 
   Future<void> setupInteractedMessage(BuildContext context) async {
     initialize(context);
@@ -85,7 +86,7 @@ class MyApp extends StatelessWidget {
           await Get.to(DashBoard());
         } else if (message.data['type'] == "payment received") {
           DashBoardController dashBoardController = Get.put(DashBoardController());
-          dashBoardController.selectedDrawerIndex.value = 4;
+          dashBoardController.selectedRoute.value = Routes.myEarnings;
           await Get.to(DashBoard());
         }
       }
@@ -102,10 +103,14 @@ class MyApp extends StatelessWidget {
 
     const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
     var iosInitializationSettings = const DarwinInitializationSettings();
-    final InitializationSettings initializationSettings = InitializationSettings(android: initializationSettingsAndroid, iOS: iosInitializationSettings);
-    await FlutterLocalNotificationsPlugin().initialize(initializationSettings, onDidReceiveNotificationResponse: (payload) async {});
+    final InitializationSettings initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid, iOS: iosInitializationSettings);
+    await FlutterLocalNotificationsPlugin()
+        .initialize(initializationSettings, onDidReceiveNotificationResponse: (payload) async {});
 
-    await FlutterLocalNotificationsPlugin().resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
+    await FlutterLocalNotificationsPlugin()
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
   }
 
   void display(RemoteMessage message) async {
@@ -129,11 +134,12 @@ class MyApp extends StatelessWidget {
     } on Exception {}
   }
 
-  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final MediaQueryData data = MediaQuery.of(context);
     setupInteractedMessage(context);
     Future.delayed(const Duration(seconds: 3), () {
       if (Preferences.getString(Preferences.languageCodeKey).toString().isNotEmpty) {
@@ -141,32 +147,40 @@ class MyApp extends StatelessWidget {
       }
       API.header['accesstoken'] = Preferences.getString(Preferences.accesstoken);
     });
-    return GetMaterialApp(
-      navigatorKey: navigatorKey,
-      title: 'CabMe Driver',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: ConstantColors.primary,
-        textTheme: GoogleFonts.poppinsTextTheme(
-          Theme.of(context).textTheme,
+    Widget content;
+    return MediaQuery(
+      data: data.copyWith(textScaler: TextScaler.noScaling),
+      child: GetMaterialApp(
+        navigatorKey: navigatorKey,
+        title: 'YegaSigur Driver',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: ConstantColors.primary,
+          textTheme: GoogleFonts.poppinsTextTheme(
+            Theme.of(context).textTheme,
+          ),
+          primaryTextTheme: GoogleFonts.poppinsTextTheme(),
         ),
-        primaryTextTheme: GoogleFonts.poppinsTextTheme(),
-      ),
-      locale: LocalizationService.locale,
-      fallbackLocale: LocalizationService.locale,
-      translations: LocalizationService(),
-      builder: EasyLoading.init(),
-      home: GetBuilder(
-        init: SettingsController(),
-        builder: (controller) {
-          return Preferences.getString(Preferences.languageCodeKey).toString().isEmpty
-              ? const LocalizationScreens(intentType: "main")
-              : Preferences.getBoolean(Preferences.isFinishOnBoardingKey)
-                  ? Preferences.getBoolean(Preferences.isLogin)
-                      ? DashBoard()
-                      : LoginScreen()
-                  : const OnBoardingScreen();
-        },
+        locale: LocalizationService.locale,
+        fallbackLocale: LocalizationService.locale,
+        translations: LocalizationService(),
+        builder: EasyLoading.init(),
+        home: GetBuilder(
+          init: SettingsController(),
+          builder: (controller) {
+            content = Obx(() => controller.splashScreen.value
+                ? Container(color: ConstantColors.primary)
+                : Preferences.getString(Preferences.languageCodeKey).toString().isEmpty
+                    ? const LocalizationScreens(intentType: "main")
+                    : Preferences.getBoolean(Preferences.isFinishOnBoardingKey)
+                        ? Preferences.getBoolean(Preferences.isLogin)
+                            ? DashBoard()
+                            : LoginScreen()
+                        : const OnBoardingScreen());
+            return content;
+            // return ;
+          },
+        ),
       ),
     );
   }

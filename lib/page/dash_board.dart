@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:cabme_driver/constant/constant.dart';
 import 'package:cabme_driver/constant/show_toast_dialog.dart';
 import 'package:cabme_driver/controller/dash_board_controller.dart';
+import 'package:cabme_driver/routes/routes.dart';
 import 'package:cabme_driver/themes/constant_colors.dart';
 import 'package:cabme_driver/utils/Preferences.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -49,24 +50,19 @@ class DashBoard extends StatelessWidget {
           },
           child: Scaffold(
             appBar: AppBar(
-              backgroundColor: controller.selectedDrawerIndex.value == 2 ? ConstantColors.primary : ConstantColors.background,
+              backgroundColor:
+                  controller.selectedRoute.value == Routes.myProfile ? ConstantColors.primary : ConstantColors.background,
               elevation: 0,
               centerTitle: true,
               title: Text(
-                controller.drawerItems[controller.selectedDrawerIndex.value].title.toString().tr,
-                style: const TextStyle(color: Colors.black),
+                controller.selectedRoute.value.toString().tr,
+                style: TextStyle(
+                  color:
+                      controller.selectedRoute.value != Routes.ridesHistory || controller.selectedRoute.value != Routes.documents
+                          ? Colors.black
+                          : Colors.white,
+                ),
               ),
-              // controller.selectedDrawerIndex.value == 7
-              // ? const Text(
-              //     'Earnings',
-              //     style: TextStyle(color: Colors.black),
-              //   )
-              //     : controller.selectedDrawerIndex.value == 8
-              //         ? const Text(
-              //             'Bank info',
-              //             style: TextStyle(color: Colors.black),
-              //           )
-              //         : Container(),
               leading: Builder(builder: (context) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -95,7 +91,7 @@ class DashBoard extends StatelessWidget {
               }),
             ),
             drawer: buildAppDrawer(context, controller),
-            body: controller.getDrawerItemWidget(controller.selectedDrawerIndex.value),
+            body: controller.buildSelectedRoute(controller.selectedRoute.value),
           ),
         );
       },
@@ -103,16 +99,15 @@ class DashBoard extends StatelessWidget {
   }
 
   buildAppDrawer(BuildContext context, DashBoardController controller) {
-    var drawerOptions = <Widget>[];
-    for (var i = 0; i < controller.drawerItems.length; i++) {
-      var d = controller.drawerItems[i];
-      drawerOptions.add(ListTile(
-        leading: Icon(d.icon),
-        title: Text(d.title.tr),
-        selected: i == controller.selectedDrawerIndex.value,
-        onTap: () => controller.onSelectItem(i),
-      ));
-    }
+    final List<Widget> drawerRoutes = controller.drawerRoutes.map((route) {
+      return ListTile(
+        leading: Icon(route.drawerIcon),
+        title: Text(route.route.tr),
+        selected: route.route == controller.selectedRoute.value,
+        onTap: () => controller.onRouteSelected(route.route),
+      );
+    }).toList();
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -136,10 +131,22 @@ class DashBoard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  accountName: Text('${controller.userModel!.userData!.prenom.toString()} ${controller.userModel!.userData!.nom.toString()}', style: const TextStyle(color: Colors.black)),
+                  accountName: Text(
+                    '${controller.userModel!.userData!.prenom.toString()} ${controller.userModel!.userData!.nom.toString()}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                   accountEmail: Row(
                     children: [
-                      Expanded(child: Text(controller.userModel!.userData!.email.toString(), style: const TextStyle(color: Colors.black))),
+                      Expanded(
+                        child: Text(
+                          controller.userModel!.userData!.email.toString(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                       SizedBox(
                         height: 20,
                         width: 50,
@@ -173,12 +180,7 @@ class DashBoard extends StatelessWidget {
                       )
                     ],
                   )),
-          Column(children: drawerOptions),
-          Text(
-            'V : ${Constant.appVersion.toString()}',
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 16),
-          ),
+          Column(children: drawerRoutes),
         ],
       ),
     );

@@ -4,15 +4,13 @@ import 'dart:io';
 
 import 'package:cabme_driver/constant/constant.dart';
 import 'package:cabme_driver/constant/show_toast_dialog.dart';
+import 'package:cabme_driver/model/drawer_route.dart';
 import 'package:cabme_driver/model/driver_location_update.dart';
-import 'package:cabme_driver/model/ride_model.dart';
 import 'package:cabme_driver/model/trancation_model.dart';
 import 'package:cabme_driver/model/user_model.dart';
 import 'package:cabme_driver/page/add_bank_details/show_bank_details.dart';
 import 'package:cabme_driver/page/auth_screens/login_screen.dart';
-import 'package:cabme_driver/page/car_service_history/car_service_history_screen.dart';
 import 'package:cabme_driver/page/contact_us/contact_us_screen.dart';
-import 'package:cabme_driver/page/dash_board.dart';
 import 'package:cabme_driver/page/document_status/document_status_screen.dart';
 import 'package:cabme_driver/page/localization_screens/localization_screen.dart';
 import 'package:cabme_driver/page/my_profile/my_profile_screen.dart';
@@ -20,6 +18,7 @@ import 'package:cabme_driver/page/new_ride_screens/new_ride_screen.dart';
 import 'package:cabme_driver/page/privacy_policy/privacy_policy_screen.dart';
 import 'package:cabme_driver/page/terms_of_service/terms_of_service_screen.dart';
 import 'package:cabme_driver/page/wallet/wallet_screen.dart';
+import 'package:cabme_driver/routes/routes.dart';
 import 'package:cabme_driver/service/api.dart';
 import 'package:cabme_driver/utils/Preferences.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -66,7 +65,8 @@ class DashBoardController extends GetxController {
 
     isActive.value = userModel!.userData!.online == "yes" ? true : false;
 
-    final response = await http.get(Uri.parse("${API.walletHistory}?id_diver=${Preferences.getInt(Preferences.userId)}"), headers: API.header);
+    final response =
+        await http.get(Uri.parse("${API.walletHistory}?id_diver=${Preferences.getInt(Preferences.userId)}"), headers: API.header);
 
     Map<String, dynamic> responseBody = json.decode(response.body);
 
@@ -80,35 +80,46 @@ class DashBoardController extends GetxController {
 
   RxBool isActive = true.obs;
 
-  RxInt selectedDrawerIndex = 0.obs;
+  RxString selectedRoute = Routes.ridesHistory.obs;
 
-  final drawerItems = [
-    DrawerItem('All Rides', CupertinoIcons.car_detailed),
-    // DrawerItem('confirmed'.tr, CupertinoIcons.checkmark_circle),
-    // DrawerItem('on_ride'.tr, Icons.directions_boat_outlined),
-    // DrawerItem('completed'.tr, Icons.incomplete_circle_outlined),
-    // DrawerItem('canceled'.tr, Icons.cancel_outlined),
-    DrawerItem('Documents', Icons.domain_verification),
-    DrawerItem('my_profile', Icons.person_outline),
-    DrawerItem('Car Service History', Icons.miscellaneous_services),
-    DrawerItem('My Earnings', Icons.account_balance_wallet_outlined),
-    DrawerItem('Add Bank', Icons.account_balance),
-    DrawerItem('change_language', Icons.language),
-    DrawerItem('contact_us', Icons.rate_review_outlined),
-    DrawerItem('term_service', Icons.design_services),
-    DrawerItem('privacy_policy', Icons.privacy_tip),
-    DrawerItem('sign_out', Icons.logout),
+  final drawerRoutes = [
+    DrawerRoute(Routes.ridesHistory, CupertinoIcons.car_detailed),
+    DrawerRoute(Routes.documents, Icons.domain_verification),
+    DrawerRoute(Routes.myProfile, Icons.person_outline),
+    DrawerRoute(Routes.myEarnings, Icons.account_balance_wallet_outlined),
+    DrawerRoute(Routes.addBank, Icons.account_balance),
+    DrawerRoute(Routes.changeLanguage, Icons.language),
+    DrawerRoute(Routes.contactUs, Icons.rate_review_outlined),
+    DrawerRoute(Routes.termService, Icons.design_services),
+    DrawerRoute(Routes.privacyPolicy, Icons.privacy_tip),
+    DrawerRoute(Routes.signOut, Icons.logout),
   ];
 
-  onSelectItem(int index) {
-    if (index == 10) {
+  Widget buildSelectedRoute(String route) {
+    return switch (route) {
+      Routes.ridesHistory => NewRideScreen(),
+      Routes.documents => DocumentStatusScreen(),
+      Routes.myProfile => MyProfileScreen(),
+      Routes.myEarnings => WalletScreen(),
+      Routes.addBank => const ShowBankDetails(),
+      Routes.changeLanguage => const LocalizationScreens(intentType: "dashBoard"),
+      Routes.contactUs => const ContactUsScreen(),
+      Routes.termService => const TermsOfServiceScreen(),
+      Routes.privacyPolicy => const PrivacyPolicyScreen(),
+      _ => const Text('Error'),
+    };
+  }
+
+  void onRouteSelected(String route) {
+    if (route == Routes.signOut) {
       Preferences.clearKeyData(Preferences.isLogin);
       Preferences.clearKeyData(Preferences.user);
       Preferences.clearKeyData(Preferences.userId);
-      Get.offAll(LoginScreen());
+      Get.offAll(() => LoginScreen());
     } else {
-      selectedDrawerIndex.value = index;
+      selectedRoute.value = route;
     }
+
     Get.back();
   }
 
@@ -129,7 +140,7 @@ class DashBoardController extends GetxController {
               driverLatitude: currentLocation.latitude.toString(),
               driverLongitude: currentLocation.longitude.toString());
           Constant.driverLocationUpdate.doc(Preferences.getInt(Preferences.userId).toString()).set(driverLocationUpdate.toJson());
-          setCurrentLocation(currentLocation.latitude.toString(),currentLocation.longitude.toString());
+          setCurrentLocation(currentLocation.latitude.toString(), currentLocation.longitude.toString());
         });
       } else {
         location.requestPermission().then((permissionStatus) {
@@ -145,15 +156,21 @@ class DashBoardController extends GetxController {
                   driverId: Preferences.getInt(Preferences.userId).toString(),
                   driverLatitude: currentLocation.latitude.toString(),
                   driverLongitude: currentLocation.longitude.toString());
-              Constant.driverLocationUpdate.doc(Preferences.getInt(Preferences.userId).toString()).set(driverLocationUpdate.toJson());
-              setCurrentLocation(currentLocation.latitude.toString(),currentLocation.longitude.toString());
+              Constant.driverLocationUpdate
+                  .doc(Preferences.getInt(Preferences.userId).toString())
+                  .set(driverLocationUpdate.toJson());
+              setCurrentLocation(currentLocation.latitude.toString(), currentLocation.longitude.toString());
             });
           }
         });
       }
     } else {
-      DriverLocationUpdate driverLocationUpdate =
-          DriverLocationUpdate(rotation: "0", active: false, driverId: Preferences.getInt(Preferences.userId).toString(), driverLatitude: "0", driverLongitude: "0");
+      DriverLocationUpdate driverLocationUpdate = DriverLocationUpdate(
+          rotation: "0",
+          active: false,
+          driverId: Preferences.getInt(Preferences.userId).toString(),
+          driverLatitude: "0",
+          driverLongitude: "0");
       Constant.driverLocationUpdate.doc(Preferences.getInt(Preferences.userId).toString()).set(driverLocationUpdate.toJson());
     }
   }
@@ -179,44 +196,14 @@ class DashBoardController extends GetxController {
 //   }
 // }
 
-  getDrawerItemWidget(int pos) {
-    switch (pos) {
-      case 0:
-        return NewRideScreen();
-      // case 1:
-      //   return const ConfirmedScreen();
-      // case 2:
-      //   return const OnRideScreen();
-      // case 3:
-      //   return const CompletedScreen();
-      // case 4:
-      //   return const RejectedScreen();
-      case 1:
-        return DocumentStatusScreen();
-      case 2:
-        return MyProfileScreen();
-      case 3:
-        return const CarServiceBookHistory();
-      case 4:
-        return WalletScreen();
-      case 5:
-        return const ShowBankDetails();
-      case 6:
-        return const LocalizationScreens(intentType: "dashBoard");
-      case 7:
-        return const ContactUsScreen();
-      case 8:
-        return const TermsOfServiceScreen();
-      case 9:
-        return const PrivacyPolicyScreen();
-      default:
-        return Text("Error".toString());
-    }
-  }
-
   Future<dynamic> setCurrentLocation(String latitude, String longitude) async {
     try {
-      Map<String, dynamic> bodyParams = {'id_user': Preferences.getInt(Preferences.userId), 'user_cat': userModel!.userData!.userCat, 'latitude': latitude, 'longitude': longitude};
+      Map<String, dynamic> bodyParams = {
+        'id_user': Preferences.getInt(Preferences.userId),
+        'user_cat': userModel!.userData!.userCat,
+        'latitude': latitude,
+        'longitude': longitude
+      };
       final response = await http.post(Uri.parse(API.updateLocation), headers: API.header, body: jsonEncode(bodyParams));
 
       Map<String, dynamic> responseBody = json.decode(response.body);
@@ -240,7 +227,12 @@ class DashBoardController extends GetxController {
 
   Future<dynamic> updateFCMToken(String token) async {
     try {
-      Map<String, dynamic> bodyParams = {'user_id': Preferences.getInt(Preferences.userId), 'fcm_id': token, 'device_id': "", 'user_cat': userModel!.userData!.userCat};
+      Map<String, dynamic> bodyParams = {
+        'user_id': Preferences.getInt(Preferences.userId),
+        'fcm_id': token,
+        'device_id': "",
+        'user_cat': userModel!.userData!.userCat
+      };
       final response = await http.post(Uri.parse(API.updateToken), headers: API.header, body: jsonEncode(bodyParams));
 
       Map<String, dynamic> responseBody = json.decode(response.body);
