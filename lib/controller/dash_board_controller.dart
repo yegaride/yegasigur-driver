@@ -16,6 +16,7 @@ import 'package:cabme_driver/page/localization_screens/localization_screen.dart'
 import 'package:cabme_driver/page/my_profile/my_profile_screen.dart';
 import 'package:cabme_driver/page/new_ride_screens/new_ride_screen.dart';
 import 'package:cabme_driver/page/privacy_policy/privacy_policy_screen.dart';
+import 'package:cabme_driver/page/settings/user_settings_screen.dart';
 import 'package:cabme_driver/page/terms_of_service/terms_of_service_screen.dart';
 import 'package:cabme_driver/page/wallet/wallet_screen.dart';
 import 'package:cabme_driver/routes/routes.dart';
@@ -88,10 +89,8 @@ class DashBoardController extends GetxController {
     DrawerRoute(Routes.myProfile, Icons.person_outline),
     DrawerRoute(Routes.myEarnings, Icons.account_balance_wallet_outlined),
     DrawerRoute(Routes.addBank, Icons.account_balance),
-    DrawerRoute(Routes.changeLanguage, Icons.language),
+    DrawerRoute(Routes.settings, Icons.settings),
     DrawerRoute(Routes.contactUs, Icons.rate_review_outlined),
-    DrawerRoute(Routes.termService, Icons.design_services),
-    DrawerRoute(Routes.privacyPolicy, Icons.privacy_tip),
   ];
 
   Widget buildSelectedRoute(String route) {
@@ -102,6 +101,7 @@ class DashBoardController extends GetxController {
       Routes.myEarnings => WalletScreen(),
       Routes.addBank => const ShowBankDetails(),
       Routes.changeLanguage => const LocalizationScreens(intentType: "dashBoard"),
+      Routes.settings => const UserSettingsScreen(),
       Routes.contactUs => const ContactUsScreen(),
       Routes.termService => const TermsOfServiceScreen(),
       Routes.privacyPolicy => const PrivacyPolicyScreen(),

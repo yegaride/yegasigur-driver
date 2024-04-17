@@ -8,6 +8,8 @@ class API {
   static const baseUrl = "${'https://admin.dev.yegasigur.com'}/api/v1/"; // live
   static const apiKey = "base64:4CGWBlDsMFiCkyEavKMUTP7JBwBQj7xVoelRB+jOZF4=";
 
+  static const cxpayPaymentView = 'http://10.0.2.2/admin/payments?amount=';
+
   static Map<String, String> authheader = {
     HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
     'apikey': apiKey,

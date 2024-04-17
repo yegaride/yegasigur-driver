@@ -9,4 +9,5 @@ abstract class Routes {
   static const String termService = 'term_service';
   static const String privacyPolicy = 'privacy_policy';
   static const String signOut = 'sign_out';
+  static const String settings = 'user_settings';
 }

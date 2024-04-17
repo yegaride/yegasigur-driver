@@ -278,4 +278,5 @@ const Map<String, String> enUS = {
   'Withdrawals History': "Withdrawals History",
   'Note': "Note",
   'estimate_reched_time_to_customer': "Estimate time to reach customer : ",
+  'user_settings': 'Settings',
 };
