@@ -59,7 +59,7 @@ class VehicleInfoScreen extends StatelessWidget {
                     ),
                     child: InkWell(
                       onTap: () {
-                        vehicleInfoController.getVehicleCategory();
+                        // vehicleInfoController.getVehicleCategory();
                       },
                       child: Text(
                         'Enter your vehicle information'.tr,
