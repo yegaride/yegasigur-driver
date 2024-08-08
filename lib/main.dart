@@ -4,10 +4,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cabme_driver/controller/dash_board_controller.dart';
-import 'package:cabme_driver/controller/settings_controller.dart';
-import 'package:cabme_driver/on_boarding_screen.dart';
-import 'package:cabme_driver/page/auth_screens/login_screen.dart';
+import 'package:cabme_driver/controller/splash_screen_controller.dart';
 import 'package:cabme_driver/page/dash_board.dart';
+import 'package:cabme_driver/page/splash_screen/splash_screen.dart';
 import 'package:cabme_driver/routes/routes.dart';
 import 'package:cabme_driver/service/api.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,7 +18,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'page/chats_screen/conversation_screen.dart';
-import 'page/localization_screens/localization_screen.dart';
 import 'service/localization_service.dart';
 import 'themes/constant_colors.dart';
 import 'utils/Preferences.dart';
@@ -151,7 +149,6 @@ class MyApp extends StatelessWidget {
       }
       API.header['accesstoken'] = Preferences.getString(Preferences.accesstoken);
     });
-    Widget content;
     return MediaQuery(
       data: data.copyWith(textScaler: TextScaler.noScaling),
       child: GetMaterialApp(
@@ -161,7 +158,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: ConstantColors.primary,
           textTheme: GoogleFonts.poppinsTextTheme(
-            Theme.of(context).textTheme,
+            context.theme.textTheme,
           ),
           primaryTextTheme: GoogleFonts.poppinsTextTheme(),
         ),
@@ -170,22 +167,8 @@ class MyApp extends StatelessWidget {
         translations: LocalizationService(),
         builder: EasyLoading.init(),
         home: GetBuilder(
-          init: SettingsController(),
-          builder: (controller) {
-            content = Obx(
-              () => controller.splashScreen.value
-                  ? Container(color: ConstantColors.primary)
-                  : Preferences.getString(Preferences.languageCodeKey).toString().isEmpty
-                      ? const LocalizationScreens(intentType: "main")
-                      : Preferences.getBoolean(Preferences.isFinishOnBoardingKey)
-                          ? Preferences.getBoolean(Preferences.isLogin)
-                              ? DashBoard()
-                              : LoginScreen()
-                          : const OnBoardingScreen(),
-            );
-            return content;
-            // return ;
-          },
+          init: SplashScreenController(),
+          builder: (_) => const SplashScreen(),
         ),
       ),
     );

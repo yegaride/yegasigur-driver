@@ -99,7 +99,7 @@ class OtpScreen extends StatelessWidget {
                             title: 'done'.tr,
                             btnHeight: 50,
                             btnColor: ConstantColors.primary,
-                            txtColor: Colors.black,
+                            txtColor: Colors.white,
                             onPress: () async {
                               FocusScope.of(context).unfocus();
                               if (textEditingController.text.length == 6) {

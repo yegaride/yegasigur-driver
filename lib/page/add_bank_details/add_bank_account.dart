@@ -9,25 +9,53 @@ import 'package:cabme_driver/utils/Preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AddBankAccount extends StatelessWidget {
-  final bool isEdit;
+class AddBankAccount extends StatefulWidget {
+  const AddBankAccount({super.key, required this.isEdit});
 
-  AddBankAccount({super.key, required this.isEdit});
+  final bool isEdit;
 
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  @override
+  State<AddBankAccount> createState() => _AddBankAccountState();
+}
+
+class _AddBankAccountState extends State<AddBankAccount> {
   var bankNameController = TextEditingController();
+
+  String? _bankName;
+
   var branchNameController = TextEditingController();
   var holderNameController = TextEditingController();
   var accountNumberController = TextEditingController();
   var otherInformationController = TextEditingController();
   var ifscCodeController = TextEditingController();
 
+  List<DropdownMenuItem> get _items {
+    final List<String> arubaBanks = [
+      'ARUBA BANK',
+      'CARIBBEAN MERCANTILE BANK',
+      'BANCO DI CARIBE',
+      'RBC ROYAL BANK',
+    ];
+
+    return arubaBanks.map((bank) {
+      return DropdownMenuItem(
+        value: bank,
+        child: Text(
+          bank,
+          style: const TextStyle(height: 1.8),
+        ),
+      );
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetX<BankDetailsController>(
       init: BankDetailsController(),
       initState: (state) {
+        _bankName = state.controller!.bankDetails.value.bankName;
         bankNameController = TextEditingController(
           text: state.controller!.bankDetails.value.bankName,
         );
@@ -63,7 +91,7 @@ class AddBankAccount extends StatelessWidget {
               ),
             ),
             title: Text(
-              isEdit ? 'Edit bank'.tr : 'Add Bank'.tr,
+              widget.isEdit ? 'Edit bank'.tr : 'Add Bank'.tr,
               style: const TextStyle(color: Colors.black),
             ),
             backgroundColor: ConstantColors.background,
@@ -74,7 +102,7 @@ class AddBankAccount extends StatelessWidget {
                 ? Constant.loader()
                 : SingleChildScrollView(
                     child: Form(
-                      key: _formKey,
+                      key: AddBankAccount._formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -87,16 +115,9 @@ class AddBankAccount extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 8),
-                            child: TextFormField(
-                              controller: bankNameController,
-                              keyboardType: TextInputType.text,
-                              validator: (String? value) {
-                                if (value!.isNotEmpty) {
-                                  return null;
-                                } else {
-                                  return 'required'.tr;
-                                }
-                              },
+                            child: DropdownButtonFormField(
+                              key: const Key('bankName'),
+                              items: _items,
                               decoration: const InputDecoration(
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -122,59 +143,23 @@ class AddBankAccount extends StatelessWidget {
                                     width: 1.0,
                                   ),
                                 ),
-                                contentPadding: EdgeInsets.all(8),
+                                contentPadding: EdgeInsets.only(left: 8),
                               ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 18.0),
-                            child: Text(
-                              'Branch Name'.tr,
-                              style: TextStyle(
-                                color: Colors.black.withOpacity(0.50),
-                                fontWeight: FontWeight.w500,
+                              onChanged: (value) {
+                                _bankName = value;
+                              },
+                              value: _bankName,
+                              hint: Text(
+                                // TODO i18n
+                                '-- Select a bank name --'.tr,
+                                style: const TextStyle(height: 1.8),
                               ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8),
-                            child: TextFormField(
-                              controller: branchNameController,
-                              keyboardType: TextInputType.text,
-                              validator: (String? value) {
-                                if (value!.isNotEmpty) {
-                                  return null;
-                                } else {
+                              validator: (_) {
+                                if (_bankName == null) {
                                   return 'required'.tr;
                                 }
+                                return null;
                               },
-                              decoration: const InputDecoration(
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.grey,
-                                    width: 1.0,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.grey,
-                                    width: 1.0,
-                                  ),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.grey,
-                                    width: 1.0,
-                                  ),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.grey,
-                                    width: 1.0,
-                                  ),
-                                ),
-                                contentPadding: EdgeInsets.all(8),
-                              ),
                             ),
                           ),
                           Padding(
@@ -333,7 +318,8 @@ class AddBankAccount extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(top: 18.0),
                             child: Text(
-                              'Other information'.tr,
+                              // TODO i18n
+                              'Other information  (optional)'.tr,
                               style: TextStyle(
                                 color: Colors.black.withOpacity(0.50),
                                 fontWeight: FontWeight.w500,
@@ -387,14 +373,14 @@ class AddBankAccount extends StatelessWidget {
                               child: ButtonThem.buildButton(
                                 context,
                                 btnHeight: 44,
-                                title: isEdit ? "Edit bank".tr : "Add bank".tr,
+                                title: widget.isEdit ? "Edit bank".tr : "Add bank".tr,
                                 btnColor: ConstantColors.primary,
                                 txtColor: Colors.black,
                                 onPress: () {
-                                  if (_formKey.currentState!.validate()) {
+                                  if (AddBankAccount._formKey.currentState!.validate()) {
                                     Map<String, String> bodyParams = {
                                       'driver_id': Preferences.getInt(Preferences.userId).toString(),
-                                      'bank_name': bankNameController.text,
+                                      'bank_name': _bankName!,
                                       'branch_name': branchNameController.text,
                                       'holder_name': holderNameController.text,
                                       'account_no': accountNumberController.text,

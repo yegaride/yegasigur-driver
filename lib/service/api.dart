@@ -5,7 +5,10 @@ import 'package:cabme_driver/utils/Preferences.dart';
 class API {
   // static const baseUrl = "${'http://10.0.2.2/admin'}/api/v1/"; // live
   // static const baseUrl = "${'https://dev.yegaride.com/admin'}/api/v1/"; // live
-  static const baseUrl = "${'https://admin.dev.yegasigur.com'}/api/v1/"; // live
+  static const host = "https://admin.dev.yegasigur.com";
+  // static const host = "http://10.0.2.2/admin";
+
+  static const baseUrl = "$host/api/v1/"; // live
   static const apiKey = "base64:4CGWBlDsMFiCkyEavKMUTP7JBwBQj7xVoelRB+jOZF4=";
 
   static const cxpayPaymentView = 'http://10.0.2.2/admin/payments?amount=';
@@ -32,6 +35,9 @@ class API {
   static const updatePreName = "${baseUrl}user-pre-name";
   static const updateLastName = "${baseUrl}user-name";
 
+  static const updateSecondaryUserFirstName = "${baseUrl}secondary-user-first-name";
+  static const updateSecondaryUserLastName = "${baseUrl}secondary-user-last-name";
+
   static const updateLocation = "${baseUrl}update-position";
   static const contactUs = "${baseUrl}contact-us";
   static const changeStatus = "${baseUrl}change-status";
@@ -51,6 +57,8 @@ class API {
   static const rejectRide = "${baseUrl}set-rejected-requete";
 
   static const updateUserName = "${baseUrl}user-name";
+  static const updateMainUserPhone = "${baseUrl}main-user-phone";
+  static const updateSecondaryUserPhone = "${baseUrl}secondary-user-phone";
   static const updateUserPhone = "${baseUrl}user-phone";
   static const updateUserEmail = "${baseUrl}update-user-email";
   static const changePassword = "${baseUrl}update-user-mdp";

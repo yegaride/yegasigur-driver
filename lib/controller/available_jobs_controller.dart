@@ -15,7 +15,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
 
-class NewRideController extends GetxController {
+class AvailableJobsController extends GetxController {
   var isLoading = true.obs;
   var rideList = <RideData>[].obs;
 
@@ -76,7 +76,8 @@ class NewRideController extends GetxController {
       if (response.statusCode == 200 && responseBody['success'] == "success") {
         isLoading.value = false;
         RideModel model = RideModel.fromJson(responseBody);
-        rideList.value = model.data!;
+
+        rideList.value = model.data!.where((ride) => ride.statut == 'new').toList();
       } else if (response.statusCode == 200 && responseBody['success'] == "Failed") {
         rideList.clear();
 

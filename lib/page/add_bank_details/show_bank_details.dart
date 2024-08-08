@@ -137,47 +137,6 @@ class ShowBankDetails extends StatelessWidget {
                                     Row(
                                       children: [
                                         Image.asset(
-                                          'assets/icons/branch_name.png',
-                                          height: 20,
-                                          width: 20,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 16),
-                                          child: Text(
-                                            'Branch Name'.tr,
-                                            style: TextStyle(
-                                              color: Colors.black.withOpacity(0.50),
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        top: 2.0,
-                                        left: 38,
-                                      ),
-                                      child: Text(
-                                        controller.bankDetails.value.branchName.toString(),
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10, top: 20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Image.asset(
                                           'assets/icons/holder_name.png',
                                           height: 20,
                                           width: 20,

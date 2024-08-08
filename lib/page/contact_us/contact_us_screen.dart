@@ -3,6 +3,7 @@ import 'package:cabme_driver/constant/constant.dart';
 import 'package:cabme_driver/themes/constant_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -36,28 +37,33 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
             color: Colors.white,
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(right: 16.0, left: 16, top: 16),
+                const SizedBox(height: 30),
+                Align(
+                  alignment: Alignment.center,
+                  child: Image.asset('assets/images/appIcon.png', width: 100),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(right: 16.0, left: 16, top: 24),
                   child: Text(
-                    'Our Address'.tr,
-                    style: const TextStyle(
+                    'YegaSigur.com',
+                    style: TextStyle(
                       color: Colors.black,
-                      fontSize: 24,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
+                const Padding(
+                  padding: EdgeInsets.only(
                     right: 16.0,
-                    left: 16,
-                    top: 16,
+                    left: 8,
+                    top: 8,
                     bottom: 16,
                   ),
                   child: Text(
-                    Constant.contactUsAddress!.replaceAll(r'\n', '\n'),
+                    'Rooi bosai 47 c,\nSta Cruz,\nAruba',
+                    // Constant.contactUsAddress!.replaceAll(r'\n', '\n'),
                   ),
                 ),
                 ListTile(
@@ -65,11 +71,17 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     'Email Us'.tr,
                     style: const TextStyle(
                       color: Colors.black,
-                      fontSize: 24,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  subtitle: Text(Constant.contactUsEmail.toString()),
+                  subtitle: Text(
+                    Constant.contactUsEmail.toString(),
+                    style: const TextStyle(
+                      fontSize: 17,
+                      color: Colors.black87,
+                    ),
+                  ),
                   trailing: InkWell(
                     onTap: () {
                       String url = 'mailto: ${Constant.contactUsEmail}';

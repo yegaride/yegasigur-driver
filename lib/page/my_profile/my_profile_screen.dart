@@ -7,6 +7,7 @@ import 'package:cabme_driver/constant/constant.dart';
 import 'package:cabme_driver/constant/show_toast_dialog.dart';
 import 'package:cabme_driver/controller/dash_board_controller.dart';
 import 'package:cabme_driver/controller/my_profile_controller.dart';
+import 'package:cabme_driver/extensions/extensions.dart';
 import 'package:cabme_driver/model/brand_model.dart';
 import 'package:cabme_driver/model/model.dart';
 import 'package:cabme_driver/model/user_model.dart';
@@ -29,20 +30,26 @@ class MyProfileScreen extends StatelessWidget {
   final GlobalKey<FormState> _passwordKey = GlobalKey();
 
   /// For Profile Information
-  TextEditingController nameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController currentPasswordController = TextEditingController();
-  TextEditingController newPasswordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
+  /// main user information
+  final TextEditingController _mainUserNameController = TextEditingController();
+  final TextEditingController _mainUserLastNameController = TextEditingController();
+  final TextEditingController _mainUserPhoneController = TextEditingController();
+
+  /// secondary user information
+  final TextEditingController _secondaryUserNameController = TextEditingController();
+  final TextEditingController _secondaryUserLastNameController = TextEditingController();
+  final TextEditingController _secondaryUserPhoneController = TextEditingController();
+
+  /// change password
+  final TextEditingController currentPasswordController = TextEditingController();
+  final TextEditingController newPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   /// For Vehicle Information
   // TextEditingController vBrandController = TextEditingController();
-  TextEditingController vColorController = TextEditingController();
-  TextEditingController vCarRegistrationController = TextEditingController();
-
-  // TextEditingController vModelController = TextEditingController();
+  final TextEditingController vColorController = TextEditingController();
+  final TextEditingController _modelController = TextEditingController();
+  final TextEditingController vCarRegistrationController = TextEditingController();
 
   final dashboardController = Get.put(DashBoardController());
 
@@ -156,6 +163,42 @@ class MyProfileScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 4.0,
+                            vertical: 5,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                // TODO i18n
+                                "Account Information",
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        buildShowDetails(
+                          subtitle: myProfileController.accountPhoneNumber.toString(),
+                          title: "phone".tr,
+                          isEditIcon: false,
+                          iconData: CupertinoIcons.phone,
+                          onPress: () {},
+                        ),
+
+                        buildShowDetails(
+                          subtitle: myProfileController.accountEmail.toString(),
+                          title: "email".tr,
+                          iconData: Icons.email_outlined,
+                          isEditIcon: false,
+                          onPress: () {},
+                        ),
+                        const SizedBox(height: 25),
                         Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 4.0,
@@ -165,7 +208,8 @@ class MyProfileScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                "Personal Information".tr,
+                                // TODO i18n
+                                "Main User Information".tr,
                                 style: const TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -176,7 +220,7 @@ class MyProfileScreen extends StatelessWidget {
                         ),
 
                         buildShowDetails(
-                          subtitle: myProfileController.name.toString(),
+                          subtitle: myProfileController.mainUserFirstName.toString(),
                           title: "First Name".tr,
                           iconData: Icons.person_outline,
                           isEditIcon: true,
@@ -184,40 +228,38 @@ class MyProfileScreen extends StatelessWidget {
                             buildAlertChangeData(
                               context,
                               onSubmitBtn: () {
-                                if (nameController.text.isNotEmpty) {
-                                  myProfileController.updateFirstName({
-                                    "id_user": myProfileController.userID.value,
-                                    "prenom": nameController.text,
-                                    "user_cat": "driver",
-                                  }).then((value) {
-                                    if (value == true) {
-                                      if (value["success"] == "success") {
-                                        UserModel userModel = Constant.getUserData();
-                                        userModel.userData!.prenom = value['data']['prenom'];
-                                        Preferences.setString(
-                                          Preferences.user,
-                                          jsonEncode(userModel.toJson()),
-                                        );
-                                        myProfileController.getUsrData();
-                                        dashboardController.getUsrData();
-                                        ShowToastDialog.showToast(
-                                          value['message'],
-                                        );
-                                        ShowToastDialog.showToast(
-                                          "Updated!!",
-                                        );
-                                        Get.back();
-                                      }
-                                    } else {
-                                      ShowToastDialog.showToast(
-                                        value['error'],
-                                      );
-                                      Get.back();
-                                    }
-                                  });
-                                }
+                                if (_mainUserNameController.text.isEmpty) return;
+
+                                myProfileController.updateFirstName({
+                                  "id_user": myProfileController.userID.value,
+                                  "prenom": _mainUserNameController.text,
+                                  "user_cat": "driver",
+                                }).then((value) {
+                                  if (value["success"] == "success") {
+                                    UserModel userModel = Constant.getUserData();
+                                    userModel.userData!.prenom = value['data']['prenom'];
+                                    Preferences.setString(
+                                      Preferences.user,
+                                      jsonEncode(userModel.toJson()),
+                                    );
+                                    myProfileController.getUsrData();
+                                    dashboardController.getUsrData();
+                                    ShowToastDialog.showToast(
+                                      value['message'],
+                                    );
+                                    ShowToastDialog.showToast(
+                                      "Updated!!",
+                                    );
+                                    Get.back();
+                                  } else {
+                                    ShowToastDialog.showToast(
+                                      value['error'],
+                                    );
+                                    Get.back();
+                                  }
+                                });
                               },
-                              controller: nameController,
+                              controller: _mainUserNameController,
                               title: "Name".tr,
                               validators: (String? value) {
                                 if (value != null || value!.isNotEmpty) {
@@ -231,7 +273,7 @@ class MyProfileScreen extends StatelessWidget {
                         ),
 
                         buildShowDetails(
-                          subtitle: myProfileController.lastName.toString(),
+                          subtitle: myProfileController.mainUserLastName.toString(),
                           title: "Last Name".tr,
                           iconData: Icons.person_outline,
                           isEditIcon: true,
@@ -239,10 +281,10 @@ class MyProfileScreen extends StatelessWidget {
                             buildAlertChangeData(
                               context,
                               onSubmitBtn: () {
-                                if (lastNameController.text.isNotEmpty) {
-                                  myProfileController.updateLastName({
+                                if (_mainUserLastNameController.text.isNotEmpty) {
+                                  myProfileController.updateMainUserLastName({
                                     "id_user": myProfileController.userID.value,
-                                    "nom": lastNameController.text,
+                                    "nom": _mainUserLastNameController.text,
                                     "user_cat": "driver",
                                   }).then((value) {
                                     if (value != null) {
@@ -269,7 +311,7 @@ class MyProfileScreen extends StatelessWidget {
                                   });
                                 }
                               },
-                              controller: lastNameController,
+                              controller: _mainUserLastNameController,
                               title: "Last Name".tr,
                               validators: (String? value) {
                                 if (value != null || value!.isNotEmpty) {
@@ -283,32 +325,207 @@ class MyProfileScreen extends StatelessWidget {
                         ),
 
                         buildShowDetails(
-                          subtitle: myProfileController.phoneNo.toString(),
+                          subtitle: myProfileController.mainUserPhoneNumber.toString(),
                           title: "phone".tr,
-                          isEditIcon: false,
-                          iconData: CupertinoIcons.phone,
-                          onPress: () {},
-                        ),
-                        buildShowDetails(
-                          subtitle: myProfileController.email.toString(),
-                          title: "email".tr,
-                          iconData: Icons.email_outlined,
-                          isEditIcon: false,
-                          onPress: () {},
-                        ),
-
-                        buildShowDetails(
-                          title: "password".tr,
-                          subtitle: "change password".tr,
                           isEditIcon: true,
-                          iconData: Icons.lock_outline,
+                          iconData: CupertinoIcons.phone,
                           onPress: () {
-                            buildAlertChangePassword(
+                            buildAlertChangeData(
                               context,
-                              myProfileController: myProfileController,
+                              // TODO i18n
+                              title: 'Change main user phone',
+                              textInputType: TextInputType.phone,
+                              controller: _mainUserPhoneController,
+                              validators: context.requiredValidator,
+                              onSubmitBtn: () {
+                                if (_mainUserPhoneController.text.isNotEmpty) {
+                                  myProfileController.updateMainUserPhone({
+                                    'id_user': myProfileController.userID.value,
+                                    'main_user_phone': _mainUserPhoneController.text.trim(),
+                                  }).then((value) {
+                                    if (value == null) return;
+
+                                    if (value["success"] == "success") {
+                                      UserModel userModel = Constant.getUserData();
+                                      userModel.userData!.mainUserPhone = _mainUserPhoneController.text.trim();
+
+                                      Preferences.setString(
+                                        Preferences.user,
+                                        jsonEncode(userModel.toJson()),
+                                      );
+
+                                      myProfileController.getUsrData();
+                                      dashboardController.getUsrData();
+
+                                      ShowToastDialog.showToast(
+                                        value['message'],
+                                      );
+
+                                      Get.back();
+                                    } else {
+                                      ShowToastDialog.showToast(
+                                        value['error'],
+                                      );
+                                      Get.back();
+                                    }
+                                  });
+                                }
+                              },
                             );
                           },
                         ),
+
+                        // secondary user information
+                        const SizedBox(height: 25),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 4.0,
+                            vertical: 5,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                // TODO i18n
+                                "Secondary User Information".tr,
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        buildShowDetails(
+                          subtitle: myProfileController.secondaryUserFirstName.toString(),
+                          title: "First Name".tr,
+                          iconData: Icons.person_outline,
+                          isEditIcon: true,
+                          onPress: () {
+                            buildAlertChangeData(
+                              context,
+                              onSubmitBtn: () {
+                                if (_secondaryUserNameController.text.isEmpty) return;
+
+                                myProfileController.updateSecondaryUserFirstName({
+                                  "id_user": myProfileController.userID.value,
+                                  "first_name": _secondaryUserNameController.text.trim(),
+                                }).then((value) {
+                                  if (value["success"] != "success") {
+                                    ShowToastDialog.showToast(value['error']);
+                                    return Get.back();
+                                  }
+                                  UserModel userModel = Constant.getUserData();
+                                  userModel.userData!.secondaryUserFirstName = _secondaryUserNameController.text.trim();
+                                  Preferences.setString(
+                                    Preferences.user,
+                                    jsonEncode(userModel.toJson()),
+                                  );
+                                  myProfileController.getUsrData();
+                                  dashboardController.getUsrData();
+                                  ShowToastDialog.showToast(
+                                    value['message'],
+                                  );
+                                  ShowToastDialog.showToast(
+                                    "Updated!!",
+                                  );
+                                  Get.back();
+                                });
+                              },
+                              controller: _secondaryUserNameController,
+                              title: "Name".tr,
+                              validators: requiredValidator,
+                            );
+                          },
+                        ),
+
+                        buildShowDetails(
+                          subtitle: myProfileController.secondaryUserLastName.toString(),
+                          title: "Last Name".tr,
+                          iconData: Icons.person_outline,
+                          isEditIcon: true,
+                          onPress: () {
+                            buildAlertChangeData(
+                              context,
+                              onSubmitBtn: () {
+                                if (_secondaryUserLastNameController.text.isNotEmpty) {
+                                  myProfileController.updateSecondaryUserLastName({
+                                    "id_user": myProfileController.userID.value,
+                                    "last_name": _secondaryUserLastNameController.text.trim(),
+                                  }).then((value) {
+                                    if (value["success"] != "success") {
+                                      ShowToastDialog.showToast(
+                                        value['error'],
+                                      );
+                                      return Get.back();
+                                    }
+
+                                    UserModel userModel = Constant.getUserData();
+                                    userModel.userData!.secondaryUserLastName = _secondaryUserLastNameController.text.trim();
+                                    Preferences.setString(
+                                      Preferences.user,
+                                      jsonEncode(userModel.toJson()),
+                                    );
+                                    myProfileController.getUsrData();
+                                    dashboardController.getUsrData();
+                                    ShowToastDialog.showToast(
+                                      value['message'],
+                                    );
+                                    Get.back();
+                                  });
+                                }
+                              },
+                              controller: _secondaryUserLastNameController,
+                              title: "Last Name".tr,
+                              validators: requiredValidator,
+                            );
+                          },
+                        ),
+
+                        buildShowDetails(
+                          subtitle: myProfileController.secondaryUserPhoneNumber.toString(),
+                          title: "phone".tr,
+                          isEditIcon: true,
+                          iconData: CupertinoIcons.phone,
+                          onPress: () {
+                            buildAlertChangeData(
+                              context,
+                              // TODO i18n
+                              title: 'Change secondary user phone',
+                              textInputType: TextInputType.phone,
+                              controller: _secondaryUserPhoneController,
+                              validators: requiredValidator,
+                              onSubmitBtn: () {
+                                if (_secondaryUserPhoneController.text.isEmpty) return;
+                                myProfileController.updateSecondaryUserPhoneNumber({
+                                  'id_user': myProfileController.userID.value,
+                                  'secondary_user_phone': _secondaryUserPhoneController.text.trim(),
+                                }).then((value) {
+                                  if (value["success"] != "success") {
+                                    ShowToastDialog.showToast(
+                                      value['error'],
+                                    );
+                                    return Get.back();
+                                  }
+                                  final UserModel userModel = Constant.getUserData();
+                                  userModel.userData!.secondaryUserPhoneNumber = _secondaryUserPhoneController.text.trim();
+                                  Preferences.setString(
+                                    Preferences.user,
+                                    jsonEncode(userModel.toJson()),
+                                  );
+                                  myProfileController.getUsrData();
+                                  dashboardController.getUsrData();
+                                  ShowToastDialog.showToast(
+                                    value['message'],
+                                  );
+                                  Get.back();
+                                });
+                              },
+                            );
+                          },
+                        ),
+
                         const SizedBox(
                           height: 25,
                         ),
@@ -332,23 +549,10 @@ class MyProfileScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-
-                        buildShowDetails(
-                          subtitle: myProfileController.selectedCategory.toString(),
-                          title: "Category".tr,
-                          iconData: Icons.branding_watermark_outlined,
-                          isEditIcon: true,
-                          onPress: () {
-                            vehicleCategoryDialog(
-                              context,
-                              myProfileController,
-                            );
-                          },
-                        ),
                         buildShowDetails(
                           subtitle: myProfileController.vBrand.toString(),
                           title: "Brand".tr,
-                          iconData: Icons.branding_watermark_outlined,
+                          iconData: CupertinoIcons.gear_solid,
                           isEditIcon: true,
                           onPress: () {
                             myProfileController.getBrand().then((value) {
@@ -392,55 +596,33 @@ class MyProfileScreen extends StatelessWidget {
                         buildShowDetails(
                           subtitle: myProfileController.vModel.toString(),
                           title: "Model".tr,
-                          iconData: Icons.branding_watermark_outlined,
+                          iconData: CupertinoIcons.gear_solid,
                           isEditIcon: true,
                           onPress: () {
-                            if (myProfileController.vBrand.value.isNotEmpty) {
-                              Map<String, String> bodyParams = {
-                                'brand': myProfileController.vBrand.value,
-                                'vehicle_type': myProfileController.selectedCategoryID.value,
-                              };
-                              myProfileController.getModel(bodyParams).then((value) {
-                                if (value!.isNotEmpty) {
-                                  modelDialog(
-                                    context,
-                                    value,
-                                    myProfileController,
-                                  );
-                                } else {
-                                  ShowToastDialog.showToast(
-                                    "Please contact administrator".tr,
-                                  );
-                                }
-                              });
-                            } else {
-                              ShowToastDialog.showToast(
-                                "Please select brand".tr,
-                              );
-                            }
-                            // buildAlertChangeData(
-                            //   context,
-                            //   onSubmitBtn: () {
-                            // if (vModelController.text.isNotEmpty) {
-                            //   myProfileController.updateVModel({
-                            //     "id_conducteur":
-                            //         myProfileController.userID.value,
-                            //     "model": vModelController.text,
-                            //   }).then((value) {
-                            //     Get.back();
-                            //     if (value == true) {
-                            //       ShowToastDialog.showToast("Updated!!");
-                            //     } else {
-                            //       ShowToastDialog.showToast(
-                            //           "Unable to Updated!!");
-                            //     }
-                            //   });
-                            // }
-                            //   },
-                            //   controller: vModelController,
-                            //   title: "Model",
-                            //   validators: (String? phone) {},
-                            // );
+                            buildAlertChangeData(
+                              context,
+                              // TODO i18n
+                              title: 'Change vehicle model',
+                              controller: _modelController,
+                              validators: context.requiredValidator,
+                              onSubmitBtn: () {
+                                if (_modelController.text.isEmpty) return;
+
+                                myProfileController.updateVModel({
+                                  'id_user': myProfileController.userID.value,
+                                  'model': _modelController.text.trim(),
+                                }).then((value) {
+                                  if (value['success'] != "success") {
+                                    ShowToastDialog.showToast(value['error']);
+                                    return Get.back();
+                                  }
+
+                                  myProfileController.vModel.value = _modelController.text.trim();
+                                  ShowToastDialog.showToast(value['message']);
+                                  Get.back();
+                                });
+                              },
+                            );
                           },
                         ),
                         buildShowDetails(
@@ -482,7 +664,7 @@ class MyProfileScreen extends StatelessWidget {
                         buildShowDetails(
                           subtitle: myProfileController.vCarRegistration.toString(),
                           title: "Car Registration".tr,
-                          iconData: Icons.branding_watermark_outlined,
+                          iconData: CupertinoIcons.gear_solid,
                           isEditIcon: true,
                           onPress: () {
                             buildAlertChangeData(
@@ -514,7 +696,66 @@ class MyProfileScreen extends StatelessWidget {
                             );
                           },
                         ),
+                        const SizedBox(
+                          height: 25,
+                        ),
 
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 4.0,
+                            vertical: 5,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                // TODO i18n
+                                "Change Password".tr,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        buildShowDetails(
+                          title: "password".tr,
+                          subtitle: "change password".tr,
+                          isEditIcon: true,
+                          iconData: Icons.lock_outline,
+                          onPress: () {
+                            buildAlertChangePassword(
+                              context,
+                              myProfileController: myProfileController,
+                            );
+                          },
+                        ),
+
+                        const SizedBox(
+                          height: 40,
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 4.0,
+                            vertical: 5,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                // TODO i18n
+                                "Delete Account".tr,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         buildShowDetails(
                           title: 'delete'.tr,
                           subtitle: 'Delete Account'.tr,
@@ -790,6 +1031,7 @@ class MyProfileScreen extends StatelessWidget {
     required TextEditingController controller,
     required String? Function(String?) validators,
     required Function() onSubmitBtn,
+    TextInputType textInputType = TextInputType.text,
   }) {
     final GlobalKey<FormState> formKey = GlobalKey();
     return Get.defaultDialog(
@@ -809,6 +1051,7 @@ class MyProfileScreen extends StatelessWidget {
             children: [
               TextFieldThem.boxBuildTextField(
                 hintText: title,
+                textInputType: textInputType,
                 controller: controller,
                 validators: validators,
               ),
@@ -822,7 +1065,11 @@ class MyProfileScreen extends StatelessWidget {
                     title: "Save".tr,
                     btnColor: ConstantColors.primary,
                     txtColor: Colors.white,
-                    onPress: onSubmitBtn,
+                    onPress: () {
+                      if (formKey.currentState!.validate()) {
+                        onSubmitBtn.call();
+                      }
+                    },
                     btnHeight: 40,
                     btnWidthRatio: 0.3,
                   ),
@@ -1048,8 +1295,8 @@ class MyProfileScreen extends StatelessWidget {
     );
   }
 
-  requiredValidator(String? value) {
-    if (value != null || value!.isNotEmpty) {
+  String? requiredValidator(String? value) {
+    if (value!.isNotEmpty) {
       return null;
     } else {
       return "required".tr;

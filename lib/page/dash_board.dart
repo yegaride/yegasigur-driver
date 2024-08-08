@@ -51,50 +51,52 @@ class DashBoard extends StatelessWidget {
             }
           },
           child: Scaffold(
-            appBar: AppBar(
-              backgroundColor:
-                  controller.selectedRoute.value == Routes.myProfile ? ConstantColors.primary : ConstantColors.background,
-              elevation: 0,
-              centerTitle: true,
-              title: Text(
-                controller.selectedRoute.value.toString().tr,
-                style: TextStyle(
-                  color:
-                      controller.selectedRoute.value != Routes.ridesHistory || controller.selectedRoute.value != Routes.documents
-                          ? Colors.black
-                          : Colors.white,
-                ),
-              ),
-              leading: Builder(
-                builder: (context) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Scaffold.of(context).openDrawer();
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.white,
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                              color: ConstantColors.primary.withOpacity(0.1),
-                              blurRadius: 3,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: Image.asset(
-                          "assets/icons/ic_side_menu.png",
-                          color: Colors.black,
-                        ),
+            appBar: controller.selectedRoute.value != Routes.mapView
+                ? AppBar(
+                    backgroundColor:
+                        controller.selectedRoute.value == Routes.myProfile ? ConstantColors.primary : ConstantColors.background,
+                    elevation: 0,
+                    centerTitle: true,
+                    title: Text(
+                      controller.selectedRoute.value.toString().tr,
+                      style: TextStyle(
+                        color: controller.selectedRoute.value != Routes.ridesHistory ||
+                                controller.selectedRoute.value != Routes.documents
+                            ? Colors.black
+                            : Colors.white,
                       ),
                     ),
-                  );
-                },
-              ),
-            ),
+                    leading: Builder(
+                      builder: (context) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              Scaffold.of(context).openDrawer();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: Colors.white,
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                    color: ConstantColors.primary.withOpacity(0.1),
+                                    blurRadius: 3,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Image.asset(
+                                "assets/icons/ic_side_menu.png",
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                : null,
             drawer: buildAppDrawer(context, controller),
             body: controller.buildSelectedRoute(controller.selectedRoute.value),
           ),

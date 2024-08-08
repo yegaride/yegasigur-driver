@@ -1,4 +1,6 @@
 abstract class Routes {
+  static const String mapView = 'map_view';
+  static const String availableJobs = 'available_jobs';
   static const String ridesHistory = 'All Rides';
   static const String documents = 'Documents';
   static const String myProfile = 'my_profile';

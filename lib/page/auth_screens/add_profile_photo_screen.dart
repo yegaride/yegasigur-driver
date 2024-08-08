@@ -134,11 +134,11 @@ class AddProfilePhotoScreen extends StatelessWidget {
             ),
           ),
           floatingActionButton: FloatingActionButton(
-            backgroundColor: ConstantColors.yellow,
+            backgroundColor: ConstantColors.primary,
             child: const Icon(
               Icons.navigate_next,
               size: 28,
-              color: Colors.black,
+              color: Colors.white,
             ),
             onPressed: () {
               if (controller.image.isNotEmpty) {

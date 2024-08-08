@@ -20,7 +20,6 @@ class VehicleInfoController extends GetxController {
   @override
   void onInit() {
     getUserdata();
-    getVehicleCategory();
     super.onInit();
   }
 
@@ -44,44 +43,6 @@ class VehicleInfoController extends GetxController {
       if (response.statusCode == 200) {
         ShowToastDialog.closeLoader();
         return VehicleRegisterModel.fromJson(responseBody);
-      } else {
-        ShowToastDialog.closeLoader();
-        ShowToastDialog.showToast('Something want wrong. Please try again later');
-        throw Exception('Failed to load album');
-      }
-    } on TimeoutException catch (e) {
-      ShowToastDialog.closeLoader();
-      ShowToastDialog.showToast(e.message.toString());
-    } on SocketException catch (e) {
-      ShowToastDialog.closeLoader();
-      ShowToastDialog.showToast(e.message.toString());
-    } on Error catch (e) {
-      ShowToastDialog.closeLoader();
-      ShowToastDialog.showToast(e.toString());
-      log(e.toString());
-    }
-    ShowToastDialog.closeLoader();
-    return null;
-  }
-
-  Future<VehicleData?> getVehicleCategory() async {
-    try {
-      ShowToastDialog.showLoader("Please wait");
-      final response = await http.get(
-        Uri.parse(API.vehicleCategory),
-        headers: API.header,
-      );
-      Map<String, dynamic> responseBody = json.decode(response.body);
-
-      if (response.statusCode == 200) {
-        final VehicleCategoryModel getVehicleCategory = VehicleCategoryModel.fromJson(responseBody);
-
-        vehicleCategoryList = getVehicleCategory.vehicleData!;
-
-        update();
-        ShowToastDialog.closeLoader();
-
-        return VehicleData.fromJson(responseBody);
       } else {
         ShowToastDialog.closeLoader();
         ShowToastDialog.showToast('Something want wrong. Please try again later');

@@ -64,6 +64,7 @@ class MobileNumberScreen extends StatelessWidget {
                             ),
                             padding: const EdgeInsets.only(left: 10),
                             child: IntlPhoneField(
+                              initialCountryCode: 'AW',
                               onChanged: (phone) {
                                 controller.phoneNumber.value = phone.completeNumber;
                               },

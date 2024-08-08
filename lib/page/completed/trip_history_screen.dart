@@ -9,7 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TripHistoryScreen extends StatelessWidget {
-  const TripHistoryScreen({super.key});
+  const TripHistoryScreen({
+    super.key,
+    this.showViewRouteButton = true,
+  });
+
+  final bool showViewRouteButton;
 
   @override
   Widget build(BuildContext context) {
@@ -159,19 +164,21 @@ class TripHistoryScreen extends StatelessWidget {
                           ),
                           // TODO: in18
                           const SizedBox(height: 20),
-                          ButtonThem.buildButton(
-                            context,
-                            title: "View route",
-                            btnColor: ConstantColors.primary,
-                            txtColor: Colors.white,
-                            btnHeight: 45,
-                            txtSize: 12,
-                            onPress: () {
-                              final data = Get.arguments;
-                              var argumentData = {'type': data["rideData"].statut, 'data': data['rideData']};
-                              Get.to(const RouteViewScreen(), arguments: argumentData);
-                            },
-                          ),
+                          if (showViewRouteButton)
+                            ButtonThem.buildButton(
+                              context,
+                              // TODO i18n
+                              title: "View route",
+                              btnColor: ConstantColors.primary,
+                              txtColor: Colors.white,
+                              btnHeight: 45,
+                              txtSize: 12,
+                              onPress: () {
+                                final data = Get.arguments;
+                                var argumentData = {'type': data["rideData"].statut, 'data': data['rideData']};
+                                Get.to(const RouteViewScreen(), arguments: argumentData);
+                              },
+                            ),
                           Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: Padding(

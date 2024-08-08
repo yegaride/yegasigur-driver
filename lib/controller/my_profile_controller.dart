@@ -29,10 +29,16 @@ class MyProfileController extends GetxController {
 
   UserModel? userModel;
 
-  RxString name = "".obs;
-  RxString lastName = "".obs;
-  RxString email = "".obs;
-  RxString phoneNo = "".obs;
+  RxString accountPhoneNumber = "".obs;
+  RxString accountEmail = "".obs;
+
+  RxString mainUserFirstName = "".obs;
+  RxString mainUserLastName = "".obs;
+  RxString mainUserPhoneNumber = "".obs;
+
+  RxString secondaryUserFirstName = "".obs;
+  RxString secondaryUserLastName = "".obs;
+  RxString secondaryUserPhoneNumber = "".obs;
 
   RxString userCat = "".obs;
   RxString profileImage = "".obs;
@@ -43,10 +49,17 @@ class MyProfileController extends GetxController {
 
   getUsrData() async {
     UserModel userModel = Constant.getUserData();
-    name.value = userModel.userData!.prenom!;
-    lastName.value = userModel.userData!.nom!;
-    email.value = userModel.userData!.email!;
-    phoneNo.value = userModel.userData!.phone!;
+
+    accountPhoneNumber.value = userModel.userData!.accountPhone.toString();
+    accountEmail.value = userModel.userData!.email.toString();
+
+    mainUserFirstName.value = userModel.userData!.prenom.toString();
+    mainUserLastName.value = userModel.userData!.nom.toString();
+    mainUserPhoneNumber.value = userModel.userData!.mainUserPhone.toString();
+
+    secondaryUserFirstName.value = userModel.userData!.secondaryUserFirstName.toString();
+    secondaryUserLastName.value = userModel.userData!.secondaryUserLastName.toString();
+    secondaryUserPhoneNumber.value = userModel.userData!.secondaryUserPhoneNumber.toString();
 
     userCat.value = userModel.userData!.userCat!;
     profileImage.value = userModel.userData!.photoPath ?? "";
@@ -54,9 +67,9 @@ class MyProfileController extends GetxController {
   }
 
   updateUserData(UserModel userModel) async {
-    name.value = userModel.userData!.prenom ?? "";
-    email.value = userModel.userData!.email ?? "";
-    phoneNo.value = userModel.userData!.phone ?? "";
+    mainUserFirstName.value = userModel.userData!.prenom ?? "";
+    accountEmail.value = userModel.userData!.email ?? "";
+    accountPhoneNumber.value = userModel.userData!.accountPhone ?? "";
 
     userCat.value = userModel.userData!.userCat ?? "";
     profileImage.value = userModel.userData!.photoPath ?? "";
@@ -78,6 +91,7 @@ class MyProfileController extends GetxController {
     vColor.value = vehicleData.color!;
     vCarRegistration.value = vehicleData.numberplate!;
     selectedCategoryID.value = vehicleData.idTypeVehicule!.toString();
+    vModel.value = vehicleData.model!;
   }
 
   Future<List<BrandData>?> getBrand() async {
@@ -267,11 +281,83 @@ class MyProfileController extends GetxController {
     return null;
   }
 
-  Future<dynamic> updateLastName(Map<String, String> bodyParams) async {
+  Future<dynamic> updateSecondaryUserFirstName(Map<String, String> bodyParams) async {
+    try {
+      ShowToastDialog.showLoader("Please wait");
+
+      final response = await http.patch(
+        Uri.parse(API.updateSecondaryUserFirstName),
+        headers: API.header,
+        body: jsonEncode(bodyParams),
+      );
+
+      Map<String, dynamic> responseBody = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        ShowToastDialog.closeLoader();
+        return responseBody;
+      } else {
+        ShowToastDialog.closeLoader();
+        ShowToastDialog.showToast('Something want wrong. Please try again later');
+        throw Exception('Failed to load album');
+      }
+    } on TimeoutException catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.message.toString());
+    } on SocketException catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.message.toString());
+    } on Error catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.toString());
+    } catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.toString());
+    }
+    return null;
+  }
+
+  Future<dynamic> updateMainUserLastName(Map<String, String> bodyParams) async {
     try {
       ShowToastDialog.showLoader("Please wait");
       final response = await http.post(Uri.parse(API.updateLastName), headers: API.header, body: jsonEncode(bodyParams));
       Map<String, dynamic> responseBody = json.decode(response.body);
+      if (response.statusCode == 200) {
+        ShowToastDialog.closeLoader();
+        return responseBody;
+      } else {
+        ShowToastDialog.closeLoader();
+        ShowToastDialog.showToast('Something want wrong. Please try again later');
+        throw Exception('Failed to load album');
+      }
+    } on TimeoutException catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.message.toString());
+    } on SocketException catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.message.toString());
+    } on Error catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.toString());
+    } catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.toString());
+    }
+    return null;
+  }
+
+  Future<dynamic> updateSecondaryUserLastName(Map<String, String> bodyParams) async {
+    try {
+      ShowToastDialog.showLoader("Please wait");
+
+      final response = await http.patch(
+        Uri.parse(API.updateSecondaryUserLastName),
+        headers: API.header,
+        body: jsonEncode(bodyParams),
+      );
+
+      Map<String, dynamic> responseBody = json.decode(response.body);
+
       if (response.statusCode == 200) {
         ShowToastDialog.closeLoader();
         return responseBody;
@@ -304,7 +390,7 @@ class MyProfileController extends GetxController {
 
       if (response.statusCode == 200 && responseBody['success'] == "success") {
         UserModel userData = UserModel.fromJson(responseBody);
-        phoneNo.value = userData.userData!.phone!;
+        accountPhoneNumber.value = userData.userData!.accountPhone!;
         return true;
       } else if (response.statusCode == 200 && responseBody['success'] == "Failed") {
         ShowToastDialog.closeLoader();
@@ -330,6 +416,70 @@ class MyProfileController extends GetxController {
     return null;
   }
 
+  Future<dynamic> updateMainUserPhone(Map<String, String> bodyParams) async {
+    try {
+      ShowToastDialog.showLoader("Please wait");
+      final response = await http.patch(Uri.parse(API.updateMainUserPhone), headers: API.header, body: jsonEncode(bodyParams));
+
+      Map<String, dynamic> responseBody = json.decode(response.body);
+
+      if (response.statusCode == 200 && responseBody['success'] == "success") {
+        ShowToastDialog.closeLoader();
+        return responseBody;
+      } else {
+        throw Exception('Update failed');
+      }
+    } on TimeoutException catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.message.toString());
+    } on SocketException catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.message.toString());
+    } on Error catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.toString());
+    } catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.toString());
+    }
+
+    return null;
+  }
+
+  Future<dynamic> updateSecondaryUserPhoneNumber(Map<String, String> bodyParams) async {
+    try {
+      ShowToastDialog.showLoader("Please wait");
+      final response = await http.patch(
+        Uri.parse(API.updateSecondaryUserPhone),
+        headers: API.header,
+        body: jsonEncode(bodyParams),
+      );
+
+      Map<String, dynamic> responseBody = json.decode(response.body);
+
+      if (response.statusCode == 200 && responseBody['success'] == "success") {
+        ShowToastDialog.closeLoader();
+        return responseBody;
+      } else {
+        throw Exception('Update failed');
+      }
+    } on TimeoutException catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.message.toString());
+    } on SocketException catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.message.toString());
+    } on Error catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.toString());
+    } catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.toString());
+    }
+
+    return null;
+  }
+
   Future<dynamic> updateEmail(Map<String, String> bodyParams) async {
     try {
       ShowToastDialog.showLoader("Please wait");
@@ -338,7 +488,7 @@ class MyProfileController extends GetxController {
 
       if (response.statusCode == 200 && responseBody['success'] == "success") {
         UserModel userData = UserModel.fromJson(responseBody);
-        email.value = userData.userData!.email!;
+        accountEmail.value = userData.userData!.email!;
         return true;
       } else if (response.statusCode == 200 && responseBody['success'] == "Failed") {
         ShowToastDialog.closeLoader();
@@ -405,9 +555,15 @@ class MyProfileController extends GetxController {
       Map<String, dynamic> responseBody = json.decode(response.body);
       if (response.statusCode == 200 && responseBody['success'] == "success") {
         isLoading.value = false;
-        await getVehicleData(prefix.GetVehicleDataModel.fromJson(responseBody));
-        await getVehicleCategory();
-        await getBrand();
+
+        await Future.wait(
+          [
+            getVehicleData(prefix.GetVehicleDataModel.fromJson(responseBody)),
+            getVehicleCategory(),
+            getBrand(),
+          ] as Iterable<Future<dynamic>>,
+        );
+
         Map<String, String> bodyParams = {
           'brand': vBrand.value,
           'vehicle_type': selectedCategoryID.value,
@@ -509,17 +665,15 @@ class MyProfileController extends GetxController {
   Future<dynamic> updateVModel(Map<String, String> bodyParams) async {
     try {
       ShowToastDialog.showLoader("Please wait");
-      final response = await http.post(Uri.parse(API.updateVModel), headers: API.header, body: jsonEncode(bodyParams));
+      final response = await http.patch(
+        Uri.parse(API.updateVModel),
+        headers: API.header,
+        body: jsonEncode(bodyParams),
+      );
       Map<String, dynamic> responseBody = json.decode(response.body);
       if (response.statusCode == 200) {
         ShowToastDialog.closeLoader();
-        if (responseBody['success'] == "success") {
-          final vehicleData = prefix.GetVehicleDataModel.fromJson(responseBody);
-          getVehicleData(vehicleData);
-          return true;
-        } else {
-          return false;
-        }
+        return responseBody;
       } else {
         ShowToastDialog.closeLoader();
         ShowToastDialog.showToast('Something want wrong. Please try again later');

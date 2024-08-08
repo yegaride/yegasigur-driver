@@ -29,8 +29,12 @@ class UserData {
   String? id;
   String? nom;
   String? prenom;
+  String? secondaryUserFirstName;
+  String? secondaryUserLastName;
+  String? secondaryUserPhoneNumber;
+  String? mainUserPhone;
   String? cnib;
-  String? phone;
+  String? accountPhone;
   String? latitude;
   String? longitude;
   String? email;
@@ -76,9 +80,13 @@ class UserData {
   UserData({
     this.id,
     this.nom,
+    this.mainUserPhone,
+    this.secondaryUserFirstName,
+    this.secondaryUserLastName,
+    this.secondaryUserPhoneNumber,
     this.prenom,
     this.cnib,
-    this.phone,
+    this.accountPhone,
     this.latitude,
     this.longitude,
     this.email,
@@ -123,10 +131,14 @@ class UserData {
 
   UserData.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
-    nom = json['nom'].toString() ?? '';
-    prenom = json['prenom'].toString() ?? '';
+    nom = json['nom'].toString();
+    prenom = json['prenom'].toString();
+    secondaryUserFirstName = json['secondary_user_name'].toString();
+    secondaryUserLastName = json['secondary_user_lastname'].toString();
+    secondaryUserPhoneNumber = json['secondary_user_phone'].toString();
     cnib = json['cnib'].toString();
-    phone = json['phone'].toString();
+    accountPhone = json['phone'].toString();
+    mainUserPhone = json['main_user_phone'].toString();
     latitude = json['latitude'].toString();
     longitude = json['longitude'].toString();
     email = json['email'].toString();
@@ -174,8 +186,12 @@ class UserData {
     data['id'] = id;
     data['nom'] = nom;
     data['prenom'] = prenom;
+    data['secondary_user_name'] = secondaryUserFirstName;
+    data['secondary_user_lastname'] = secondaryUserLastName;
+    data['secondary_user_phone'] = secondaryUserPhoneNumber;
     data['cnib'] = cnib;
-    data['phone'] = phone;
+    data['phone'] = accountPhone;
+    data['main_user_phone'] = mainUserPhone;
     data['latitude'] = latitude;
     data['longitude'] = longitude;
     data['email'] = email;

@@ -15,7 +15,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
 
-class NewRideController extends GetxController {
+class NewRidesFilterController extends GetxController {
   var isLoading = true.obs;
   var rideList = <RideData>[].obs;
 

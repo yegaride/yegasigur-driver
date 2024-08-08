@@ -42,6 +42,44 @@
           "other_platform_oauth_client": []
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:978663383814:android:6dd969514c5229fefdf487",
+        "android_client_info": {
+          "package_name": "com.myriad.yegasigur.customer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIUiL9d4LTwSjvQbJmlNOg128V5T3fTKY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:978663383814:android:a5870081ed3ee607fdf487",
+        "android_client_info": {
+          "package_name": "com.myriad.yegasigur.driver"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIUiL9d4LTwSjvQbJmlNOg128V5T3fTKY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
     }
   ],
   "configuration_version": "1"

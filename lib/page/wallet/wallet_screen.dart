@@ -11,10 +11,8 @@ import 'package:cabme_driver/controller/wallet_controller.dart';
 import 'package:cabme_driver/model/get_payment_txt_token_model.dart';
 import 'package:cabme_driver/model/payment_setting_model.dart';
 import 'package:cabme_driver/model/razorpay_gen_userid_model.dart';
-import 'package:cabme_driver/model/ride_model.dart';
 import 'package:cabme_driver/model/stripe_failed_model.dart';
 import 'package:cabme_driver/model/trancation_model.dart';
-import 'package:cabme_driver/page/completed/trip_history_screen.dart';
 import 'package:cabme_driver/page/wallet/mercadopago_screen.dart';
 import 'package:cabme_driver/page/wallet/payStackScreen.dart';
 import 'package:cabme_driver/page/wallet/payfast_screen.dart';
@@ -100,30 +98,30 @@ class WalletScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            const SizedBox(
-                              width: 25,
-                            ),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () {
-                                  addToWalletAmount(context, walletController);
-                                },
-                                child: Container(
-                                  height: 40,
-                                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(32),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "TOPUP WALLET".tr,
-                                      style: TextStyle(color: ConstantColors.primary, fontWeight: FontWeight.w700, fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // const SizedBox(
+                            //   width: 25,
+                            // ),
+                            // Expanded(
+                            //   child: GestureDetector(
+                            //     onTap: () {
+                            //       addToWalletAmount(context, walletController);
+                            //     },
+                            //     child: Container(
+                            //       height: 40,
+                            //       padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                            //       decoration: BoxDecoration(
+                            //         color: Colors.white,
+                            //         borderRadius: BorderRadius.circular(32),
+                            //       ),
+                            //       child: Center(
+                            //         child: Text(
+                            //           "TOPUP WALLET".tr,
+                            //           style: TextStyle(color: ConstantColors.primary, fontWeight: FontWeight.w700, fontSize: 16),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
@@ -200,16 +198,16 @@ class WalletScreen extends StatelessWidget {
 
   showRideTransaction(TansactionData data) {
     return InkWell(
-      onTap: () {
-        if (data.departName!.isNotEmpty) {
-          Get.to(
-            const TripHistoryScreen(),
-            arguments: {
-              "rideData": RideData.fromJson(data.toJson()),
-            },
-          );
-        } else {}
-      },
+      // onTap: () {
+      //   if (data.departName!.isNotEmpty) {
+      //     Get.to(
+      //       const TripHistoryScreen(showViewRouteButton: false),
+      //       arguments: {
+      //         "rideData": RideData.fromJson(data.toJson()),
+      //       },
+      //     );
+      //   } else {}
+      // },
       child: Card(
         elevation: 2,
         shape: RoundedRectangleBorder(
@@ -414,14 +412,6 @@ class WalletScreen extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    Text(
-                                      controller.bankDetails.branchName.toString(),
-                                      style: TextStyle(
-                                        color: Colors.black.withOpacity(0.60),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
                                   ],
                                 ),
                               ),
@@ -461,7 +451,8 @@ class WalletScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: Text(
-                        "Add Note".tr,
+                        // TODO i18n
+                        "Add Note  (optional)".tr,
                         style: TextStyle(
                           color: Colors.black.withOpacity(0.50),
                           fontWeight: FontWeight.w400,

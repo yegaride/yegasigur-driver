@@ -10,9 +10,11 @@ import 'package:cabme_driver/model/trancation_model.dart';
 import 'package:cabme_driver/model/user_model.dart';
 import 'package:cabme_driver/page/add_bank_details/show_bank_details.dart';
 import 'package:cabme_driver/page/auth_screens/login_screen.dart';
+import 'package:cabme_driver/page/available_jobs/available_jobs_screen.dart';
 import 'package:cabme_driver/page/contact_us/contact_us_screen.dart';
 import 'package:cabme_driver/page/document_status/document_status_screen.dart';
 import 'package:cabme_driver/page/localization_screens/localization_screen.dart';
+import 'package:cabme_driver/page/map_view/map_view_screen.dart';
 import 'package:cabme_driver/page/my_profile/my_profile_screen.dart';
 import 'package:cabme_driver/page/new_ride_screens/new_ride_screen.dart';
 import 'package:cabme_driver/page/privacy_policy/privacy_policy_screen.dart';
@@ -41,7 +43,7 @@ class DashBoardController extends GetxController {
     getCurrentLocation();
     updateToken();
     updateCurrentLocation();
-    getPaymentSettingData();
+    // getPaymentSettingData();
 
     super.onInit();
   }
@@ -81,9 +83,11 @@ class DashBoardController extends GetxController {
 
   RxBool isActive = true.obs;
 
-  RxString selectedRoute = Routes.ridesHistory.obs;
+  RxString selectedRoute = Routes.mapView.obs;
 
   final drawerRoutes = [
+    DrawerRoute(Routes.mapView, Icons.map),
+    DrawerRoute(Routes.availableJobs, CupertinoIcons.money_dollar_circle_fill),
     DrawerRoute(Routes.ridesHistory, CupertinoIcons.car_detailed),
     DrawerRoute(Routes.documents, Icons.domain_verification),
     DrawerRoute(Routes.myProfile, Icons.person_outline),
@@ -95,6 +99,8 @@ class DashBoardController extends GetxController {
 
   Widget buildSelectedRoute(String route) {
     return switch (route) {
+      Routes.mapView => const MapViewScreen(),
+      Routes.availableJobs => AvailableJobsScreen(),
       Routes.ridesHistory => NewRideScreen(),
       Routes.documents => DocumentStatusScreen(),
       Routes.myProfile => MyProfileScreen(),

@@ -55,8 +55,8 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.cabme.driver"
-        minSdkVersion 26
+        applicationId "com.myriad.yegasigur.driver"
+        minSdkVersion 25
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -76,7 +76,7 @@ android {
         disable 'InvalidPackage'
     }
 
-    namespace 'com.cabme.driver'
+    namespace 'com.myriad.yegasigur.driver'
 }
 
 flutter {

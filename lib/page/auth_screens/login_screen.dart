@@ -100,6 +100,7 @@ class LoginScreen extends StatelessWidget {
                               btnColor: ConstantColors.primary,
                               txtColor: Colors.white,
                               onPress: () async {
+                                FocusScope.of(context).unfocus();
                                 if (_formKey.currentState!.validate()) {
                                   Map<String, String> bodyParams = {
                                     'email': _emailController.text.trim(),
@@ -148,6 +149,10 @@ class LoginScreen extends StatelessWidget {
                                         // }
                                         else {
                                           Preferences.setBoolean(Preferences.isLogin, true);
+
+                                          _emailController.clear();
+                                          _passwordController.clear();
+
                                           Get.offAll(
                                             DashBoard(),
                                             duration: const Duration(milliseconds: 400),

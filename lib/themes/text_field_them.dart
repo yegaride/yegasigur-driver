@@ -129,7 +129,7 @@ class _AppInputState extends State<_AppInput> {
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: ConstantColors.textFieldBoarderColor, width: 0.7),
         ),
-        errorStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        errorStyle: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(
           borderSide: BorderSide(color: ConstantColors.textFieldBoarderColor, width: 0.7),
         ),
